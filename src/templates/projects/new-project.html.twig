@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Neues Projekt anlegen{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Neues Projekt anlegen</h1>
+
+    <form action="{{ app.request.getSchemeAndHttpHost() }}/projects/create">
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name" />
+        <button type="submit">Speichern</button>
+    </form>
+</div>
+{% endblock %}

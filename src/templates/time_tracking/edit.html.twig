@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projekt Arbeitszeiten bearbeiten{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <a href="{{ path('app_dashboard') }}"><h1>Projekt Arbeitszeiten bearbeiten</h1></a>
+
+    <p>
+        <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.projectId }) }}"><button>Zurück zur Liste</button></a>
+    </p>
+
+    <form action="{{ path('app_time_tracking.update') }}" method="post">
+        <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}" />
+        <table>
+            <tbody>
+                <tr>
+                    <th>Startdatum</th>
+                    <td>
+                        <input type="datetime-local" name="starttime" value="{{ timeTracking.starttime|date("Y-m-d") }}T{{ timeTracking.starttime|date("H:i:s") }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Enddatum</th>
+                    <td>
+                        <input type="datetime-local" name="endtime" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-dTH:i:s") }}{% endif %}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Abrechnen?</th>
+                    <td>
+                        <input type="checkbox" name="use_on_invoice" value="1" {% if timeTracking.useOnInvoice == true %}checked="checked"{% endif %} />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Rechnung</th>
+                    <td>
+                        <input type="text" name="invoice_id" value="{% if timeTracking.invoiceId is null %}{% else %}{{ timeTracking.invoiceId }}{% endif %}" readonly="readonly" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Kommentar</th>
+                    <td>
+                        <textarea name="comment"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td><button type="submit">Speichern</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        
+    </form>
+</div>
+{% endblock %}

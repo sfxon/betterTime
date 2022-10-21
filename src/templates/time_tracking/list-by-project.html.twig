@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projekt Arbeitszeiten{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <a href="{{ path('app_dashboard') }}"><h1>Projekt Arbeitszeiten</h1></a>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Startdatum</td>
+                <td>Enddatum</td>
+                <td>Abrechnen?</td>
+                <td>Rechnung</td>
+                <td>Kommentar</td>
+                <td>Aktion</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for timeTracking in timeTrackings %}
+                <tr>
+                    <td>{{ timeTracking.starttime|date("d.m.Y H:i:s") }}</td>
+                    <td>{% if timeTracking.endtime is null %}&nbsp;{% else %}{{ timeTracking.endtime|date("d.m.Y H:i:s") }}{% endif %}</td>
+                    <td>{% if timeTracking.useOnInvoice == true %}Ja{% else %}Nein{% endif %}</td>
+                    <td>{% if timeTracking.invoiceId is null %}&nbsp;{% else %}{{ timeTracking.invoiceId }}{% endif %}</td>
+                    <td>{% if timeTracking.comment == "" %}&nbsp;{% else %}{{ timeTracking.comment }}{% endif %}</td>
+                    <td><a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button>Bearbeiten</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

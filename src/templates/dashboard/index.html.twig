@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Projekte</h1>
+    <p><a href="{{ app.request.getSchemeAndHttpHost() }}/projects/new"><button>Projekt erstellen</button></a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Projektname</th>
+                <th>Zeiterfassung</th>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td>
+                        {% if notEnded[project.id] is defined %}
+                            <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ notEnded[project.id].id }}"><button>Beenden</button></a>
+                        {% else %}
+                            <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button>Starten</button></a>
+                        {% endif %}
+
+                        <a href="/timetracking/listProjectTimes?project_id={{ project.id }}"><button>Trackings auflisten</button></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

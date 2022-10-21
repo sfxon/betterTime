@@ -23,7 +23,7 @@
                 <tr>
                     <th>Enddatum</th>
                     <td>
-                        <input type="datetime-local" name="endtime" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-dTH:i:s") }}{% endif %}" />
+                        <input type="datetime-local" name="endtime" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
                     </td>
                 </tr>
                 <tr>
@@ -41,7 +41,7 @@
                 <tr>
                     <th>Kommentar</th>
                     <td>
-                        <textarea name="comment"></textarea>
+                        <textarea name="comment">{{ timeTracking.comment|escape }}</textarea>
                     </td>
                 </tr>
                 <tr>

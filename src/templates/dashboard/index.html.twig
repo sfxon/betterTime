@@ -1,34 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}Dashboard | DLH{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <h1>Projekte</h1>
-    <p><a href="{{ app.request.getSchemeAndHttpHost() }}/projects/new"><button>Projekt erstellen</button></a></p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Projekte</h1>
+            <p><a href="{{ app.request.getSchemeAndHttpHost() }}/projects/new"><button type="submit" class="btn btn-primary btn-sm">Projekt erstellen</button></a></p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Projektname</th>
-                <th>Zeiterfassung</th>
-        </thead>
-        <tbody>
-            {% for project in projects %}
-                <tr>
-                    <td>{{ project.name }}</td>
-                    <td>
-                        {% if notEnded[project.id] is defined %}
-                            <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ notEnded[project.id].id }}"><button>Beenden</button></a>
-                        {% else %}
-                            <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button>Starten</button></a>
-                        {% endif %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Projektname</th>
+                        <th scope="col">Zeiterfassung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                        <tr>
+                            <td>{{ project.name }}</td>
+                            <td>
+                                {% if notEnded[project.id] is defined %}
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ notEnded[project.id].id }}"><button type="submit" class="btn btn-danger btn-sm">Beenden</button></a>
+                                {% else %}
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button type="submit" class="btn btn-success btn-sm">Starten</button></a>
+                                {% endif %}
 
-                        <a href="/timetracking/listProjectTimes?project_id={{ project.id }}"><button>Trackings auflisten</button></a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                                <a href="/timetracking/listProjectTimes?project_id={{ project.id }}"><button type="submit" class="btn btn-light btn-sm">Trackings auflisten</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

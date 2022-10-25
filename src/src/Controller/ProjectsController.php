@@ -12,14 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectsController extends AbstractController
 {
-    #[Route('/projects', name: 'app_projects')]
-    public function index(): Response
-    {
-        return $this->render('projects/index.html.twig', [
-            'controller_name' => 'ProjectsController',
-        ]);
-    }
-
     #[Route('/projects/new', name: 'app_projects.new')]
     public function new(): Response
     {

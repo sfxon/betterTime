@@ -3,55 +3,45 @@
 {% block title %}Projekt Arbeitszeiten bearbeiten{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <a href="{{ path('app_dashboard') }}"><h1>Projekt Arbeitszeiten bearbeiten</h1></a>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Projekt Arbeitszeiten bearbeiten</h1>
+            <p>Hier kannst du deine Projektzeit bearbeiten.</p>
 
-    <p>
-        <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.projectId }) }}"><button>Zurück zur Liste</button></a>
-    </p>
+            <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.projectId }) }}"><button class="btn btn-secondary" type="button">Zurück zur Liste</button></a>
 
-    <form action="{{ path('app_time_tracking.update') }}" method="post">
-        <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}" />
-        <table>
-            <tbody>
-                <tr>
-                    <th>Startdatum</th>
-                    <td>
-                        <input type="datetime-local" name="starttime" value="{{ timeTracking.starttime|date("Y-m-d") }}T{{ timeTracking.starttime|date("H:i:s") }}" />
-                    </td>
-                </tr>
-                <tr>
-                    <th>Enddatum</th>
-                    <td>
-                        <input type="datetime-local" name="endtime" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
-                    </td>
-                </tr>
-                <tr>
-                    <th>Abrechnen?</th>
-                    <td>
-                        <input type="checkbox" name="use_on_invoice" value="1" {% if timeTracking.useOnInvoice == true %}checked="checked"{% endif %} />
-                    </td>
-                </tr>
-                <tr>
-                    <th>Rechnung</th>
-                    <td>
-                        <input type="text" name="invoice_id" value="{% if timeTracking.invoiceId is null %}{% else %}{{ timeTracking.invoiceId }}{% endif %}" readonly="readonly" />
-                    </td>
-                </tr>
-                <tr>
-                    <th>Kommentar</th>
-                    <td>
-                        <textarea name="comment">{{ timeTracking.comment|escape }}</textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th>&nbsp;</th>
-                    <td><button type="submit">Speichern</button></td>
-                </tr>
-            </tbody>
-        </table>
+            <form action="{{ path('app_time_tracking.update') }}" method="post">
+                <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}" />
+                
+                <div class="mb-3">
+                    <label for="starttime" class="form-label">Startdatum</label>
+                    <input type="datetime-local" name="starttime" class="form-control" value="{{ timeTracking.starttime|date("Y-m-d") }}T{{ timeTracking.starttime|date("H:i:s") }}" />
+                </div>
+                <div class="mb-3">
+                    <label for="endtime" class="form-label">Enddatum</label>
+                    <input type="datetime-local" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
+                </div>
+                <div class="mb-3">
+                    <label for="use_on_invoice" class="form-label">
+                        <input type="checkbox" name="use_on_invoice" id="use_on_invoice" value="1" {% if timeTracking.useOnInvoice == true %}checked="checked"{% endif %} />
+                        Abrechnen?
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="use_on_invoice" class="form-label">Rechnung</label>
+                    <input type="text" name="invoice_id" class="form-control" value="{% if timeTracking.invoiceId is null %}{% else %}{{ timeTracking.invoiceId }}{% endif %}" readonly="readonly" />
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Kommentar</label>
+                    <textarea name="comment" class="form-control">{{ timeTracking.comment|escape }}</textarea>
+                </div>
 
-        
-    </form>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

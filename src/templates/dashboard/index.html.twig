@@ -21,13 +21,18 @@
                         <tr>
                             <td>{{ project.name }}</td>
                             <td>
+                                {# Button for starting or ending the worktime for a project. #}
                                 {% if notEnded[project.id] is defined %}
                                     <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ notEnded[project.id].id }}"><button type="submit" class="btn btn-danger btn-sm">Beenden</button></a>
                                 {% else %}
                                     <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button type="submit" class="btn btn-success btn-sm">Starten</button></a>
                                 {% endif %}
 
+                                {# Button for listing all project time records. #}
                                 <a href="/timetracking/listProjectTimes?project_id={{ project.id }}"><button type="submit" class="btn btn-light btn-sm">Trackings auflisten</button></a>
+
+                                {# Button, used to edit a project. #}
+                                <a href="{{ path('app_projects.edit', { 'id': project.id }) }}"><button type="submit" class="btn btn-light btn-sm">Projekt bearbeiten</button></a>
                             </td>
                         </tr>
                     {% endfor %}

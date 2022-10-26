@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projekt bearbeiten{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Projekt bearbeiten</h1>
+            <p>Hier kannst du ein bestehendes Projekt bearbeiten.</p>
+
+            <form action="{{ path('app_projects.update', { 'id': project.id }) }}" method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Projekt-Name: </label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{ project.name }}" />
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

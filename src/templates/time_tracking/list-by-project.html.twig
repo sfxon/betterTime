@@ -64,7 +64,13 @@
                             <td>{% if timeTracking.invoiceId is null %}&nbsp;{% else %}{{ timeTracking.invoiceId }}{% endif %}</td>
                             <td>{% if timeTaken is null %}&nbsp;{% else %}{{ timeTaken }}{% endif %}</td>
                             <td>{% if timeTracking.comment == "" %}&nbsp;{% else %}{{ timeTracking.comment }}{% endif %}</td>
-                            <td><a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">Bearbeiten</button></td>
+                            <td style="white-space: nowrap;">
+                                <a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">Bearbeiten</button></a>
+                                
+                                {% if timeTracking.endtime is null %}
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ timeTracking.id }}&from=timeTracking"><button class="btn btn-danger btn-sm">Beenden</button></a>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

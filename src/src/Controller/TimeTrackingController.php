@@ -38,14 +38,27 @@ class TimeTrackingController extends AbstractController
     public function end(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
         $timeTrackingId = (int)$request->query->get('time_tracking_id');
+        $from = $request->query->get('from');
 
         if(0 === $timeTrackingId) {
             die('Keine TimeTrackingId übergeben.');
         }
 
-        // TODO: Check if there is an open session in this project.
         $timeTrackingService = new TimeTrackingService($doctrine);
+        $timeTracking = $timeTrackingService->loadById($timeTrackingId);
+
+        if($timeTracking === null) {
+            throw new \Exception('Timetracking entry with id ' . $timeTrackingId . ' not found.');
+        }
+        
         $timeTrackingService->endTimeTracking($timeTrackingId);
+
+        // Check, if you should redirect to different page.
+        if($from !== null) {
+            $projectId = $timeTracking->getProjectId();
+            
+            return $this->redirectToRoute('app_time_tracking.list.project.times', [ 'project_id' => $projectId ]);
+        }
 
         return $this->redirectToRoute('app_dashboard');
     }

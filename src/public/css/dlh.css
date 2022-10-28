@@ -1,0 +1,14 @@
+.dlh-site-heading {
+    display: flex;
+    margin: 2rem 0;
+}
+
+.dlh-site-heading h1 {
+    width: auto;
+    font-size: 1.8rem;
+}
+
+.dlh-site-heading a {
+    width: auto;
+    margin-left: 1rem;
+}

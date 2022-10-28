@@ -6,75 +6,80 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Projekt Arbeitszeiten</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Startdatum</td>
-                        <th scope="col">Enddatum</td>
-                        <th scope="col">Abrechnen?</td>
-                        <th scope="col">Rechnung</td>
-                        <th scope="col">Kommentar</td>
-                        <th scope="col">Zeit</td>
-                        <th scope="col">Aktion</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for timeTracking in timeTrackings %}
-                        {# Calculate time for project.. #}
-                        {% set timeTaken = null %}
-
-                        {% if timeTracking.endtime is not null %}
-                            {% set difference = date(timeTracking.starttime).diff(date(timeTracking.endtime)) %}
-                            
-                            {% if difference.y != 0 %}
-                                {% set timeTaken = timeTaken ~ difference.y ~ " Jahre; " %}
-                                {% set timeTaken = timeTaken ~ difference.m ~ " Monate; " %}
-                                {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
-                                {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
-                            {% elseif difference.m != 0 %}
-                                {% set timeTaken = timeTaken ~ difference.d ~ " Monate; " %}
-                                {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
-                                {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
-                            {% elseif difference.d != 0 %}
-                                {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
-                                {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
-                            {% elseif difference.h != 0 %}
-                                {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
-                            {% elseif difference.i != 0 %}
-                                {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
-                            {% elseif difference.s != 0 %}
-                                {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
-                            {% endif %}
-                        {% endif %}
-
+            <div class="dlh-site-heading">
+                <h1>{{ project.name }}: Zeiten</h1>
+                <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}&amp;from=timetrackinglist"><button type="submit" class="btn btn-secondary btn-sm">Zeit starten</button></a>
+            </div>
+            <div class="dlh-site-content">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ timeTracking.starttime|date("d.m.Y H:i:s") }}</td>
-                            <td>{% if timeTracking.endtime is null %}&nbsp;{% else %}{{ timeTracking.endtime|date("d.m.Y H:i:s") }}{% endif %}</td>
-                            <td>{% if timeTracking.useOnInvoice == true %}Ja{% else %}Nein{% endif %}</td>
-                            <td>{% if timeTracking.invoiceId is null %}&nbsp;{% else %}{{ timeTracking.invoiceId }}{% endif %}</td>
-                            <td>{% if timeTaken is null %}&nbsp;{% else %}{{ timeTaken }}{% endif %}</td>
-                            <td>{% if timeTracking.comment == "" %}&nbsp;{% else %}{{ timeTracking.comment }}{% endif %}</td>
-                            <td style="white-space: nowrap;">
-                                <a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">Bearbeiten</button></a>
-                                
-                                {% if timeTracking.endtime is null %}
-                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ timeTracking.id }}&from=timeTracking"><button class="btn btn-danger btn-sm">Beenden</button></a>
-                                {% endif %}
-                            </td>
+                            <th scope="col">Startdatum</td>
+                            <th scope="col">Enddatum</td>
+                            <th scope="col">Abrechnen?</td>
+                            <th scope="col">Rechnung</td>
+                            <th scope="col">Kommentar</td>
+                            <th scope="col">Zeit</td>
+                            <th scope="col">Aktion</td>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for timeTracking in timeTrackings %}
+                            {# Calculate time for project.. #}
+                            {% set timeTaken = null %}
+
+                            {% if timeTracking.endtime is not null %}
+                                {% set difference = date(timeTracking.starttime).diff(date(timeTracking.endtime)) %}
+                                
+                                {% if difference.y != 0 %}
+                                    {% set timeTaken = timeTaken ~ difference.y ~ " Jahre; " %}
+                                    {% set timeTaken = timeTaken ~ difference.m ~ " Monate; " %}
+                                    {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
+                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
+                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
+                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                {% elseif difference.m != 0 %}
+                                    {% set timeTaken = timeTaken ~ difference.d ~ " Monate; " %}
+                                    {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
+                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
+                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
+                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                {% elseif difference.d != 0 %}
+                                    {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
+                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
+                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
+                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                {% elseif difference.h != 0 %}
+                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
+                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
+                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                {% elseif difference.i != 0 %}
+                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
+                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                {% elseif difference.s != 0 %}
+                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                {% endif %}
+                            {% endif %}
+
+                            <tr>
+                                <td>{{ timeTracking.starttime|date("d.m.Y H:i:s") }}</td>
+                                <td>{% if timeTracking.endtime is null %}&nbsp;{% else %}{{ timeTracking.endtime|date("d.m.Y H:i:s") }}{% endif %}</td>
+                                <td>{% if timeTracking.useOnInvoice == true %}Ja{% else %}Nein{% endif %}</td>
+                                <td>{% if timeTracking.invoiceId is null %}&nbsp;{% else %}{{ timeTracking.invoiceId }}{% endif %}</td>
+                                <td>{% if timeTaken is null %}&nbsp;{% else %}{{ timeTaken }}{% endif %}</td>
+                                <td>{% if timeTracking.comment == "" %}&nbsp;{% else %}{{ timeTracking.comment }}{% endif %}</td>
+                                <td style="white-space: nowrap;">
+                                    <a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">Bearbeiten</button></a>
+                                    
+                                    {% if timeTracking.endtime is null %}
+                                        <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ timeTracking.id }}&from=timeTracking"><button class="btn btn-danger btn-sm">Beenden</button></a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

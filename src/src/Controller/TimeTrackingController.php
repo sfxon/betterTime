@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\ProjectService;
 use App\Service\TimeTrackingService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,26 +13,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TimeTrackingController extends AbstractController
 {
-    #[Route('/timetracking/start', name: 'app_time_tracking.start')]
-    public function start(Request $request, ManagerRegistry $doctrine): RedirectResponse
+    #[Route('/timetracking/edit', name: 'app_time_tracking.edit')]
+    public function edit(Request $request, ManagerRegistry $doctrine): Response
     {
-        $projectId = (int)$request->query->get('project_id');
+        $timeTrackingId = (int)$request->query->get('time_tracking_id');
 
-        if(0 === $projectId) {
-            die('Keine Project ID gefunden');
+        if(0 === $timeTrackingId) {
+            die('Keine timeTrackingId übergeben.');
         }
 
-        // TODO: Check if there is an open session in this project.
+        // Eintrag laden.
         $timeTrackingService = new TimeTrackingService($doctrine);
-        $openTimeTracking = $timeTrackingService->loadOpenTimeTrackingForProject($projectId);
+        $timeTracking = $timeTrackingService->loadById($timeTrackingId);
 
-        if($openTimeTracking !== null) {
-            die('Es läuft noch Projektzeit für dieses Projekt');
-        }
-
-        $timeTrackingService->startTimeTracking($projectId);
-
-        return $this->redirectToRoute('app_dashboard');
+        return $this->render('time_tracking/edit.html.twig', [
+            'controller_name' => 'TimeTrackingController',
+            'timeTracking' => $timeTracking
+        ]);
     }
 
     #[Route('/timetracking/end', name: 'app_time_tracking.end')]
@@ -72,33 +70,49 @@ class TimeTrackingController extends AbstractController
             die('Keine projectId übergeben.');
         }
 
+        $projectService = new ProjectService($doctrine);
+        $project = $projectService->getProject($projectId);
+
+        if(null === $project) {
+            throw new \Exception('No project with id ' . $projectId . ' found.');
+        }
+
         // TODO: Check if there is an open session in this project.
         $timeTrackingService = new TimeTrackingService($doctrine);
         $timeTrackings = $timeTrackingService->loadTimeTrackingsByProjectId($projectId);
 
         return $this->render('time_tracking/list-by-project.html.twig', [
             'controller_name' => 'TimeTrackingController',
+            'project' => $project,
             'timeTrackings' => $timeTrackings
         ]);
     }
 
-    #[Route('/timetracking/edit', name: 'app_time_tracking.edit')]
-    public function edit(Request $request, ManagerRegistry $doctrine): Response
+    #[Route('/timetracking/start', name: 'app_time_tracking.start')]
+    public function start(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
-        $timeTrackingId = (int)$request->query->get('time_tracking_id');
+        $projectId = (int)$request->query->get('project_id');
+        $from = $request->query->get('from');
 
-        if(0 === $timeTrackingId) {
-            die('Keine timeTrackingId übergeben.');
+        if(0 === $projectId) {
+            die('Keine Project ID gefunden');
         }
 
-        // Eintrag laden.
+        // Check, if a timetracking is already started for this project.
         $timeTrackingService = new TimeTrackingService($doctrine);
-        $timeTracking = $timeTrackingService->loadById($timeTrackingId);
+        $openTimeTracking = $timeTrackingService->loadOpenTimeTrackingForProject($projectId);
 
-        return $this->render('time_tracking/edit.html.twig', [
-            'controller_name' => 'TimeTrackingController',
-            'timeTracking' => $timeTracking
-        ]);
+        if($openTimeTracking !== null) {
+            die('Es läuft noch Projektzeit für dieses Projekt');
+        }
+
+        $timeTrackingService->startTimeTracking($projectId);
+
+        if($from == 'timetrackinglist') {
+            return $this->redirectToRoute('app_time_tracking.list.project.times', [ 'project_id' => $projectId ]);
+        }
+
+        return $this->redirectToRoute('app_dashboard');
     }
 
     #[Route('/timetracking/update', name: 'app_time_tracking.update')]

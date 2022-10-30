@@ -9,7 +9,7 @@
             <h1>Projekt Arbeitszeiten bearbeiten</h1>
             <p>Hier kannst du deine Projektzeit bearbeiten.</p>
 
-            <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.projectId }) }}"><button class="btn btn-secondary" type="button">Zurück zur Liste</button></a>
+            <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.project.id }) }}"><button class="btn btn-secondary" type="button">Zurück zur Liste</button></a>
 
             <form action="{{ path('app_time_tracking.update') }}" method="post">
                 <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}" />

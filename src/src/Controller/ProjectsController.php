@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 class ProjectsController extends AbstractController
 {
@@ -34,8 +35,9 @@ class ProjectsController extends AbstractController
     }
 
     #[Route('/projects/edit/{id}', name: 'app_projects.edit')]
-    public function edit(ProjectService $projectService, int $id): Response
+    public function edit(ProjectService $projectService, string $id): Response
     {
+        $id = new Uuid($id);
         $project = $projectService->getProject($id);
 
         if(null === $project) {
@@ -61,8 +63,9 @@ class ProjectsController extends AbstractController
         Request $request,
         ManagerRegistry $doctrine,
         ProjectService $projectService,
-        int $id): RedirectResponse
+        string $id): RedirectResponse
     {
+        $id = new Uuid($id);
         $name = $request->request->get('name');
         $entityManager = $doctrine->getManager();
         $project = $projectService->getProject($id);

@@ -5,17 +5,19 @@ namespace App\Entity;
 use App\Repository\TimeTrackingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TimeTrackingRepository::class)]
 class TimeTracking
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
-    #[ORM\Column]
-    private ?int $projectId = null;
+    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'time_trackings')]
+    private ?Project $project = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $starttime = null;
@@ -32,19 +34,26 @@ class TimeTracking
     #[ORM\Column(length: 4096, nullable: true)]
     private ?string $comment = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
 
-    public function getProjectId(): ?int
+    public function getProject(): ?Project
     {
-        return $this->projectId;
+        return $this->project;
     }
 
-    public function setProjectId(int $projectId): self
+    public function setProject(?Project $project): self
     {
-        $this->projectId = $projectId;
+        $this->project = $project;
+
+        return $this;
+    }
+
+    public function setTimeTracking(Project $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }

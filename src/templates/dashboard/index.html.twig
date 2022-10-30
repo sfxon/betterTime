@@ -23,8 +23,10 @@
                             <td>{{ project.name }}</td>
                             <td>
                                 {# Button for starting or ending the worktime for a project. #}
-                                {% if notEnded[project.id] is defined %}
-                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ notEnded[project.id].id }}"><button type="submit" class="btn btn-danger btn-sm">Beenden</button></a>
+                                {% set projectId = project.id.toRfc4122() %}
+
+                                {% if notEnded[projectId] is defined %}
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ notEnded[projectId] }}"><button type="submit" class="btn btn-danger btn-sm">Beenden</button></a>
                                 {% else %}
                                     <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button type="submit" class="btn btn-success btn-sm">Starten</button></a>
                                 {% endif %}

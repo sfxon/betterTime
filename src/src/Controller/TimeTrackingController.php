@@ -10,13 +10,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 class TimeTrackingController extends AbstractController
 {
     #[Route('/timetracking/edit', name: 'app_time_tracking.edit')]
     public function edit(Request $request, ManagerRegistry $doctrine): Response
     {
-        $timeTrackingId = (int)$request->query->get('time_tracking_id');
+        $timeTrackingId = $request->query->get('time_tracking_id');
+        $timeTrackingId = new Uuid($timeTrackingId);
 
         if(0 === $timeTrackingId) {
             die('Keine timeTrackingId übergeben.');
@@ -35,7 +37,8 @@ class TimeTrackingController extends AbstractController
     #[Route('/timetracking/end', name: 'app_time_tracking.end')]
     public function end(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
-        $timeTrackingId = (int)$request->query->get('time_tracking_id');
+        $timeTrackingId = $request->query->get('time_tracking_id');
+        $timeTrackingId = new Uuid($timeTrackingId);
         $from = $request->query->get('from');
 
         if(0 === $timeTrackingId) {
@@ -53,7 +56,8 @@ class TimeTrackingController extends AbstractController
 
         // Check, if you should redirect to different page.
         if($from !== null) {
-            $projectId = $timeTracking->getProjectId();
+            $project = $timeTracking->getProject();
+            $projectId = $project->getId();
             
             return $this->redirectToRoute('app_time_tracking.list.project.times', [ 'project_id' => $projectId ]);
         }
@@ -64,9 +68,10 @@ class TimeTrackingController extends AbstractController
     #[Route('/timetracking/listProjectTimes', name: 'app_time_tracking.list.project.times')]
     public function listProjectTimes(Request $request, ManagerRegistry $doctrine): Response
     {
-        $projectId = (int)$request->query->get('project_id');
+        $projectId = $request->query->get('project_id');
+        $projectId = new Uuid($projectId);
 
-        if(0 === $projectId) {
+        if(null === $projectId) {
             die('Keine projectId übergeben.');
         }
 
@@ -77,36 +82,40 @@ class TimeTrackingController extends AbstractController
             throw new \Exception('No project with id ' . $projectId . ' found.');
         }
 
-        // TODO: Check if there is an open session in this project.
         $timeTrackingService = new TimeTrackingService($doctrine);
-        $timeTrackings = $timeTrackingService->loadTimeTrackingsByProjectId($projectId);
+        $trackedTimes = $timeTrackingService->loadTimeTrackingsByProject($project);
 
         return $this->render('time_tracking/list-by-project.html.twig', [
             'controller_name' => 'TimeTrackingController',
             'project' => $project,
-            'timeTrackings' => $timeTrackings
+            'timeTrackings' => $trackedTimes
         ]);
     }
 
     #[Route('/timetracking/start', name: 'app_time_tracking.start')]
     public function start(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
-        $projectId = (int)$request->query->get('project_id');
+        $projectId = $request->query->get('project_id');
+        $projectId = new Uuid($projectId);
         $from = $request->query->get('from');
 
         if(0 === $projectId) {
             die('Keine Project ID gefunden');
         }
 
+        // Load project
+        $projectService = new ProjectService($doctrine);
+        $project = $projectService->getProject($projectId);
+
         // Check, if a timetracking is already started for this project.
         $timeTrackingService = new TimeTrackingService($doctrine);
-        $openTimeTracking = $timeTrackingService->loadOpenTimeTrackingForProject($projectId);
+        $openTimeTracking = $timeTrackingService->loadOpenTimeTrackingForProject($project);
 
         if($openTimeTracking !== null) {
             die('Es läuft noch Projektzeit für dieses Projekt');
         }
 
-        $timeTrackingService->startTimeTracking($projectId);
+        $timeTrackingService->startTimeTracking($project);
 
         if($from == 'timetrackinglist') {
             return $this->redirectToRoute('app_time_tracking.list.project.times', [ 'project_id' => $projectId ]);
@@ -119,6 +128,8 @@ class TimeTrackingController extends AbstractController
     public function update(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
         $timeTrackingId = $request->get('time_tracking_id');
+        $timeTrackingId = new Uuid($timeTrackingId);
+
         $starttime = $request->get('starttime');
         $endtime = $request->get('endtime');
         $useOnInvoice = (int)$request->get('use_on_invoice');
@@ -160,7 +171,7 @@ class TimeTrackingController extends AbstractController
         
         return $this->redirectToRoute(
             'app_time_tracking.list.project.times',
-            [ 'project_id' => $timeTracking->getProjectId() ]
+            [ 'project_id' => $timeTracking->getProject()->getId() ]
         );
     }
 }

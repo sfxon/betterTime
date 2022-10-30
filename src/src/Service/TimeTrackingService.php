@@ -11,65 +11,6 @@ class TimeTrackingService {
         $this->doctrine = $doctrine;
     }
 
-    public function startTimeTracking($projectId)
-     {
-         // Entity erstellen
-         $entityManager = $this->doctrine->getManager();
-
-         $now = new \DateTime();
-
-         $timeTracking = new TimeTracking();
-         $timeTracking->setProjectId($projectId);
-         $timeTracking->setStarttime($now);
-         $timeTracking->setUseOnInvoice(false);
-         $entityManager->persist($timeTracking);
-         $entityManager->flush();
-    }
-
-    public function loadOpenTimeTrackingForProject($projectId) {
-        $repository = $this->doctrine->getRepository(TimeTracking::class);
-        $trackedTime = $repository->findOneBy(
-            [
-                'projectId' => $projectId,
-                'endtime' => NULL
-            ]
-        );
-
-        return $trackedTime;
-    }
-
-    public function loadAllNotEndedTimeTrackingEntries() {
-        $repository = $this->doctrine->getRepository(TimeTracking::class);
-        $trackedTimes = $repository->findBy(
-            [
-                'endtime' => NULL
-            ]
-        );
-
-        return $trackedTimes;
-    }
-
-    public function indexTimeTrackingResultsByProjectId($trackedTimes) {
-        $retval = [];
-
-        foreach($trackedTimes as $tt) {
-            $retval[(string)$tt->getProjectId()] = $tt;
-        }
-
-        return $retval;
-    }
-
-    public function loadById($timeTrackingId) {
-        $repository = $this->doctrine->getRepository(TimeTracking::class);
-        $trackedTime = $repository->findOneBy(
-            [
-                'id' => $timeTrackingId,
-            ]
-        );
-
-        return $trackedTime;
-    }
-
     public function endTimeTracking($timeTrackingId) {
         $entityManager = $this->doctrine->getManager();
         $timeTracking = $this->loadById($timeTrackingId);
@@ -85,11 +26,55 @@ class TimeTrackingService {
         $entityManager->flush();
     }
 
-    public function loadTimeTrackingsByProjectId($projectId) {
+    public function indexTimeTrackingResultsByProjectId($trackedTimes) {
+        $retval = [];
+
+        foreach($trackedTimes as $tt) {
+            $retval[$tt->getProject()->getId()->toRfc4122()] = $tt->getId();
+        }
+
+        return $retval;
+    }
+
+    public function loadAllNotEndedTimeTrackingEntries() {
+        $repository = $this->doctrine->getRepository(TimeTracking::class);
+        $trackedTimes = $repository->findBy(
+            [
+                'endtime' => NULL
+            ]
+        );
+
+        return $trackedTimes;
+    }
+
+    public function loadById($timeTrackingId) {
+        $repository = $this->doctrine->getRepository(TimeTracking::class);
+        $trackedTime = $repository->findOneBy(
+            [
+                'id' => $timeTrackingId,
+            ]
+        );
+
+        return $trackedTime;
+    }
+
+    public function loadOpenTimeTrackingForProject($project) {
+        $repository = $this->doctrine->getRepository(TimeTracking::class);
+        $trackedTime = $repository->findOneBy(
+            [
+                'project' => $project,
+                'endtime' => NULL
+            ]
+        );
+
+        return $trackedTime;
+    }
+
+    public function loadTimeTrackingsByProject($project) {
         $repository = $this->doctrine->getRepository(TimeTracking::class);
         $trackedTime = $repository->findBy(
             [
-                'projectId' => $projectId,
+                'project' => $project,
             ],
             [
                 'starttime' => 'asc'
@@ -97,6 +82,21 @@ class TimeTrackingService {
         );
 
         return $trackedTime;
+    }
+
+    public function startTimeTracking($project)
+     {
+         // Entity erstellen
+         $entityManager = $this->doctrine->getManager();
+
+         $now = new \DateTime();
+
+         $timeTracking = new TimeTracking();
+         $timeTracking->setProject($project);
+         $timeTracking->setStarttime($now);
+         $timeTracking->setUseOnInvoice(false);
+         $entityManager->persist($timeTracking);
+         $entityManager->flush();
     }
 
     public function update($timeTracking) {

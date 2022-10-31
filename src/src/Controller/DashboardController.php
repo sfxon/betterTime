@@ -14,8 +14,9 @@ class DashboardController extends AbstractController
     #[Route('/', name: 'app_dashboard')]
     public function index(ManagerRegistry $doctrine): Response
     {
+        $limit = 10;
         $projectService = new ProjectService($doctrine);
-        $projects = $projectService->getAllProjects();
+        $projects = $projectService->getProjects($limit);
 
         $timeTrackingService = new TimeTrackingService($doctrine);
         $notEnded = $timeTrackingService->loadAllNotEndedTimeTrackingEntries();

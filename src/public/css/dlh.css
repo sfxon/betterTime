@@ -4,15 +4,26 @@
 }
 
 .dlh-site-heading h1 {
-    width: auto;
     font-size: 1.8rem;
+    width: auto;
 }
 
 .dlh-site-heading a {
-    width: auto;
     margin-left: 1rem;
+    width: auto;
 }
 
 .dlh-site-heading h1 .dlh-fa {
     margin-right: 1rem;
+}
+
+.dlh-navigation {
+    text-align: right;
+}
+
+.dlh-navigation input.form-control {
+    display: inline-block;
+    margin-left: 1rem;
+    width: auto;
+    max-width: 100px;
 }

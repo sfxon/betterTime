@@ -41,6 +41,12 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <div class="dlh-navigation">
+                <form action="{{ path('app_dashboard') }}">
+                    <label for="page">Seite: </label><input type="text" name="page" class="form-control">
+                </form>
+            </div>
         </div>
     </div>
 </div>

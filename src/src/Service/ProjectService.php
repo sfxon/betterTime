@@ -22,13 +22,24 @@ class ProjectService {
         return $projects;
     }
 
-    public function getProjects($limit) {
+    public function getProjects($limit, $page = 1) {
+        if($limit == 0) {
+            throw new \Exception('Limit should never be zero.');
+        }
+
+        if($page < 1) {
+            $page = 1;
+        }
+
+        // Calculate current page.
+        $offset = ($page - 1) * $limit;
+        
         $repository = $this->doctrine->getRepository(Project::class);
         $projects = $repository->findBy(
             [], // Empty criteria, gets all results.
             ['name' => 'ASC'], // Sort-order
             $limit, // Limit
-            0 // Offset
+            $offset // Offset
         );
 
         return $projects;

@@ -17,13 +17,13 @@
     margin-right: 1rem;
 }
 
-.dlh-navigation {
+.dlh-pagination {
     text-align: right;
 }
 
-.dlh-navigation input.form-control {
+.dlh-pagination input.form-control {
     display: inline-block;
-    margin-left: 1rem;
+    max-width: 4rem;
+    text-align: center;
     width: auto;
-    max-width: 100px;
 }

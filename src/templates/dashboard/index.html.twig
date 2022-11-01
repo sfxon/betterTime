@@ -42,9 +42,9 @@
                 </tbody>
             </table>
 
-            <div class="dlh-navigation">
+            <div class="dlh-pagination">
                 <form action="{{ path('app_dashboard') }}">
-                    <label for="page">Seite: </label><input type="text" name="page" class="form-control">
+                    <label for="page">Seite:&nbsp;</label><input type="text" name="page" class="form-control" value="{{ page|escape }}"> <label>von {{ pages|escape }}</label>
                 </form>
             </div>
         </div>

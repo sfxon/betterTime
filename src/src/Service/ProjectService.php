@@ -22,6 +22,19 @@ class ProjectService {
         return $projects;
     }
 
+    public function countAllProjects() {
+        $repository = $this->doctrine->getRepository(Project::class);
+
+        $count = $repository->createQueryBuilder('p')
+            // Filter by some parameter if you want
+            // ->where('a.published = 1')
+            ->select('count(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $count;
+    }
+
     public function getProjects($limit, $page = 1) {
         if($limit == 0) {
             throw new \Exception('Limit should never be zero.');

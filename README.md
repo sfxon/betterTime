@@ -4,7 +4,7 @@ Freeware and Open-Source project and taskmanagement software.
 
 * Track your working times.
 * Manage your projects and tasks.
-* Create overviews to faster write invoices.
+* Write invoices the easy way.
 
 Still work in process, but growing on every single day.
 
@@ -17,3 +17,12 @@ The development process is tracked by a youtube account (in german language). Th
 * [FontAwesome](https://fontawesome.com/)
 * [Symfony](https://symfony.com/) (+ Twig)
   Please see composer.json for all included symfony packages.
+
+## Installation
+
+* Setup webserver
+* Clone or download project files
+* Run ```composer install``` to install vendor libraries.
+* Setup database in .env file
+* Run migrations
+* Test

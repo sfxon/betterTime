@@ -1,6 +1,6 @@
-# Dirty-Little-Helper
+# Dirty Little Helper
 
-Freeware and Open-Source project and taskmanagement software.
+Free Open-Source project and taskmanagement software.
 
 * Track your working times.
 * Manage your projects and tasks.

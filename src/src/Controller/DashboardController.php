@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\PaginationService;
 use App\Service\ProjectService;
 use App\Service\TimeTrackingService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,13 +18,12 @@ class DashboardController extends AbstractController
         ManagerRegistry $doctrine, 
         Request $request): Response
     {
-        $limit = 25;
+        $limit = 1;
         $page = (int)$request->query->get('page', 0);
 
         if($page <= 0) {
             $page = 1;
         }
-
 
         $projectService = new ProjectService($doctrine);
         $projects = $projectService->getProjects($limit, $page);

@@ -49,24 +49,43 @@
                 <div class="col">
                     <nav aria-label="Project Page Navigation">
                         <ul class="pagination justify-content-center">
+                            {# Button for first page. #}
                             <li class="page-item{% if page == 1 %} disabled{% endif %}">
-                                <a class="page-link"{% if page != 1 %} href="{{ path('app_dashboard') }}?page=1"{% endif %} aria-label="Previous">
+                                <a class="page-link"{% if page != 1 %} href="{{ path('app_dashboard') }}?page=1"{% endif %} aria-label="First Page">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             
+                            {# First page (left) #}
                             <li class="page-item {% if page == 1 %} disabled{% endif %}">
-                                <a class="page-link" {% if page != 1 %} href="{{ path('app_dashboard') }}?page={% if page > 1%}{{ page-1 }}{% else %}1{% endif %}"{% endif %}>{% if page > 1%}{{ page-1 }}{% else %}1{% endif %}</a>
+                                <a class="page-link" {% if page != 1 %} href="{{ path('app_dashboard') }}?page={% if page > 3 %}{{ page-1 }}{% else %}1{% endif %}"{% endif %}>{% if page > 3 %}{{ page-1 }}{% else %}1{% endif %}</a>
                             </li>
+
+                            {# Second page (middle) #}
+                            {% if pages > 1 %}
+                                <li class="page-item{% if (page > 2 and page != pages) or pages == 2 %} disabled{% endif %}">
+                                    {% if page != pages %} {# if the current page is not the last page #}
+                                        <a class="page-link" {% if page > 1 and page != pages %}href="#"{% endif %}>{% if page > 3 %}{{ page }}{% else %}2{% endif %}</a>
+                                    {% else %} {# if the current page is the last page #}
+                                        {% if pages == 2 %} {# if there are only 2 pages #}
+                                            <a class="page-link" {% if page > 1 and page != pages %}href="#"{% endif %}>{% if page > 3 %}{{ page }}{% else %}2{% endif %}</a>
+                                        {% else %}
+                                            <a class="page-link" {% if page > 1 and page != pages %}href="#"{% endif %}>{% if page > 3 %}{{ page }}{% else %}2{% endif %}</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+
+                            {# Third page (right) #}
+                            {% if pages > 2 %}
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            {% endif %}
                             
-                            
-                            
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
+                            {# Button for last page #}
+                            <li class="page-item{% if page == pages %} disabled{% endif %}">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
                             </li>
                         </ul>
                     </nav>

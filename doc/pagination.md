@@ -45,11 +45,11 @@ flowchart TD
   rightSideCheck --Yes --> buildRightSide[D. BuildRightSide]
   rightSideCheck -- No --> buildMiddle[E. BuildMiddle]
 
-  buildLeftSide-->markActivePage
-  buildRightSide-->markActivePage
-  buildMiddle-->markActivePage
+  buildLeftSide-->markCurrentPage
+  buildRightSide-->markCurrentPage
+  buildMiddle-->markCurrentPage
 
-  markActivePage[F. MarkActivePage]-->finish
+  markCurrentPage[F. MarkCurrentPage]-->finish
 
   finish[Finish]
 ```
@@ -118,9 +118,9 @@ In the middle part, I choose an approach similar to *D) BuildRightSide*.
 
 2. Build the object exactly like in section *D.2*.
 
-## F) MarkActivePage
+## F) MarkCurrentPage
 
-To mark the active page, I let the program walk through the collection of pages that have been built before. When it finds the current page, it just flags it.
+To mark the current page, I let the program walk through the collection of pages that have been built before. When it finds the current page, it just flags it.
 
 Of course I could do this check already in the functions before and save me the extra loop through the array. But I want to keep the other code as clean and simple as possible, since it is the part, that is harder to understand.
 

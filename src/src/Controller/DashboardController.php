@@ -18,27 +18,35 @@ class DashboardController extends AbstractController
         ManagerRegistry $doctrine, 
         Request $request): Response
     {
-        $limit = 1;
+        $limit = 10;
         $page = (int)$request->query->get('page', 0);
 
         if($page <= 0) {
             $page = 1;
         }
 
+        // Count total pages.
         $projectService = new ProjectService($doctrine);
-        $projects = $projectService->getProjects($limit, $page);
         $projectCountTotal = $projectService->countAllProjects();
         
-        // Count total pages.
         $pages = 0;
 
         if($projectCountTotal != 0) {
             $pages = ceil($projectCountTotal / $limit);
         }
 
+        if($page > $pages) {
+            $page = $pages;
+        }
+
+        // Load projects
+        $projects = $projectService->getProjects($limit, $page);
+
         $timeTrackingService = new TimeTrackingService($doctrine);
         $notEnded = $timeTrackingService->loadAllNotEndedTimeTrackingEntries();
         $notEnded = $timeTrackingService->indexTimeTrackingResultsByProjectId($notEnded);
+
+        $pagination = new PaginationService($page, $pages, 5);
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
@@ -46,7 +54,8 @@ class DashboardController extends AbstractController
             'projectCountTotal' => $projectCountTotal,
             'projects' => $projects,
             'page' => $page,
-            'pages' => $pages
+            'pages' => $pages,
+            'pagination' => $pagination->getPagination()
         ]);
     }
 }

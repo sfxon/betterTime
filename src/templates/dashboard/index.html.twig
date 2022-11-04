@@ -13,7 +13,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Projektname</th>
+                        <th scope="col" style="width: 60%;">Projektname</th>
                         <th scope="col">Zeiterfassung</th>
                     </tr>
                 </thead>
@@ -55,35 +55,17 @@
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            
-                            {# First page (left) #}
-                            <li class="page-item {% if page == 1 %} disabled{% endif %}">
-                                <a class="page-link" {% if page != 1 %} href="{{ path('app_dashboard') }}?page={% if page > 3 %}{{ page-1 }}{% else %}1{% endif %}"{% endif %}>{% if page > 3 %}{{ page-1 }}{% else %}1{% endif %}</a>
-                            </li>
 
-                            {# Second page (middle) #}
-                            {% if pages > 1 %}
-                                <li class="page-item{% if (page > 2 and page != pages) or pages == 2 %} disabled{% endif %}">
-                                    {% if page != pages %} {# if the current page is not the last page #}
-                                        <a class="page-link" {% if page > 1 and page != pages %}href="#"{% endif %}>{% if page > 3 %}{{ page }}{% else %}2{% endif %}</a>
-                                    {% else %} {# if the current page is the last page #}
-                                        {% if pages == 2 %} {# if there are only 2 pages #}
-                                            <a class="page-link" {% if page > 1 and page != pages %}href="#"{% endif %}>{% if page > 3 %}{{ page }}{% else %}2{% endif %}</a>
-                                        {% else %}
-                                            <a class="page-link" {% if page > 1 and page != pages %}href="#"{% endif %}>{% if page > 3 %}{{ page }}{% else %}2{% endif %}</a>
-                                        {% endif %}
-                                    {% endif %}
+                            {# Display pages #}
+                            {% for paginationPage in pagination.getPages() %}
+                                <li class="page-item {% if paginationPage.getIsCurrentPage() %} disabled{% endif %}">
+                                    <a class="page-link" {% if not paginationPage.getIsCurrentPage() %} href="{{ path('app_dashboard') }}?page={{ paginationPage.getPage() }}{% endif %}">{{ paginationPage.getPage() }}</a>
                                 </li>
-                            {% endif %}
-
-                            {# Third page (right) #}
-                            {% if pages > 2 %}
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            {% endif %}
+                            {% endfor %}
                             
                             {# Button for last page #}
                             <li class="page-item{% if page == pages %} disabled{% endif %}">
-                                <a class="page-link" href="#" aria-label="Next">
+                                <a class="page-link" {% if page != pages %} href="{{ path('app_dashboard') }}?page={{ pages }}"{% endif %} aria-label="Last Page">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

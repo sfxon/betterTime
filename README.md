@@ -12,6 +12,8 @@ The development process is tracked by a youtube account (in german language). Th
 
 [View on Youtube](https://www.youtube.com/watch?v=_BIk0Db0G38)
 
+[Twitch Stream](https://www.twitch.tv/sfxon) (if I should be online)
+
 ## Third-party libraries, frameworks and resources
 * [Bootstrap](https://getbootstrap.com/)
 * [FontAwesome](https://fontawesome.com/)

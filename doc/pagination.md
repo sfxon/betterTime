@@ -64,7 +64,7 @@ We have to check, if the current page makes the navigation display the links fro
 
 The left side navigation is true for the formula:
 
-```page <= floor(numberOfPagesToDisplay / 2)```
+```page <= ceil(numberOfPagesToDisplay / 2)```
 
 ## B) BuildLeftSide
 

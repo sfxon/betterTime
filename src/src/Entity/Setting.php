@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SettingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: SettingRepository::class)]
 class Setting
@@ -20,7 +21,7 @@ class Setting
     #[ORM\Column(length: 65535)]
     private ?string $value = null;
 
-    public function getId(): ?string
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

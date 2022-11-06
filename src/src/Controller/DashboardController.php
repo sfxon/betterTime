@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\PaginationService;
 use App\Service\ProjectService;
+use App\Service\SettingService;
 use App\Service\TimeTrackingService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,8 @@ class DashboardController extends AbstractController
     #[Route('/', name: 'app_dashboard')]
     public function index(
         ManagerRegistry $doctrine, 
-        Request $request): Response
+        Request $request,
+        SettingService $settingService): Response
     {
         $limit = 10;
         $page = (int)$request->query->get('page', 0);

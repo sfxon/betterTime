@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Model\ProjectViewSettingModel;
 use App\Service\PaginationService;
 use App\Service\ProjectService;
 use App\Service\SettingService;
 use App\Service\TimeTrackingService;
+use App\Service\ViewLoaderService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,8 +27,11 @@ class DashboardController extends AbstractController
 
         $setting = new SettingService($doctrine);
         $settingJson = $setting->getSettingByTextId('view.project.setting');
-        var_dump($settingJson);
-        die;
+
+        $projectViewSetting = ViewLoaderService::loadViewFromJson($settingJson, ProjectViewSettingModel::class);
+
+       // var_dump($projectViewSetting);
+        //die;
 
         if($page <= 0) {
             $page = 1;

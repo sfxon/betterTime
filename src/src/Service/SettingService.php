@@ -12,8 +12,16 @@ class SettingService {
         $this->doctrine = $doctrine;
     }
 
-    // Example usage: $settingJson = $settingService->getSettingByTextId('view.project.setting');
-    public function getSettingByTextId(string $textId, bool $required = false) {
+    /**
+     * Get setting by text id.
+     * Example usage: $settingJson = $settingService->getSettingByTextId('view.project.setting');
+     * 
+     * @param string $textId
+     * @return Setting|null
+     */
+    public function getSettingByTextId(string $textId, bool $required = false): ?string
+    {
+        $textId = basename($textId); // Secure path
         $value = null;
         $repository = $this->doctrine->getRepository(Setting::class);
         $setting = $repository->findOneBy(
@@ -21,7 +29,7 @@ class SettingService {
         );
 
         if(null === $setting) {
-            $value = $this->getDefaultSettingFromFile($textId);
+            $value = $this->getDefaultSettingFromFile($textId, true);
         } else {
             // get value
             $value = $setting->getValue();
@@ -34,13 +42,48 @@ class SettingService {
         return $value;
     }
 
-    public function getDefaultSettingFromFile($textId) {
-        $data = @file_get_contents('./../config/dlh/' . basename($textId) . '.json');
+    /**
+     * Get default setting from file.
+     * 
+     * @param string $textId
+     * @param bool $required
+     * @return string|null
+     */
+    public function getDefaultSettingFromFile(string $textId, bool $createDefaultSettingIfNonExists = false): ?string
+    {
+        
+        $filename = './../config/dlh/' . $textId . '.json';
+        $data = @file_get_contents($filename);
 
         if(false === $data) {
+            if($createDefaultSettingIfNonExists) {
+                $this->createDefaultSettingIfItNotExists($filename);
+                return $this->getDefaultSettingFromFile($textId, false);
+            }
+
             return null;
         }
 
         return $data;
     }
+
+    /**
+     * Create default setting if it not exists.
+     * 
+     * @param string $filename
+     * @return void
+     */
+    public function createDefaultSettingIfItNotExists(string $filename): void
+    {
+        if(file_exists($filename)) {
+            return;
+        }
+
+        $defaultFilename = $filename . '.default';
+
+        if(file_exists($defaultFilename)) {
+            copy($defaultFilename, $filename);
+        }
+    }
+
 }

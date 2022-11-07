@@ -23,6 +23,11 @@ class DashboardController extends AbstractController
         $limit = 10;
         $page = (int)$request->query->get('page', 0);
 
+        $setting = new SettingService($doctrine);
+        $settingJson = $setting->getSettingByTextId('view.project.setting');
+        var_dump($settingJson);
+        die;
+
         if($page <= 0) {
             $page = 1;
         }

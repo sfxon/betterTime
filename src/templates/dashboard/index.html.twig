@@ -19,7 +19,7 @@
                             {% if projectViewSetting.getSortBy() == 'name' and projectViewSetting.getSortOrder() == 'DESC' %}
                                 {% set tmpSortOrder = "ASC" %}
                             {% endif %}
-                            <a href="{{ path('app_dashboard') }}?orderBy=name&amp;sortOrder={{ tmpSortOrder }}">Projektname</a>
+                            <a href="{{ path('app_dashboard') }}?sortBy=name&amp;sortOrder={{ tmpSortOrder }}">Projektname</a>
                         </th>
                         <th scope="col">Zeiterfassung</th>
                     </tr>

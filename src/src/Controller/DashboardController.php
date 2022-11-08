@@ -21,14 +21,11 @@ class DashboardController extends AbstractController
         ManagerRegistry $doctrine, 
         Request $request,
         SettingService $settingService): Response
-    {
+    {        
+        $projectViewSetting = $this->processSortOrderRequests($doctrine, $request);
+        
         $limit = 10;
         $page = (int)$request->query->get('page', 0);
-
-        $setting = new SettingService($doctrine);
-        $settingJson = $setting->getSettingByTextId('view.project.setting');
-
-        $projectViewSetting = ViewLoaderService::loadViewFromJson($settingJson, ProjectViewSettingModel::class);
 
         if($page <= 0) {
             $page = 1;
@@ -67,5 +64,26 @@ class DashboardController extends AbstractController
             'pagination' => $pagination->getPagination(),
             'projectViewSetting' => $projectViewSetting
         ]);
+    }
+
+    private function processSortOrderRequests(ManagerRegistry $doctrine, Request $request) {
+        // Load current settings for sort order.
+        $setting = new SettingService($doctrine);
+        $settingJson = $setting->getSettingByTextId('view.project.setting');
+        $projectViewSetting = ViewLoaderService::loadViewFromJson($settingJson, ProjectViewSettingModel::class);
+        
+        // Check, if a new sorting has been requested.
+        $sortBy = $request->query->get('sortBy');
+        $sortOrder = $request->query->get('sortOrder');
+
+        if(null !== $sortBy) {
+            $projectViewSetting->setSortBy($sortBy);
+        }
+
+        if(null !== $sortOrder) {
+            $projectViewSetting->setSortOrder($sortOrder);
+        }
+
+        return $projectViewSetting;
     }
 }

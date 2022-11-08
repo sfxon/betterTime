@@ -10,10 +10,17 @@
                 <h1>Projekte</h1>
                 <a href="{{ app.request.getSchemeAndHttpHost() }}/projects/new"><button type="submit" class="btn btn-secondary btn-sm">Projekt erstellen</button></a>
             </div>
-            <table class="table">
+            <table class="table view-table-listing project-table">
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 60%;">Projektname</th>
+                        <th scope="col" class="project-name is-sortable">
+                            {% set tmpSortOrder = "DESC" %}
+                                
+                            {% if projectViewSetting.getSortBy() == 'name' and projectViewSetting.getSortOrder() == 'DESC' %}
+                                {% set tmpSortOrder = "ASC" %}
+                            {% endif %}
+                            <a href="{{ path('app_dashboard') }}?orderBy=name&amp;sortOrder={{ tmpSortOrder }}">Projektname</a>
+                        </th>
                         <th scope="col">Zeiterfassung</th>
                     </tr>
                 </thead>

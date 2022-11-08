@@ -27,3 +27,11 @@
     text-align: center;
     width: auto;
 }
+
+.view-table-listing.project-table .project-name {
+    width: 60%;
+}
+
+.view-table-listing .is-sortable a {
+    text-decoration: none;
+}

@@ -9,6 +9,11 @@ class ProjectViewSettingModel implements ViewSettingInterface
     private string $sortBy;
     private string $sortOrder;
 
+    public function __construct() {
+        $this->sortBy = 'name';
+        $this->sortOrder = 'ASC';
+    }
+
     public function setSortBy(string $sortBy): void
     {
         $this->sortBy = $sortBy;

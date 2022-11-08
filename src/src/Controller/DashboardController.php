@@ -30,9 +30,6 @@ class DashboardController extends AbstractController
 
         $projectViewSetting = ViewLoaderService::loadViewFromJson($settingJson, ProjectViewSettingModel::class);
 
-       // var_dump($projectViewSetting);
-        //die;
-
         if($page <= 0) {
             $page = 1;
         }
@@ -67,7 +64,8 @@ class DashboardController extends AbstractController
             'projects' => $projects,
             'page' => $page,
             'pages' => $pages,
-            'pagination' => $pagination->getPagination()
+            'pagination' => $pagination->getPagination(),
+            'projectViewSetting' => $projectViewSetting
         ]);
     }
 }

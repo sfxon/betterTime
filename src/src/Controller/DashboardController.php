@@ -46,7 +46,12 @@ class DashboardController extends AbstractController
         }
 
         // Load projects
-        $projects = $projectService->getProjects($limit, $page);
+        $projects = $projectService->getProjects(
+            $limit,
+            $page,
+            $projectViewSetting->getSortBy(),
+            $projectViewSetting->getSortOrder()
+        );
 
         $timeTrackingService = new TimeTrackingService($doctrine);
         $notEnded = $timeTrackingService->loadAllNotEndedTimeTrackingEntries();

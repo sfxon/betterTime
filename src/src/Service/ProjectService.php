@@ -35,7 +35,7 @@ class ProjectService {
         return $count;
     }
 
-    public function getProjects($limit, $page = 1) {
+    public function getProjects($limit, $page = 1, $sortBy = 'name', $sortOrder = 'ASC') {
         if($limit == 0) {
             throw new \Exception('Limit should never be zero.');
         }
@@ -50,7 +50,7 @@ class ProjectService {
         $repository = $this->doctrine->getRepository(Project::class);
         $projects = $repository->findBy(
             [], // Empty criteria, gets all results.
-            ['name' => 'ASC'], // Sort-order
+            [$sortBy => $sortOrder], // Sort-order
             $limit, // Limit
             $offset // Offset
         );

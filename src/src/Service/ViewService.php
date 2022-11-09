@@ -25,6 +25,10 @@ class ViewService
     
     public static function loadViewFromJson(?string $settingJson, string $className): ViewSettingInterface
     {
+        if($settingJson == null) {
+            return new $className();
+        }
+        
         // Extract data from json into the viewSetting Object.
         $serializer = self::getSerializer();
         $viewObject = $serializer->deserialize($settingJson, $className, 'json');

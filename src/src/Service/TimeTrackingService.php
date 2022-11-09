@@ -77,7 +77,7 @@ class TimeTrackingService {
                 'project' => $project,
             ],
             [
-                'starttime' => 'asc'
+                'starttime' => 'DESC'
             ]
         );
 

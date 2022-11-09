@@ -7,7 +7,7 @@ use App\Service\PaginationService;
 use App\Service\ProjectService;
 use App\Service\SettingService;
 use App\Service\TimeTrackingService;
-use App\Service\ViewLoaderService;
+use App\Service\ViewService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +20,9 @@ class DashboardController extends AbstractController
     public function index(
         ManagerRegistry $doctrine, 
         Request $request,
-        SettingService $settingService): Response
+        ViewService $viewService): Response
     {        
-        $projectViewSetting = $this->processSortOrderRequests($doctrine, $request);
+        $projectViewSetting = $this->processSortOrderRequests($doctrine, $request, $viewService);
         
         $limit = 10;
         $page = (int)$request->query->get('page', 0);
@@ -66,22 +66,31 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    private function processSortOrderRequests(ManagerRegistry $doctrine, Request $request) {
+    private function processSortOrderRequests(ManagerRegistry $doctrine, Request $request, ViewService $viewService) {
         // Load current settings for sort order.
         $setting = new SettingService($doctrine);
         $settingJson = $setting->getSettingByTextId('view.project.setting');
-        $projectViewSetting = ViewLoaderService::loadViewFromJson($settingJson, ProjectViewSettingModel::class);
+        
+        /** @var ProjectViewSettingModel */
+        $projectViewSetting = ViewService::loadViewFromJson($settingJson, ProjectViewSettingModel::class);
         
         // Check, if a new sorting has been requested.
+        $settingUpdated = false;
         $sortBy = $request->query->get('sortBy');
         $sortOrder = $request->query->get('sortOrder');
 
         if(null !== $sortBy) {
             $projectViewSetting->setSortBy($sortBy);
+            $settingUpdated = true;
         }
 
         if(null !== $sortOrder) {
             $projectViewSetting->setSortOrder($sortOrder);
+            $settingUpdated = true;
+        }
+
+        if($settingUpdated) {
+            $viewService->saveViewData($projectViewSetting, 'view.project.setting');
         }
 
         return $projectViewSetting;

@@ -86,4 +86,24 @@ class SettingService {
         }
     }
 
+    public function saveSetting(string $textId, string $jsonData) {
+        $entityManager = $this->doctrine->getManager();
+        $repository = $entityManager->getRepository(Setting::class);
+
+        // Try to load entry.
+        $textId = basename($textId); // Secure path
+        $setting = $repository->findOneBy(
+            [ 'textId' => $textId ]
+        );
+
+        // Create entry, if it does not exist.
+        if(null === $setting) {
+            $setting = new Setting();
+            $setting->setTextId($textId);
+        }
+
+        $setting->setValue($jsonData);
+        $entityManager->persist($setting);
+        $entityManager->flush();
+    }
 }

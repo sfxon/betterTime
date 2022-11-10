@@ -12,9 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
 
+/**
+ * TimeTrackingController
+ */
 class TimeTrackingController extends AbstractController
 {
-    #[Route('/timetracking/edit', name: 'app_time_tracking.edit')]
+    /**
+     * edit
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @return Response
+     */
+    #[Route('/timetracking/edit', name: 'app_time_tracking.edit')]    
     public function edit(Request $request, ManagerRegistry $doctrine): Response
     {
         $timeTrackingId = $request->query->get('time_tracking_id');
@@ -34,6 +44,13 @@ class TimeTrackingController extends AbstractController
         ]);
     }
 
+    /**
+     * end
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @return RedirectResponse
+     */
     #[Route('/timetracking/end', name: 'app_time_tracking.end')]
     public function end(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
@@ -65,6 +82,13 @@ class TimeTrackingController extends AbstractController
         return $this->redirectToRoute('app_dashboard');
     }
 
+    /**
+     * listProjectTimes
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @return RedirectResponse
+     */
     #[Route('/timetracking/listProjectTimes', name: 'app_time_tracking.list.project.times')]
     public function listProjectTimes(Request $request, ManagerRegistry $doctrine): Response
     {
@@ -92,6 +116,13 @@ class TimeTrackingController extends AbstractController
         ]);
     }
 
+    /**
+     * start
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @return RedirectResponse
+     */
     #[Route('/timetracking/start', name: 'app_time_tracking.start')]
     public function start(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
@@ -124,6 +155,13 @@ class TimeTrackingController extends AbstractController
         return $this->redirectToRoute('app_dashboard');
     }
 
+    /**
+     * update
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @return RedirectResponse
+     */
     #[Route('/timetracking/update', name: 'app_time_tracking.update')]
     public function update(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {

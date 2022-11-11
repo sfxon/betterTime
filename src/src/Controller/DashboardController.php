@@ -14,15 +14,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * DashboardController
+ */
 class DashboardController extends AbstractController
 {
-    #[Route('/', name: 'app_dashboard')]
+    /**
+     * index
+     * 
+     * Dashboard action, shows the index page of the project.
+     *
+     * @param Request $request
+     * @param ManagerRegistry $doctrine
+     * @param ViewService $viewService
+     * @return Response
+     */
+    #[Route('/', name: 'app_dashboard')]    
     public function index(
-        ManagerRegistry $doctrine, 
         Request $request,
+        ManagerRegistry $doctrine, 
         ViewService $viewService): Response
     {        
-        $projectViewSetting = $this->processSortOrderRequests($doctrine, $request, $viewService);
+        $projectViewSetting = $this->processSortOrderRequests($request, $doctrine, $viewService);
         
         $limit = 10;
         $page = (int)$request->query->get('page', 0);
@@ -71,7 +84,21 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    private function processSortOrderRequests(ManagerRegistry $doctrine, Request $request, ViewService $viewService) {
+    /**
+     * processSortOrderRequests
+     * 
+     * Fetches query parameters, which are used to order the project list.
+     *
+     * @param Request $request
+     * @param ManagerRegistry $doctrine
+     * @param ViewService $viewService
+     * @return ProjectViewSettingModel
+     */
+    private function processSortOrderRequests(
+        Request $request,
+        ManagerRegistry $doctrine,
+        ViewService $viewService): ProjectViewSettingModel
+    {
         // Load current settings for sort order.
         $setting = new SettingService($doctrine);
         $settingJson = $setting->getSettingByTextId('view.project.setting');

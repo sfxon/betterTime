@@ -12,9 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
 
+/**
+ * ProjectsController
+ */
 class ProjectsController extends AbstractController
 {
-    #[Route('/projects/create', name: 'app_projects.create')]
+    /**
+     * Create a project entry in the database.
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @return RedirectResponse
+     */
+    #[Route('/projects/create', name: 'app_projects.create')]    
     public function create(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
         $name = $request->query->get('name');
@@ -34,6 +44,13 @@ class ProjectsController extends AbstractController
         return $this->redirectToRoute('app_dashboard');
     }
 
+    /**
+     * Show an editor to edit a project.
+     *
+     * @param  ProjectService $projectService
+     * @param  string $id
+     * @return Response
+     */
     #[Route('/projects/edit/{id}', name: 'app_projects.edit')]
     public function edit(ProjectService $projectService, string $id): Response
     {
@@ -50,6 +67,11 @@ class ProjectsController extends AbstractController
         ]);
     }
     
+    /**
+     * Show an editor to create a new project.
+     *
+     * @return Response
+     */
     #[Route('/projects/new', name: 'app_projects.new')]
     public function new(): Response
     {
@@ -58,6 +80,15 @@ class ProjectsController extends AbstractController
         ]);
     }
 
+    /**
+     * Update an entry in the database.
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @param  ProjectService $projectService
+     * @param  string $id
+     * @return RedirectResponse
+     */
     #[Route('/projects/update/{id}', name: 'app_projects.update')]
     public function update(
         Request $request,

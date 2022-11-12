@@ -4,17 +4,37 @@ namespace App\DataTransferObject;
 
 use App\DataTransferObject\PaginationPageDto;
 
+/**
+ * PaginationDto
+ */
 class PaginationDto {
     private $pages;
-
+        
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct() {
         $this->pages = [];
     }
-
-    public function append($page) {
+    
+    /**
+     * append
+     *
+     * @param  mixed $page
+     * @return void
+     */
+    public function append(PaginationPageDto $page) {
         $this->pages[] = $page;
     }
-
+    
+    /**
+     * markCurrentPage
+     *
+     * @param  mixed $pageNumber
+     * @return void
+     */
     public function markCurrentPage($pageNumber) {
         for($i = 0; $i < count($this->pages); $i++) {
             if($this->pages[$i]->getPage() == $pageNumber) {

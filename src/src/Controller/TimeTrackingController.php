@@ -24,7 +24,7 @@ class TimeTrackingController extends AbstractController
      * @param  ManagerRegistry $doctrine
      * @return Response
      */
-    #[Route('/timetracking/edit', name: 'app_time_tracking.edit')]    
+    #[Route('/timetracking/edit', name: 'app_time_tracking.edit')]
     public function edit(Request $request, ManagerRegistry $doctrine): Response
     {
         $timeTrackingId = $request->query->get('time_tracking_id');
@@ -80,6 +80,38 @@ class TimeTrackingController extends AbstractController
         }
 
         return $this->redirectToRoute('app_dashboard');
+    }
+
+    /**
+     * endDialog
+     *
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @return Response
+     */
+    #[Route('/timetracking/endDialog', name: 'app_time_tracking.end.dialog')]
+    public function endDialog(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $timeTrackingId = $request->query->get('time_tracking_id');
+        $timeTrackingId = new Uuid($timeTrackingId);
+        $forwardTo = $request->query->get('forwardTo');
+
+        if(0 === $timeTrackingId) {
+            die('Keine TimeTrackingId übergeben.');
+        }
+
+        $timeTrackingService = new TimeTrackingService($doctrine);
+        $timeTracking = $timeTrackingService->loadById($timeTrackingId);
+
+        if($timeTracking === null) {
+            throw new \Exception('Timetracking entry with id ' . $timeTrackingId . ' not found.');
+        }
+
+        return $this->render('time_tracking/end-dialog.html.twig', [
+            'controller_name' => 'TimeTrackingController',
+            'timeTracking' => $timeTracking,
+            'forwardTo' => $forwardTo
+        ]);
     }
 
     /**

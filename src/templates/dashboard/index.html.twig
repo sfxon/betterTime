@@ -33,7 +33,7 @@
                                 {% set projectId = project.id.toRfc4122() %}
 
                                 {% if notEnded[projectId] is defined %}
-                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/end?time_tracking_id={{ notEnded[projectId] }}"><button type="submit" class="btn btn-danger btn-sm">Beenden</button></a>
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/endDialog?time_tracking_id={{ notEnded[projectId] }}"><button type="submit" class="btn btn-danger btn-sm">Beenden</button></a>
                                 {% else %}
                                     <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button type="submit" class="btn btn-success btn-sm">Starten</button></a>
                                 {% endif %}

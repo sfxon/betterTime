@@ -6,8 +6,8 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Projekt Arbeitszeiten bearbeiten</h1>
-            <p>Hier kannst du deine Projektzeit bearbeiten.</p>
+            <h1>Zeit stoppen</h1>
+            <p>Hier kannst du deine Projektzeit stoppen und einige Informationen dazu eingeben.</p>
             <p><a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.project.id }) }}"><button class="btn btn-secondary" type="button">Zurück zur Liste</button></a></p>
         </div>
     </div>
@@ -25,6 +25,10 @@
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                     </select>
+
+                    {% if timeTracking.project is not null %}
+                        <input type="hidden" name="project_id" id="project_id" value="{{ timeTracking.project.id }}"/>
+                    {% endif %}
                 </div>
                 
                 <div class="mb-3">
@@ -33,18 +37,28 @@
                 </div>
                 <div class="mb-3">
                     <label for="endtime" class="form-label">Enddatum</label>
-                    <input type="datetime-local" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
+                    
+                    {% if endDatetimeNow is defined %}
+                        <input type="datetime-local" name="endtime" class="form-control" value="{% if endDatetimeNow is null %}{% else %}{{ endDatetimeNow|date("Y-m-d") }}T{{ endDatetimeNow|date("H:i:s") }}{% endif %}" />
+                    {% else %}
+                        <input type="datetime-local" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
+                    {% endif %}
                 </div>
+                
                 <div class="mb-3">
                     <label for="use_on_invoice" class="form-label">
                         <input type="checkbox" name="use_on_invoice" id="use_on_invoice" value="1" {% if timeTracking.useOnInvoice == true %}checked="checked"{% endif %} />
                         Abrechnen?
                     </label>
                 </div>
-                <div class="mb-3">
-                    <label for="use_on_invoice" class="form-label">Rechnung</label>
-                    <input type="text" name="invoice_id" class="form-control" value="{% if timeTracking.invoiceId is null %}{% else %}{{ timeTracking.invoiceId }}{% endif %}" readonly="readonly" />
-                </div>
+               
+                {% if showInvoiceNumber == true %}
+                    <div class="mb-3">
+                        <label for="use_on_invoice" class="form-label">Rechnung</label>
+                        <input type="text" name="invoice_id" class="form-control" value="{% if timeTracking.invoiceId is null %}{% else %}{{ timeTracking.invoiceId }}{% endif %}" readonly="readonly" />
+                    </div>
+                {% endif %}
+
                 <div class="mb-3">
                     <label for="comment" class="form-label">Kommentar</label>
                     <textarea name="comment" class="form-control">{{ timeTracking.comment|escape }}</textarea>

@@ -110,7 +110,9 @@ class TimeTrackingController extends AbstractController
         return $this->render('time_tracking/end-dialog.html.twig', [
             'controller_name' => 'TimeTrackingController',
             'timeTracking' => $timeTracking,
-            'forwardTo' => $forwardTo
+            'forwardTo' => $forwardTo,
+            'endDatetimeNow' => time(),
+            'showInvoiceNumber' => false
         ]);
     }
 

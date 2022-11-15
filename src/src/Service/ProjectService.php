@@ -66,4 +66,22 @@ class ProjectService {
 
         return $project;
     }
+
+    public function searchByName($searchTerm, $maxResults = 10) {
+        $repository = $this->doctrine->getRepository(Project::class);
+
+        $result = $repository->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%' . $searchTerm . '%')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
+
+        if(!is_array($result)) {
+            return null;
+        }
+
+        return $result;
+    }
 }

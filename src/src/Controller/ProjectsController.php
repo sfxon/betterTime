@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Service\ProjectService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,6 +79,44 @@ class ProjectsController extends AbstractController
         return $this->render('projects/new-project.html.twig', [
             'controller_name' => 'ProjectsController',
         ]);
+    }
+
+    /**
+     * Answer an Ajax Search.
+     *
+     * @return Response
+     */
+    #[Route('/projects/ajaxSearch', name: 'app_projects.search')]
+    public function ajaxSearch(Request $request, ProjectService $projectService): JsonResponse
+    {
+        $postJson = $request->getContent();
+        $post = json_decode($postJson, true);
+        
+        if(!isset($post['searchTerm'])) {
+            return new JsonResponse(
+                ['searchResult' => [] ]
+            );
+        }
+
+        $searchTerm = trim($post['searchTerm']);
+
+        if(strlen($searchTerm == 0)) {
+            return new JsonResponse(
+                [ 'searchResult' => [] ]
+            );
+        }
+
+        $searchResult = $projectService->searchByName($searchTerm, 10);
+
+        if($searchResult === null) {
+            return new JsonResponse(
+                [ 'searchResult' => [] ]
+            );
+        }
+
+        return new JsonResponse(
+            [ 'searchResult' => $searchResult ]
+        );
     }
 
     /**

@@ -12,8 +12,8 @@ function initSearchProjectAction() {
         return;
     }
 
-    searchField.addEventListener('change', function() {
-        var searchTerm = this.value;
+    searchField.addEventListener('paste', function(event) {
+        var searchTerm = event.clipboardData.getData('Text');
         searchProjects(searchTerm);
     });
 

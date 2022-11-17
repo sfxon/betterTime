@@ -25,6 +25,8 @@ function searchProjects(searchTerm)
 
                         searchProjectsAddResult(result.id, result.name);
                     }
+
+                    initProjectSearchResultActionHandlers();
                     
                 } catch(e) {
                     alert('Fehler...');
@@ -67,4 +69,17 @@ function showElement(selector) {
 
 function hideElement(selector) {
     document.querySelector(selector).style.display = 'none';
+}
+
+function initProjectSearchResultActionHandlers() {
+    var results = document.querySelectorAll('#projectSearchResult option');
+
+    for (var i = 0; i < results.length; i++) {
+        var elem = results[i];
+        elem.addEventListener('click', function() {
+            document.getElementById('projectSearch').value = elem.text;
+            document.getElementById('projectId').value = elem.value;
+            hideElement('#projectSearchResult');
+        });
+    }
 }

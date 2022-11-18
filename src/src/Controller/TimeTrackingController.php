@@ -201,20 +201,26 @@ class TimeTrackingController extends AbstractController
     {
         $timeTrackingId = $request->get('time_tracking_id');
         $timeTrackingId = new Uuid($timeTrackingId);
-
+        $projectId = $request->get('projectId');
         $starttime = $request->get('starttime');
         $endtime = $request->get('endtime');
         $useOnInvoice = (int)$request->get('use_on_invoice');
         $invoiceId = (int)$request->get('invoice_id');
         $comment = $request->get('comment');
 
-        // Eintrag laden.
+        // Load the timetracking entry from database.
         $timeTrackingService = new TimeTrackingService($doctrine);
         $timeTracking = $timeTrackingService->loadById($timeTrackingId);
 
         if(null === $timeTracking) {
             die('Der Eintrag wurde nicht gefunden.');
         }
+
+        // Load the project entry from database.
+        $projectService = new ProjectService($doctrine);
+        $project = $projectService->loadById($projectId);
+
+        $timeTracking->setProject($project);
 
         $timeTracking->setStarttime(new \DateTime(date('Y-m-d H:i:s', strtotime($starttime))));
         

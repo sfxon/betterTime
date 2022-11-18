@@ -11,17 +11,7 @@ class ProjectService {
     public function __construct(ManagerRegistry $doctrine) {
         $this->doctrine = $doctrine;
     }
-
-    /*
-     * @deprecated
-     */
-    public function getAllProjects() {
-        $repository = $this->doctrine->getRepository(Project::class);
-        $projects = $repository->findAll();
-
-        return $projects;
-    }
-
+    
     public function countAllProjects() {
         $repository = $this->doctrine->getRepository(Project::class);
 
@@ -33,6 +23,25 @@ class ProjectService {
             ->getSingleScalarResult();
 
         return $count;
+    }
+
+    /*
+     * @deprecated
+     */
+    public function getAllProjects() {
+        $repository = $this->doctrine->getRepository(Project::class);
+        $projects = $repository->findAll();
+
+        return $projects;
+    }
+
+    public function getProject($id) {
+        $repository = $this->doctrine->getRepository(Project::class);
+        $project = $repository->findOneBy(
+            [ 'id' => $id ]
+        );
+
+        return $project;
     }
 
     public function getProjects($limit, $page = 1, $sortBy = 'name', $sortOrder = 'ASC') {
@@ -58,10 +67,12 @@ class ProjectService {
         return $projects;
     }
 
-    public function getProject($id) {
+    public function loadById($projectId) {
         $repository = $this->doctrine->getRepository(Project::class);
         $project = $repository->findOneBy(
-            [ 'id' => $id ]
+            [
+                'id' => $projectId,
+            ]
         );
 
         return $project;

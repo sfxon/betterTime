@@ -75,7 +75,8 @@ function initProjectSearchResultActionHandlers() {
     var results = document.querySelectorAll('#projectSearchResult option');
 
     for (var i = 0; i < results.length; i++) {
-        var elem = results[i];
+        let elem = results[i];
+
         elem.addEventListener('click', function() {
             document.getElementById('projectSearch').value = elem.text;
             document.getElementById('projectId').value = elem.value;

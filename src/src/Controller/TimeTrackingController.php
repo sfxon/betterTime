@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Service\ProjectService;
+use App\Service\TechnicalRedirectService;
 use App\Service\TimeTrackingService;
+use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -94,7 +96,7 @@ class TimeTrackingController extends AbstractController
     {
         $timeTrackingId = $request->query->get('time_tracking_id');
         $timeTrackingId = new Uuid($timeTrackingId);
-        $forwardTo = $request->query->get('forwardTo');
+        $redirectTo = $request->query->get('redirectTo');
 
         if(0 === $timeTrackingId) {
             die('Keine TimeTrackingId übergeben.');
@@ -110,7 +112,7 @@ class TimeTrackingController extends AbstractController
         return $this->render('time_tracking/end-dialog.html.twig', [
             'controller_name' => 'TimeTrackingController',
             'timeTracking' => $timeTracking,
-            'forwardTo' => $forwardTo,
+            'redirectTo' => $redirectTo,
             'endDatetimeNow' => time(),
             'showInvoiceNumber' => false
         ]);
@@ -207,6 +209,7 @@ class TimeTrackingController extends AbstractController
         $useOnInvoice = (int)$request->get('use_on_invoice');
         $invoiceId = (int)$request->get('invoice_id');
         $comment = $request->get('comment');
+        $redirectTo = $request->get('redirectTo');
 
         // Load the timetracking entry from database.
         $timeTrackingService = new TimeTrackingService($doctrine);
@@ -244,12 +247,33 @@ class TimeTrackingController extends AbstractController
         
         $timeTracking->setComment($comment);
 
-        // Eintrag aktualisieren
+        // Update the timeTracking entry in the database.
         $timeTrackingService->update($timeTracking);
-        
+
+        return $this->redirectUpdate($redirectTo, $project);
+    }
+    
+    /**
+     * Redirect to another page by rules.
+     *
+     * @param  string $redirectTo
+     * @param  ?Project $project
+     * @return RedirectResponse
+     */
+    private function redirectUpdate(?string $redirectTo, ?Project $project): RedirectResponse {
+        // Redirect to list of trackedTimes for a project.
+        if($redirectTo === 'app_time_tracking.list.project.times') {
+            if($project !== null) {
+                return $this->redirectToRoute(
+                    'app_time_tracking.list.project.times',
+                    [ 'project_id' => $project->getId() ]
+                );
+            }
+        }
+
+        // This is the default redirect route.
         return $this->redirectToRoute(
-            'app_time_tracking.list.project.times',
-            [ 'project_id' => $timeTracking->getProject()->getId() ]
+            'app_dashboard',
         );
     }
 }

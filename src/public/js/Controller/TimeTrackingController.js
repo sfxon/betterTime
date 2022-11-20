@@ -21,4 +21,16 @@ function initSearchProjectAction() {
         var searchTerm = this.value;
         searchProjects(searchTerm);
     });
+
+    searchField.addEventListener('focusout', function() {
+        if(searchProjectTimeout != null) {
+            clearTimeout(searchProjectTimeout);
+            searchProjectTimeout = null;
+        }
+
+        setTimeout(
+            function() { hideElement('#projectSearchResult'); },
+            200
+        );
+    });
 }

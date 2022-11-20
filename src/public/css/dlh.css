@@ -35,3 +35,22 @@
 .view-table-listing .is-sortable a {
     text-decoration: none;
 }
+
+#projectSearchContainer {
+    position: relative;
+}
+
+#projectSearchResult {
+    position: absolute;
+    z-index: 10;
+}
+
+.dlh-combobox.opened input[type="text"] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dlh-combobox select {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

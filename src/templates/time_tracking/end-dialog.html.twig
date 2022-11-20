@@ -18,14 +18,12 @@
                 <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}"/>
                 <input type="hidden" name="redirectTo" value="{{ redirectTo }}"/>
 
-                <div class="mb-3">
+                <div class="mb-3 dlh-combobox" id="projectSearchContainer">
                     <label for="projectSearch" class="form-label">Projekt: </label>
-
                     <input type="text" class="form-control" id="projectSearch" placeholder="Suche nach einem Projekt" {% if timeTracking.project is not null %}value="{{ timeTracking.project.name }}"{% endif %}/>
-                    <select class="form-select" size="3" aria-label="size 3 select example" id="projectSearchResult" style="display: none;">
+                    <select class="form-select" size="3" aria-label="size select example" id="projectSearchResult" style="display: none;">
                         <option>Keine Daten</option>
                     </select>
-
                     <input type="hidden" name="projectId" id="projectId" value="{% if timeTracking.project is not null %}{{ timeTracking.project.id }}{% endif %}"/>
                 </div>
                 

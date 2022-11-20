@@ -27,6 +27,9 @@ function searchProjects(searchTerm)
                     }
 
                     initProjectSearchResultActionHandlers();
+                    markContainerAsOpened(document.getElementById('projectSearchResult').closest('.dlh-combobox'));
+                    setSearchResultSize(length);
+                    showElement('#projectSearchResult');
                     
                 } catch(e) {
                     alert('Fehler...');
@@ -49,7 +52,7 @@ function searchProjectsClearResults() {
             results[i].remove();
         }
 
-        showElement('#projectSearchResult');
+        hideElement('#projectSearchResult');
     }
 }
 
@@ -81,6 +84,30 @@ function initProjectSearchResultActionHandlers() {
             document.getElementById('projectSearch').value = elem.text;
             document.getElementById('projectId').value = elem.value;
             hideElement('#projectSearchResult');
+            markContainerAsClosed(document.getElementById('projectSearchResult').closest('.dlh-combobox'))
         });
     }
+}
+
+function markContainerAsOpened(element) {
+    element.classList.add('opened');
+}
+
+function markContainerAsClosed(element) {
+    element.classList.remove('opened');
+}
+
+function setSearchResultSize(size) {
+    if(!Number.isInteger(size)) {
+        size = 2;
+    }
+    
+    // Height must be 2 at least, to show an opened dropdown.
+    if(size < 2) {
+        size = 2;
+    } else if(size > 10) {
+        size = 10;
+    }
+
+    document.getElementById('projectSearchResult').size = size;
 }

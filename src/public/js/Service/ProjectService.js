@@ -20,13 +20,21 @@ function searchProjects(searchTerm)
                     var searchResults = response.data.searchResult;
                     var length = searchResults.length;
 
-                    for(var i = 0; i < length; i++) {
-                        var result = searchResults[i];
+                    if(length == 0) {
+                        searchProjectsAddResult("", "Keine Ergebnisse");
+                        makeInputReadonly('#projectSearchResult');
+                    } else {
+                        makeInputWritable('#projectSearchResult');
 
-                        searchProjectsAddResult(result.id, result.name);
+                        for(var i = 0; i < length; i++) {
+                            var result = searchResults[i];
+
+                            searchProjectsAddResult(result.id, result.name);
+                        }
+
+                        initProjectSearchResultActionHandlers();
                     }
 
-                    initProjectSearchResultActionHandlers();
                     markContainerAsOpened(document.getElementById('projectSearchResult').closest('.dlh-combobox'));
                     setSearchResultSize(length);
                     showElement('#projectSearchResult');
@@ -110,4 +118,20 @@ function setSearchResultSize(size) {
     }
 
     document.getElementById('projectSearchResult').size = size;
+}
+
+function makeInputReadonly(selector) {
+    var elements = document.querySelectorAll(selector);
+
+    for(var i = 0; i < elements.length; i++) {
+        elements[i].setAttribute("disabled", "disabled");
+    }
+}
+
+function makeInputWritable(selector) {
+    var elements = document.querySelectorAll(selector);
+
+    for(var i = 0; i < elements.length; i++) {
+        elements[i].removeAttribute("disabled");
+    }
 }

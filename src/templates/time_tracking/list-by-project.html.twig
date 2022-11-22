@@ -69,11 +69,11 @@
                                 <td>{% if timeTaken is null %}&nbsp;{% else %}{{ timeTaken }}{% endif %}</td>
                                 <td>{% if timeTracking.comment == "" %}&nbsp;{% else %}{{ timeTracking.comment }}{% endif %}</td>
                                 <td style="white-space: nowrap;">
-                                    <a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">Bearbeiten</button></a>
-                                    
                                     {% if timeTracking.endtime is null %}
                                         <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/endDialog?time_tracking_id={{ timeTracking.id }}&redirectTo=app_time_tracking.list.project.times"><button class="btn btn-danger btn-sm">Beenden</button></a>
                                     {% endif %}
+
+                                    <a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">Bearbeiten</button></a>
                                 </td>
                             </tr>
                         {% endfor %}

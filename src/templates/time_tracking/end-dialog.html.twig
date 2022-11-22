@@ -18,33 +18,64 @@
                 <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}"/>
                 <input type="hidden" name="redirectTo" value="{{ redirectTo }}"/>
 
-                <div class="mb-3 dlh-combobox" id="projectSearchContainer">
-                    <label for="projectSearch" class="form-label">Projekt: </label>
-                    <input type="text" class="form-control dlh-combobox-search" id="projectSearch" placeholder="Suche nach einem Projekt" {% if timeTracking.project is not null %}value="{{ timeTracking.project.name }}"{% endif %}/>
-                    <select class="form-select dlh-combobox-result" size="3" aria-label="size select example" id="projectSearchResult" style="display: none;">
-                        <option>Keine Daten</option>
-                    </select>
-                    <input type="hidden" name="projectId" id="projectId" class="dlh-combobox-value" value="{% if timeTracking.project is not null %}{{ timeTracking.project.id }}{% endif %}"/>
-                </div>
-                
                 <div class="mb-3">
-                    <label for="starttime" class="form-label">Startdatum</label>
-                    <input type="datetime-local" name="starttime" class="form-control" value="{{ timeTracking.starttime|date("Y-m-d") }}T{{ timeTracking.starttime|date("H:i:s") }}" />
+                    <div class="accordion" id="accordionTime">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    {{ timeTracking.starttime|date("d.m.Y") }}&nbsp;-&nbsp;<b>{{ timeTracking.starttime|date("H:i") }} Uhr</b>
+                                    {% if endDatetimeNow is not null %}&nbsp;bis {{ timeTracking.endtime|date("d.m.Y") }}&nbsp;-&nbsp;<b>{{ timeTracking.endtime|date("H:i") }} Uhr</b>{% endif %}
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionTime">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label for="starttime" class="form-label">Startdatum</label>
+                                        <input type="datetime-local" name="starttime" class="form-control" value="{{ timeTracking.starttime|date("Y-m-d") }}T{{ timeTracking.starttime|date("H:i:s") }}" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="endtime" class="form-label">Enddatum</label>
+                                        
+                                        {% if endDatetimeNow is defined %}
+                                            <input type="datetime-local" name="endtime" class="form-control" value="{% if endDatetimeNow is null %}{% else %}{{ endDatetimeNow|date("Y-m-d") }}T{{ endDatetimeNow|date("H:i:s") }}{% endif %}" />
+                                        {% else %}
+                                            <input type="datetime-local" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="mb-3">
-                    <label for="endtime" class="form-label">Enddatum</label>
-                    
-                    {% if endDatetimeNow is defined %}
-                        <input type="datetime-local" name="endtime" class="form-control" value="{% if endDatetimeNow is null %}{% else %}{{ endDatetimeNow|date("Y-m-d") }}T{{ endDatetimeNow|date("H:i:s") }}{% endif %}" />
-                    {% else %}
-                        <input type="datetime-local" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
-                    {% endif %}
+                    <div class="accordion" id="accordionProject">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Projekt: {{ timeTracking.project.name }}
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionTime">
+                                <div class="accordion-body">
+                                    <div class="mb-3 dlh-combobox" id="projectSearchContainer">
+                                        <label for="projectSearch" class="form-label">Projekt: </label>
+                                        <input type="text" class="form-control dlh-combobox-search" id="projectSearch" placeholder="Suche nach einem Projekt" {% if timeTracking.project is not null %}value="{{ timeTracking.project.name }}"{% endif %}/>
+                                        <select class="form-select dlh-combobox-result" size="3" aria-label="size select example" id="projectSearchResult" style="display: none;">
+                                            <option>Keine Daten</option>
+                                        </select>
+                                        <input type="hidden" name="projectId" id="projectId" class="dlh-combobox-value" value="{% if timeTracking.project is not null %}{{ timeTracking.project.id }}{% endif %}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="mb-3">
                     <label for="use_on_invoice" class="form-label">
                         <input type="checkbox" name="use_on_invoice" id="use_on_invoice" value="1" {% if timeTracking.useOnInvoice == true %}checked="checked"{% endif %} />
-                        Abrechnen?
+                        Abrechnen
                     </label>
                 </div>
                

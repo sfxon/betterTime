@@ -8,17 +8,18 @@ Free Open-Source project and taskmanagement software.
 
 Still work in process, but growing on every single day.
 
-The development process is tracked by a youtube account (in german language). The videos are recorded live streams from twitch:
-
-[View on Youtube](https://www.youtube.com/watch?v=_BIk0Db0G38)
-
-[Twitch Stream](https://www.twitch.tv/sfxon) (if I should be online)
+The future development will be logged in a blog in a 4 week interval. It is coming soon, please stay tuned.
 
 ## Third-party libraries, frameworks and resources
-* [Bootstrap](https://getbootstrap.com/)
-* [FontAwesome](https://fontawesome.com/)
-* [Symfony](https://symfony.com/) (+ Twig)
-  Please see composer.json for all included symfony packages.
+
+* [Axios](https://github.com/axios/axios) | Promise based HTTP client for the browser and node.js
+* [Bootstrap](https://getbootstrap.com/) | Powerful, extensible, and feature-packed frontend toolkit.
+* [FontAwesome](https://fontawesome.com/) | The Internet's icon library and toolkit.
+* [Symfony](https://symfony.com/) | A set of reusable PHP components and a PHP framework for web projects.
+* [Tempus Dominus](https://getdatepicker.com/) | A DateTimePicker by Eonasdan
+* [Twig](https://twig.symfony.com/) |  The flexible, fast, and secure template engine for PHP
+
+Please see composer.json for all included symfony packages.
 
 ## Installation
 

@@ -18,6 +18,7 @@ This software is still work in process, but growing on every single day.
 * [Axios](https://github.com/axios/axios) | Promise based HTTP client for the browser and node.js
 * [Bootstrap](https://getbootstrap.com/) | Powerful, extensible, and feature-packed frontend toolkit.
 * [FontAwesome](https://fontawesome.com/) | The Internet's icon library and toolkit.
+* [Popper.js](https://popper.js.org/) | Tooltip & Popover Positioning Engine (Part of bootstrap, but also required for Tempus Dominus.)
 * [Symfony](https://symfony.com/) | A set of reusable PHP components and a PHP framework for web projects.
 * [Tempus Dominus](https://getdatepicker.com/) | A DateTimePicker by Eonasdan
 * [Twig](https://twig.symfony.com/) |  The flexible, fast, and secure template engine for PHP

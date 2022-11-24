@@ -23,24 +23,30 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    {{ timeTracking.starttime|date("d.m.Y") }}&nbsp;-&nbsp;<b>{{ timeTracking.starttime|date("H:i") }} Uhr</b>
-                                    {% if endDatetimeNow is not null %}&nbsp;bis {{ timeTracking.endtime|date("d.m.Y") }}&nbsp;-&nbsp;<b>{{ timeTracking.endtime|date("H:i") }} Uhr</b>{% endif %}
+                                    {{ timeTracking.starttime|date("d.m.Y") }},&nbsp;<b>{{ timeTracking.starttime|date("H:i") }} Uhr</b>
+                                    {% if endDatetimeNow is not null %}&nbsp;bis {{ timeTracking.endtime|date("d.m.Y") }},&nbsp;<b>{{ timeTracking.endtime|date("H:i") }} Uhr</b>{% endif %}
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionTime">
                                 <div class="accordion-body">
-                                    <div class="mb-3">
-                                        <label for="starttime" class="form-label">Startdatum</label>
-                                        <input type="datetime-local" name="starttime" class="form-control" value="{{ timeTracking.starttime|date("Y-m-d") }}T{{ timeTracking.starttime|date("H:i:s") }}" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="endtime" class="form-label">Enddatum</label>
-                                        
-                                        {% if endDatetimeNow is defined %}
-                                            <input type="datetime-local" name="endtime" class="form-control" value="{% if endDatetimeNow is null %}{% else %}{{ endDatetimeNow|date("Y-m-d") }}T{{ endDatetimeNow|date("H:i:s") }}{% endif %}" />
-                                        {% else %}
-                                            <input type="datetime-local" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
-                                        {% endif %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="starttime" class="form-label">Beginn</label>
+                                                <input type="text" id="starttime" name="starttime" class="form-control" value="{{ timeTracking.starttime|date("Y-m-d H:i") }}" autocomplete="off" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="endtime" class="form-label">Ende</label>
+                                                
+                                                {% if endDatetimeNow is defined %}
+                                                    <input type="text" id="endtime" name="endtime" class="form-control" value="{% if endDatetimeNow is null %}{% else %}{{ endDatetimeNow|date("Y-m-d") }} {{ endDatetimeNow|date("H:i") }}{% endif %}" autocomplete="off" readonly="readonly"/>
+                                                {% else %}
+                                                    <input type="text" id="endtime" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }} {{ timeTracking.endtime|date("H:i") }}{% endif %}" autocomplete="off" readonly="readonly"/>
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +62,7 @@
                                     Projekt: {{ timeTracking.project.name }}
                                 </button>
                             </h2>
-                            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionTime">
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionProject">
                                 <div class="accordion-body">
                                     <div class="mb-3 dlh-combobox" id="projectSearchContainer">
                                         <label for="projectSearch" class="form-label">Projekt: </label>

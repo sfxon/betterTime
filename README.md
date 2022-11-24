@@ -6,9 +6,12 @@ Free Open-Source project and taskmanagement software.
 * Manage your projects and tasks.
 * Write invoices the easy way.
 
-Still work in process, but growing on every single day.
+## Work in progress
 
-The future development will be logged in a blog in a 4 week interval. It is coming soon, please stay tuned.
+This software is still work in process, but growing on every single day.
+
+* I have written a definition of done, which can be found in ```doc/definition-of-done.md```.
+* The future development will be logged in a blog in a 4 week interval. It is coming soon, please stay tuned. I will publish the first entry 30th of november 2022. 
 
 ## Third-party libraries, frameworks and resources
 

@@ -1,10 +1,10 @@
 # Dirty Little Helper
 
-Free Open-Source project and taskmanagement software.
+Free and Open-Source Timetracking-Tools.
 
-* Track your working times.
-* Manage your projects and tasks.
-* Write invoices the easy way.
+* Track your and your teams working hours.
+* Track times you or your team is working on specific projects or tasks.
+* Fetch required information, to write time-based invoices.
 
 ## Work in progress
 

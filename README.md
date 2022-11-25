@@ -15,13 +15,14 @@ This software is still work in process, but growing on every single day.
 
 ## Third-party libraries, frameworks and resources
 
-* [Axios](https://github.com/axios/axios) | Promise based HTTP client for the browser and node.js
+* [Axios](https://github.com/axios/axios) | Promise based HTTP client for the browser and node.js.
 * [Bootstrap](https://getbootstrap.com/) | Powerful, extensible, and feature-packed frontend toolkit.
 * [FontAwesome](https://fontawesome.com/) | The Internet's icon library and toolkit.
-* [Popper.js](https://popper.js.org/) | Tooltip & Popover Positioning Engine (Part of bootstrap, but also required for Tempus Dominus.)
+* [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) | The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards.
+* [Popper.js](https://popper.js.org/) | This is a Tooltip & Popover Positioning Engine.
 * [Symfony](https://symfony.com/) | A set of reusable PHP components and a PHP framework for web projects.
-* [Tempus Dominus](https://getdatepicker.com/) | A DateTimePicker by Eonasdan
-* [Twig](https://twig.symfony.com/) |  The flexible, fast, and secure template engine for PHP
+* [Tempus Dominus](https://getdatepicker.com/) | A DateTimePicker by Eonasdan.
+* [Twig](https://twig.symfony.com/) |  The flexible, fast, and secure template engine for PHP.
 
 Please see composer.json for all included symfony packages.
 

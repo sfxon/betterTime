@@ -34,3 +34,7 @@ Please see composer.json for all included symfony packages.
 * Setup database in .env file
 * Run migrations
 * Test
+
+## Documentation
+
+A brief documentation can be found in the ```doc``` folder.

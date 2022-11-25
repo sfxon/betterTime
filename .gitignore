@@ -1,2 +1,3 @@
 /src/.env
 /src/config/dlh/view.project.setting.json
+/src/tools/php-cs-fixer/vendor

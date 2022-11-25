@@ -109,12 +109,26 @@ class TimeTrackingController extends AbstractController
             throw new \Exception('Timetracking entry with id ' . $timeTrackingId . ' not found.');
         }
 
+        // Check if start is current date.
+        $startAndEndIsSameDate = false;
+        $dateTimeStart = $timeTracking->getStarttime();
+
+        if(null !== $dateTimeStart) {
+            $dateStart = $dateTimeStart->format('Y-m-d');
+            $dateNow = date('Y-m-d');
+
+            if($dateStart == $dateNow) {
+                $startAndEndIsSameDate = true;
+            }
+        }
+
         return $this->render('time_tracking/end-dialog.html.twig', [
             'controller_name' => 'TimeTrackingController',
             'timeTracking' => $timeTracking,
             'redirectTo' => $redirectTo,
             'endDatetimeNow' => time(),
-            'showInvoiceNumber' => false
+            'showInvoiceNumber' => false,
+            'startAndEndIsSameDate' => $startAndEndIsSameDate
         ]);
     }
 

@@ -23,8 +23,13 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    {{ timeTracking.starttime|date("d.m.Y") }},&nbsp;<b>{{ timeTracking.starttime|date("H:i") }} Uhr</b>
-                                    {% if endDatetimeNow is not null %}&nbsp;bis {{ timeTracking.endtime|date("d.m.Y") }},&nbsp;<b>{{ timeTracking.endtime|date("H:i") }} Uhr</b>{% endif %}
+                                    <span class="bt-heading-date-start">{{ timeTracking.starttime|date("d.m.Y") }}</span>,&nbsp;<b><span class="bt-heading-time-start">{{ timeTracking.starttime|date("H:i") }}</span> Uhr</b>
+                                    &nbsp;bis 
+                                    <span class="bt-heading-date-end">
+                                        {% if not startAndEndIsSameDate %}{% if endDatetimeNow is not null %}&nbsp;{{ timeTracking.endtime|date("d.m.Y") }},{% endif %}{% endif %}
+                                    </span>
+                                    &nbsp;<b>
+                                    <span class="bt-heading-time-end">{% if endDatetimeNow is not null %}{{ timeTracking.endtime|date("H:i") }}{% else %}--:--{% endif %}</span> Uhr</b>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionTime">

@@ -5,7 +5,8 @@ namespace App\Service;
 use App\DataTransferObject\PaginationDto;
 use App\DataTransferObject\PaginationPageDto;
 
-class PaginationService {
+class PaginationService
+{
     private int $pageCur = 0;
     private int $pagesTotal = 0;
     private int $pagesDisplayMax = 0;
@@ -23,13 +24,14 @@ class PaginationService {
         $this->calculate();
     }
 
-    public function calculate() {
-        if($this->pagesTotal < $this->pagesDisplayMax) {
+    public function calculate()
+    {
+        if ($this->pagesTotal < $this->pagesDisplayMax) {
             $this->buildLeftSide(1, $this->pagesTotal);
         } else {
-            if($this->isLeftSide()) {
+            if ($this->isLeftSide()) {
                 $this->buildLeftSide(1, $this->pagesDisplayMax);
-            } else if($this->isRightSide()) {
+            } elseif ($this->isRightSide()) {
                 $this->buildRightSide();
             } else {
                 $this->buildMiddle();
@@ -39,8 +41,9 @@ class PaginationService {
         $this->pagination->markCurrentPage($this->pageCur);
     }
 
-    private function build($from, $to) {
-        for($i = $from; $i <= $to; $i++) {
+    private function build($from, $to)
+    {
+        for ($i = $from; $i <= $to; $i++) {
             $page = new PaginationPageDto($i);
             $this->pagination->append($page);
         }
@@ -66,8 +69,8 @@ class PaginationService {
     private function isLeftSide(): bool
     {
         $halfOfPages = ceil($this->pagesDisplayMax / 2);
-        
-        if($this->pageCur <= $halfOfPages) {
+
+        if ($this->pageCur <= $halfOfPages) {
             return true;
         }
 
@@ -78,14 +81,15 @@ class PaginationService {
     {
         $halfOfPages = ceil($this->pagesDisplayMax / 2);
 
-        if($this->pageCur > ($this->pagesTotal - $halfOfPages)) {
+        if ($this->pageCur > ($this->pagesTotal - $halfOfPages)) {
             return true;
         }
 
         return false;
     }
 
-    public function getPagination() {
+    public function getPagination()
+    {
         return $this->pagination;
     }
 }

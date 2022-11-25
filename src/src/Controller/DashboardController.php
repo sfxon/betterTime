@@ -21,7 +21,7 @@ class DashboardController extends AbstractController
 {
     /**
      * index
-     * 
+     *
      * Dashboard action, shows the index page of the project.
      *
      * @param Request $request
@@ -29,32 +29,33 @@ class DashboardController extends AbstractController
      * @param ViewService $viewService
      * @return Response
      */
-    #[Route('/', name: 'app_dashboard')]    
+    #[Route('/', name: 'app_dashboard')]
     public function index(
         Request $request,
-        ManagerRegistry $doctrine, 
-        ViewService $viewService): Response
-    {        
+        ManagerRegistry $doctrine,
+        ViewService $viewService
+    ): Response
+    {
         $projectViewSetting = $this->processSortOrderRequests($request, $doctrine, $viewService);
-        
+
         $limit = 10;
         $page = (int)$request->query->get('page', 0);
 
-        if($page <= 0) {
+        if ($page <= 0) {
             $page = 1;
         }
 
         // Count total pages.
         $projectService = new ProjectService($doctrine);
         $projectCountTotal = $projectService->countAllProjects();
-        
+
         $pages = 0;
 
-        if($projectCountTotal != 0) {
+        if ($projectCountTotal != 0) {
             $pages = ceil($projectCountTotal / $limit);
         }
 
-        if($page > $pages) {
+        if ($page > $pages) {
             $page = $pages;
         }
 
@@ -86,7 +87,7 @@ class DashboardController extends AbstractController
 
     /**
      * processSortOrderRequests
-     * 
+     *
      * Fetches query parameters, which are used to order the project list.
      *
      * @param Request $request
@@ -97,31 +98,32 @@ class DashboardController extends AbstractController
     private function processSortOrderRequests(
         Request $request,
         ManagerRegistry $doctrine,
-        ViewService $viewService): ProjectViewSettingModel
+        ViewService $viewService
+    ): ProjectViewSettingModel
     {
         // Load current settings for sort order.
         $setting = new SettingService($doctrine);
         $settingJson = $setting->getSettingByTextId('view.project.setting');
-        
+
         /** @var ProjectViewSettingModel */
         $projectViewSetting = ViewService::loadViewFromJson($settingJson, ProjectViewSettingModel::class);
-        
+
         // Check, if a new sorting has been requested.
         $settingUpdated = false;
         $sortBy = $request->query->get('sortBy');
         $sortOrder = $request->query->get('sortOrder');
 
-        if(null !== $sortBy) {
+        if (null !== $sortBy) {
             $projectViewSetting->setSortBy($sortBy);
             $settingUpdated = true;
         }
 
-        if(null !== $sortOrder) {
+        if (null !== $sortOrder) {
             $projectViewSetting->setSortOrder($sortOrder);
             $settingUpdated = true;
         }
 
-        if($settingUpdated) {
+        if ($settingUpdated) {
             $viewService->saveViewData($projectViewSetting, 'view.project.setting');
         }
 

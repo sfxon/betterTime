@@ -8,21 +8,22 @@ class ProjectViewSettingModel implements ViewSettingInterface
 {
     private string $sortBy;
     private string $sortOrder;
-    const AVAILABLE_SORT_FIELDS = ['name'];
-    const AVAILABLE_SORT_ORDERS = ['ASC', 'DESC'];
+    public const AVAILABLE_SORT_FIELDS = ['name'];
+    public const AVAILABLE_SORT_ORDERS = ['ASC', 'DESC'];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->sortBy = 'name';
         $this->sortOrder = 'ASC';
     }
 
     public function setSortBy(string $sortBy): void
     {
-        if(in_array($sortBy, self::AVAILABLE_SORT_FIELDS)) {
+        if (in_array($sortBy, self::AVAILABLE_SORT_FIELDS)) {
             $this->sortBy = $sortBy;
         }
     }
-    
+
     public function getSortBy(): string
     {
         return $this->sortBy;
@@ -30,7 +31,7 @@ class ProjectViewSettingModel implements ViewSettingInterface
 
     public function setSortOrder(string $sortOrder): void
     {
-        if(in_array($sortOrder, self::AVAILABLE_SORT_ORDERS)) {
+        if (in_array($sortOrder, self::AVAILABLE_SORT_ORDERS)) {
             $this->sortOrder = $sortOrder;
         }
     }

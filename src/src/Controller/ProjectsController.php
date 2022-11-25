@@ -25,7 +25,7 @@ class ProjectsController extends AbstractController
      * @param  ManagerRegistry $doctrine
      * @return RedirectResponse
      */
-    #[Route('/projects/create', name: 'app_projects.create')]    
+    #[Route('/projects/create', name: 'app_projects.create')]
     public function create(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
         $name = $request->query->get('name');
@@ -58,7 +58,7 @@ class ProjectsController extends AbstractController
         $id = new Uuid($id);
         $project = $projectService->getProject($id);
 
-        if(null === $project) {
+        if (null === $project) {
             throw new \Exception('Project with id ' . $id . ' not found.');
         }
 
@@ -67,7 +67,7 @@ class ProjectsController extends AbstractController
             'project' => $project
         ]);
     }
-    
+
     /**
      * Show an editor to create a new project.
      *
@@ -91,8 +91,8 @@ class ProjectsController extends AbstractController
     {
         $postJson = $request->getContent();
         $post = json_decode($postJson, true);
-        
-        if(!isset($post['searchTerm'])) {
+
+        if (!isset($post['searchTerm'])) {
             return new JsonResponse(
                 ['searchResult' => [] ]
             );
@@ -100,7 +100,7 @@ class ProjectsController extends AbstractController
 
         $searchTerm = trim($post['searchTerm']);
 
-        if(strlen($searchTerm == 0)) {
+        if (strlen($searchTerm == 0)) {
             return new JsonResponse(
                 [ 'searchResult' => [] ]
             );
@@ -108,7 +108,7 @@ class ProjectsController extends AbstractController
 
         $searchResult = $projectService->searchByName($searchTerm, 10);
 
-        if($searchResult === null) {
+        if ($searchResult === null) {
             return new JsonResponse(
                 [ 'searchResult' => [] ]
             );
@@ -133,14 +133,15 @@ class ProjectsController extends AbstractController
         Request $request,
         ManagerRegistry $doctrine,
         ProjectService $projectService,
-        string $id): RedirectResponse
+        string $id
+    ): RedirectResponse
     {
         $id = new Uuid($id);
         $name = $request->request->get('name');
         $entityManager = $doctrine->getManager();
         $project = $projectService->getProject($id);
 
-        if(null === $project) {
+        if (null === $project) {
             throw new \Exception('Project with id ' . $id . ' not found.');
         }
 

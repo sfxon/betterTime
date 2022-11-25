@@ -2,5 +2,6 @@
 
 namespace App\Interface;
 
-interface ViewSettingInterface {
+interface ViewSettingInterface
+{
 }

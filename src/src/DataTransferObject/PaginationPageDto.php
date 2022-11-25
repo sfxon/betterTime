@@ -5,21 +5,23 @@ namespace App\DataTransferObject;
 /**
  * PaginationPageDto
  */
-class PaginationPageDto {
+class PaginationPageDto
+{
     private int $page;
     private bool $isCurrentPage;
-    
+
     /**
      * __construct
      *
      * @param  int $page
      * @param  bool $isCurrentPage
      */
-    public function __construct(int $page, bool $isCurrentPage = false) {
+    public function __construct(int $page, bool $isCurrentPage = false)
+    {
         $this->page = $page;
         $this->isCurrentPage = $isCurrentPage;
     }
-    
+
     /**
      * getPage
      *
@@ -29,7 +31,7 @@ class PaginationPageDto {
     {
         return $this->page;
     }
-    
+
     /**
      * setPage
      *
@@ -40,7 +42,7 @@ class PaginationPageDto {
     {
         $this->page = $page;
     }
-    
+
     /**
      * getIsCurrentPage
      *
@@ -50,7 +52,7 @@ class PaginationPageDto {
     {
         return $this->isCurrentPage;
     }
-    
+
     /**
      * setIsCurrentPage
      *

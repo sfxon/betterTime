@@ -1,5 +1,17 @@
 window.addEventListener('DOMContentLoaded', (event) => {
-    const dlhProjectComboBox = new DlhComboBoxControl('#projectSearchContainer');
+    // Project selection javascript.
+    const onProjectComboBoxChange = () => {
+        console.log('call me midnight');
+    }
+
+    const dlhProjectComboBox = new DlhComboBoxControl(
+        '#projectSearchContainer',
+        {
+            onChange: onProjectComboBoxChange
+        }
+    );
+
+    // Time-Selection Javascript.
     const accordionTime = document.getElementById('accordionTime');
 
     const dateTimeStartInput = document.getElementById('starttime');

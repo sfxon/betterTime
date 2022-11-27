@@ -1,5 +1,5 @@
 class DlhComboBoxControl {
-    constructor(selector) {
+    constructor(selector, arg) {
         this.selector = selector;
         this.containerElem = null;
         this.searchInputElem = null;
@@ -10,6 +10,10 @@ class DlhComboBoxControl {
         this._onSearchInputPaste = this.onSearchInputPaste.bind(this);
         this._onSearchInputKeyup = this.onSearchInputKeyup.bind(this);
         this._onSearchInputFocusout = this.onSearchInputFocusout.bind(this);
+
+        if(typeof arg !== 'undefined') {
+            this.onChange = arg.onChange ? arg.onChange : null;
+        }
 
         if(this.initSelectors()) {
             this.initActions();
@@ -182,6 +186,10 @@ class DlhComboBoxControl {
         this.comboboxValueElem.value = event.target.value;
         this.hideElement(this.searchResultElem);
         this.markContainerAsClosed(this.containerElem);
+        
+        if(typeof this.onChange === 'function') {
+            this.onChange();
+        }
     }
     
     markContainerAsOpened(elem) {

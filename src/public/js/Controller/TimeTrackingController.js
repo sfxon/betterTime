@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', (event) => {
     // Project selection javascript.
-    const onProjectComboBoxChange = () => {
-        console.log('call me midnight');
+    const onProjectComboBoxChange = (value, text) => {
+        document.querySelector('#accordionProject .accordion-project-title').textContent = text;
     }
 
     const dlhProjectComboBox = new DlhComboBoxControl(

@@ -188,7 +188,7 @@ class DlhComboBoxControl {
         this.markContainerAsClosed(this.containerElem);
         
         if(typeof this.onChange === 'function') {
-            this.onChange();
+            this.onChange(event.target.value, event.target.text);
         }
     }
     

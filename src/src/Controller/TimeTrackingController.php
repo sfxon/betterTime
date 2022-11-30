@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Service\ProjectService;
-use App\Service\TechnicalRedirectService;
 use App\Service\TimeTrackingService;
+use App\Service\TrackKeepingService;
 use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -213,7 +213,7 @@ class TimeTrackingController extends AbstractController
      * @return RedirectResponse
      */
     #[Route('/timetracking/update', name: 'app_time_tracking.update')]
-    public function update(Request $request, ManagerRegistry $doctrine): RedirectResponse
+    public function update(Request $request, ManagerRegistry $doctrine, TrackKeepingService $trackKeepingService): RedirectResponse
     {
         $timeTrackingId = $request->get('time_tracking_id');
         $timeTrackingId = new Uuid($timeTrackingId);
@@ -263,6 +263,11 @@ class TimeTrackingController extends AbstractController
 
         // Update the timeTracking entry in the database.
         $timeTrackingService->update($timeTracking);
+
+        // Update trackKeepingStatistics.
+        if ($projectId !== null) {
+            $trackKeepingService->trackEntityUsage('projects', Uuid::fromString($projectId));
+        }
 
         return $this->redirectUpdate($redirectTo, $project);
     }

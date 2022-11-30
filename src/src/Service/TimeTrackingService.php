@@ -94,7 +94,6 @@ class TimeTrackingService
 
     public function startTimeTracking($project)
     {
-        // Entity erstellen
         $entityManager = $this->doctrine->getManager();
 
         $now = new \DateTime();

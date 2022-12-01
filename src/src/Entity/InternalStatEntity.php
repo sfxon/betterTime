@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\TrackKeepingEntityRepository;
+use App\Repository\InternalStatEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: TrackKeepingEntityRepository::class)]
-class TrackKeepingEntity
+#[ORM\Entity(repositoryClass: InternalStatEntityRepository::class)]
+class InternalStatEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -23,12 +23,12 @@ class TrackKeepingEntity
     #[ORM\Column(length: 1024)]
     private ?string $technicalName = null;
 
-    #[ORM\OneToMany(targetEntity: TrackKeeping::class, mappedBy: 'track_keeping_entity')]
-    private $trackKeepings;
+    #[ORM\OneToMany(targetEntity: InternalStat::class, mappedBy: 'track_keeping_entity')]
+    private $internalStats;
 
     public function __construct()
     {
-        $this->trackKeepings = new ArrayCollection();
+        $this->internalStats = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -60,8 +60,8 @@ class TrackKeepingEntity
         return $this;
     }
 
-    public function getTrackKeepings(): Collection
+    public function getInternalStats(): Collection
     {
-        return $this->trackKeepings;
+        return $this->internalStats;
     }
 }

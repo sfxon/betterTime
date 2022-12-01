@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\TrackKeepingEntity;
+use App\Entity\InternalStatEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TrackKeepingEntity>
+ * @extends ServiceEntityRepository<InternalStatEntity>
  *
- * @method TrackKeepingEntity|null find($id, $lockMode = null, $lockVersion = null)
- * @method TrackKeepingEntity|null findOneBy(array $criteria, array $orderBy = null)
- * @method TrackKeepingEntity[]    findAll()
- * @method TrackKeepingEntity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method InternalStatEntity|null find($id, $lockMode = null, $lockVersion = null)
+ * @method InternalStatEntity|null findOneBy(array $criteria, array $orderBy = null)
+ * @method InternalStatEntity[]    findAll()
+ * @method InternalStatEntity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TrackKeepingEntityRepository extends ServiceEntityRepository
+class InternalStatEntityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TrackKeepingEntity::class);
+        parent::__construct($registry, InternalStatEntity::class);
     }
 
-    public function save(TrackKeepingEntity $entity, bool $flush = false): void
+    public function save(InternalStatEntity $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class TrackKeepingEntityRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(TrackKeepingEntity $entity, bool $flush = false): void
+    public function remove(InternalStatEntity $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class TrackKeepingEntityRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return TrackKeepingEntity[] Returns an array of TrackKeepingEntity objects
+//     * @return InternalStatEntity[] Returns an array of InternalStatEntity objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class TrackKeepingEntityRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?TrackKeepingEntity
+//    public function findOneBySomeField($value): ?InternalStatEntity
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

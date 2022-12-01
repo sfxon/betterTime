@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\TrackKeepingRepository;
+use App\Repository\InternalStatRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: TrackKeepingRepository::class)]
-class TrackKeeping
+#[ORM\Entity(repositoryClass: InternalStatRepository::class)]
+class InternalStat
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -16,8 +16,8 @@ class TrackKeeping
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: TrackKeepingEntity::class, inversedBy: 'track_keepings')]
-    private ?TrackKeepingEntity $trackKeepingEntity = null;
+    #[ORM\ManyToOne(targetEntity: InternalStatEntity::class, inversedBy: 'track_keepings')]
+    private ?InternalStatEntity $internalStatEntity = null;
 
     #[ORM\Column(type: 'uuid')]
     private ?string $entry = null;
@@ -33,14 +33,14 @@ class TrackKeeping
         return $this->id;
     }
 
-    public function getTrackKeepingEntity(): ?TrackKeepingEntity
+    public function getInternalStatEntity(): ?InternalStatEntity
     {
-        return $this->trackKeepingEntity;
+        return $this->internalStatEntity;
     }
 
-    public function setTrackKeepingEntity(TrackKeepingEntity $trackKeepingEntity): self
+    public function setInternalStatEntity(InternalStatEntity $internalStatEntity): self
     {
-        $this->trackKeepingEntity = $trackKeepingEntity;
+        $this->internalStatEntity = $internalStatEntity;
 
         return $this;
     }

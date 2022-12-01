@@ -35,7 +35,7 @@ class DashboardController extends AbstractController
         ManagerRegistry $doctrine,
         ViewService $viewService
     ): Response
-    {
+    {        
         $projectViewSetting = $this->processSortOrderRequests($request, $doctrine, $viewService);
 
         $limit = 10;

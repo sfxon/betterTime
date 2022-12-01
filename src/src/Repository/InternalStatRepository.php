@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\TrackKeeping;
+use App\Entity\InternalStat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TrackKeeping>
+ * @extends ServiceEntityRepository<InternalStat>
  *
- * @method TrackKeeping|null find($id, $lockMode = null, $lockVersion = null)
- * @method TrackKeeping|null findOneBy(array $criteria, array $orderBy = null)
- * @method TrackKeeping[]    findAll()
- * @method TrackKeeping[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method InternalStat|null find($id, $lockMode = null, $lockVersion = null)
+ * @method InternalStat|null findOneBy(array $criteria, array $orderBy = null)
+ * @method InternalStat[]    findAll()
+ * @method InternalStat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TrackKeepingRepository extends ServiceEntityRepository
+class InternalStatRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TrackKeeping::class);
+        parent::__construct($registry, InternalStat::class);
     }
 
-    public function save(TrackKeeping $entity, bool $flush = false): void
+    public function save(InternalStat $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class TrackKeepingRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(TrackKeeping $entity, bool $flush = false): void
+    public function remove(InternalStat $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class TrackKeepingRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return TrackKeeping[] Returns an array of TrackKeeping objects
+//     * @return InternalStat[] Returns an array of InternalStat objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class TrackKeepingRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?TrackKeeping
+//    public function findOneBySomeField($value): ?InternalStat
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

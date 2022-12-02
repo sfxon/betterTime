@@ -54,3 +54,12 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.bt-quick-select {
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.bt-quick-select-container {
+    font-size: 1.2rem;
+}

@@ -69,4 +69,36 @@ class InternalStatService {
 
         return $internalStat;
     }
+    
+    /**
+     * loadLastUsedEntries
+     *
+     * @param  string $technicalName
+     * @param  int $limit
+     * @return array
+     */
+    public function loadLastUsedEntries(string $technicalName, int $limit = 25): ?array
+    {
+        // Load InternalStatEntity by id
+        $internalStatEntity = $this->loadInternalStatEntityByTechnicalName($technicalName);
+
+        if(null === $internalStatEntity) {
+            throw new \Exception('No InternalStatEntity found, that has a technicalName of "' . $technicalName . '"');
+        }
+
+        $repository = $this->doctrine->getRepository(InternalStat::class);
+        $internalStats = $repository->findBy(
+            [ 'internalStatEntity' => $internalStatEntity ],
+            [ 'lastUsage' => 'DESC' ],
+            $limit
+        );
+
+        $data = [];
+
+        foreach($internalStats as $stat) {
+            $data[] = $stat->getEntry();
+        }
+
+        return $data;
+    }
 }

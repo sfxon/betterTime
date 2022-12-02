@@ -20,7 +20,7 @@ class InternalStat
     private ?InternalStatEntity $internalStatEntity = null;
 
     #[ORM\Column(type: 'uuid')]
-    private ?string $entry = null;
+    private ?Uuid $entry = null;
 
     #[ORM\Column]
     private ?int $count = null;

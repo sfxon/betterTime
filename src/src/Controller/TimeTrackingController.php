@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\DateService;
 use App\Service\ProjectService;
 use App\Service\TimeTrackingService;
 use App\Service\InternalStatService;
@@ -89,10 +90,16 @@ class TimeTrackingController extends AbstractController
      *
      * @param  Request $request
      * @param  ManagerRegistry $doctrine
+     * @param  InternalStatService $internalStatService
+     * @param  ProjectService $projectService
      * @return Response
      */
     #[Route('/timetracking/endDialog', name: 'app_time_tracking.end.dialog')]
-    public function endDialog(Request $request, ManagerRegistry $doctrine): Response
+    public function endDialog(
+        Request $request, 
+        ManagerRegistry $doctrine, 
+        InternalStatService $internalStatService,
+        ProjectService $projectService): Response
     {
         $timeTrackingId = $request->query->get('time_tracking_id');
         $timeTrackingId = new Uuid($timeTrackingId);
@@ -110,17 +117,11 @@ class TimeTrackingController extends AbstractController
         }
 
         // Check if start is current date.
-        $startAndEndIsSameDate = false;
-        $dateTimeStart = $timeTracking->getStarttime();
+        $startAndEndIsSameDate = DateService::isDatetimeToday($timeTracking->getStarttime());
 
-        if(null !== $dateTimeStart) {
-            $dateStart = $dateTimeStart->format('Y-m-d');
-            $dateNow = date('Y-m-d');
-
-            if($dateStart == $dateNow) {
-                $startAndEndIsSameDate = true;
-            }
-        }
+        // Load last used entries.
+        $lastUsedProjectIds = $internalStatService->loadLastUsedEntries('project', 10);
+        $lastUsedProjects = $projectService->loadListByIds($lastUsedProjectIds);
 
         return $this->render('time_tracking/end-dialog.html.twig', [
             'controller_name' => 'TimeTrackingController',
@@ -128,7 +129,8 @@ class TimeTrackingController extends AbstractController
             'redirectTo' => $redirectTo,
             'endDatetimeNow' => time(),
             'showInvoiceNumber' => false,
-            'startAndEndIsSameDate' => $startAndEndIsSameDate
+            'startAndEndIsSameDate' => $startAndEndIsSameDate,
+            'lastUsedProjects' => $lastUsedProjects
         ]);
     }
 

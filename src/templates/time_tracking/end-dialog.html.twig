@@ -77,6 +77,13 @@
                                         </select>
                                         <input type="hidden" name="projectId" id="projectId" class="dlh-combobox-value" value="{% if timeTracking.project is not null %}{{ timeTracking.project.id }}{% endif %}"/>
                                     </div>
+                                    <div class="row">
+                                        <div class="col bt-quick-select-container">
+                                            {% for tmpProject in lastUsedProjects %}
+                                                <span class="badge text-bg-light bt-quick-select" data-attr-id="{{ tmpProject.id }}">{{ tmpProject.name }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

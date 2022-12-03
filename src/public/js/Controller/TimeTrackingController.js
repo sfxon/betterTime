@@ -11,6 +11,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     );
 
+    // Init project selector quick-selection-items.
+    initProjectQuickSelectActions();
+
     // Time-Selection Javascript.
     const accordionTime = document.getElementById('accordionTime');
 
@@ -72,5 +75,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
         accordionTime.querySelector('.bt-heading-time-start').innerHTML = formattedTimeStart;
         accordionTime.querySelector('.bt-heading-date-end').innerHTML = formattedDateEnd;
         accordionTime.querySelector('.bt-heading-time-end').innerHTML = formattedTimeEnd;
+    }
+
+    function initProjectQuickSelectActions() {
+        var quickSelectors = document.querySelectorAll('#accordionProject .bt-quick-select');
+
+        for(let i = 0, length = quickSelectors.length; i < length; i++) {
+            let sel = quickSelectors[i];
+
+            sel.addEventListener('click', function() {
+                let text = this.innerText;
+                let value = this.getAttribute('data-attr-id');
+
+                document.querySelector('#projectSearch').value = text;
+                document.querySelector('#projectId').value = value;
+                document.querySelector('#accordionProject .accordion-project-title').textContent = text;
+            });
+        }
     }
 });

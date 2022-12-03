@@ -1,4 +1,4 @@
-# Dirty Little Helper
+# betterTime
 
 Free and Open-Source Timetracking-Tools.
 

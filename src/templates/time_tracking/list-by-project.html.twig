@@ -62,8 +62,8 @@
                             {% endif %}
 
                             <tr>
-                                <td>{{ timeTracking.starttime|date("d.m.Y H:i:s") }}</td>
-                                <td>{% if timeTracking.endtime is null %}&nbsp;{% else %}{{ timeTracking.endtime|date("d.m.Y H:i:s") }}{% endif %}</td>
+                                <td>{{ timeTracking.starttime|date("d.m.Y H:i") }}</td>
+                                <td>{% if timeTracking.endtime is null %}&nbsp;{% else %}{{ timeTracking.endtime|date("d.m.Y H:i") }}{% endif %}</td>
                                 <td>{% if timeTracking.useOnInvoice == true %}Ja{% else %}Nein{% endif %}</td>
                                 <td>{% if timeTracking.invoiceId is null %}&nbsp;{% else %}{{ timeTracking.invoiceId }}{% endif %}</td>
                                 <td>{% if timeTaken is null %}&nbsp;{% else %}{{ timeTaken }}{% endif %}</td>

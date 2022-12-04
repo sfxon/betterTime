@@ -61,6 +61,12 @@
     font-weight: normal;
 }
 
+.bt-quick-select:hover,
+.bt-quick-reset:hover {
+    background-color: #23517E!important;
+    color: #FFF!important;
+}
+
 .bt-quick-select-container {
     font-size: 1.2rem;
 }

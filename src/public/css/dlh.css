@@ -55,7 +55,8 @@
     border-top-right-radius: 0;
 }
 
-.bt-quick-select {
+.bt-quick-select,
+.bt-quick-reset {
     cursor: pointer;
     font-weight: normal;
 }

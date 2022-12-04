@@ -7,7 +7,8 @@ use App\Entity\InternalStatEntity;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
 
-class InternalStatService {
+class InternalStatService
+{
     private $doctrine;
 
     public function __construct(ManagerRegistry $doctrine)
@@ -15,13 +16,14 @@ class InternalStatService {
         $this->doctrine = $doctrine;
     }
 
-    public function trackEntityUsage(String $technicalName, Uuid $entry) {
+    public function trackEntityUsage(String $technicalName, Uuid $entry)
+    {
         $entityManager = $this->doctrine->getManager();
-        
+
         // Load InternalStatEntity by id
         $internalStatEntity = $this->loadInternalStatEntityByTechnicalName($technicalName);
 
-        if(null === $internalStatEntity) {
+        if (null === $internalStatEntity) {
             throw new \Exception('No InternalStatEntity found, that has a technicalName of "' . $technicalName . '"');
         }
 
@@ -31,7 +33,7 @@ class InternalStatService {
         // Update InternalStat-Entry
         $data = [];
 
-        if(null === $internalStat) {
+        if (null === $internalStat) {
             $internalStat = new InternalStat();
             $internalStat->setInternalStatEntity($internalStatEntity);
             $internalStat->setEntry($entry);
@@ -46,7 +48,8 @@ class InternalStatService {
         $entityManager->flush();
     }
 
-    private function loadInternalStatEntityByTechnicalName($technicalName) {
+    private function loadInternalStatEntityByTechnicalName($technicalName)
+    {
         $repository = $this->doctrine->getRepository(InternalStatEntity::class);
         $internalStatEntity = $repository->findOneBy(
             [
@@ -69,7 +72,7 @@ class InternalStatService {
 
         return $internalStat;
     }
-    
+
     /**
      * loadLastUsedEntries
      *
@@ -82,7 +85,7 @@ class InternalStatService {
         // Load InternalStatEntity by id
         $internalStatEntity = $this->loadInternalStatEntityByTechnicalName($technicalName);
 
-        if(null === $internalStatEntity) {
+        if (null === $internalStatEntity) {
             throw new \Exception('No InternalStatEntity found, that has a technicalName of "' . $technicalName . '"');
         }
 
@@ -95,7 +98,7 @@ class InternalStatService {
 
         $data = [];
 
-        foreach($internalStats as $stat) {
+        foreach ($internalStats as $stat) {
             $data[] = $stat->getEntry();
         }
 

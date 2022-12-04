@@ -2,7 +2,8 @@
 
 namespace App\Service;
 
-class DateService {
+class DateService
+{
     /**
      * Check, if a datetime object has the date of the current day.
      *
@@ -11,11 +12,11 @@ class DateService {
      */
     public static function isDatetimeToday(\Datetime $dateTime): bool
     {
-        if(null !== $dateTime) {
+        if (null !== $dateTime) {
             $dateStart = $dateTime->format('Y-m-d');
             $dateNow = date('Y-m-d');
 
-            if($dateStart == $dateNow) {
+            if ($dateStart == $dateNow) {
                 return true;
             }
         }

@@ -137,17 +137,17 @@ class TimeTrackingService
 
         // Make sure, the entry is not doubled in the array.
         // if it already exists.
-        foreach($lastUsedProjects as $p) {
+        foreach ($lastUsedProjects as $p) {
             $id = $project->getId();
             $name = $project->getName();
 
-            if($p->getId() == $project->getId()) {
+            if ($p->getId() == $project->getId()) {
                 continue;
             }
 
             $retval[] = $p;
         }
-        
+
         return $retval;
     }
 }

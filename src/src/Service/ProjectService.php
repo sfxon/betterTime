@@ -84,7 +84,7 @@ class ProjectService
 
         return $project;
     }
-    
+
     /**
      * loadListByIds
      *
@@ -95,9 +95,9 @@ class ProjectService
     {
         $repository = $this->doctrine->getRepository(Project::class);
         $retval = [];
-        
+
         // FindBy will not work with an array of Uuids. So go with some queries for now.
-        foreach($idArray as $id) {
+        foreach ($idArray as $id) {
             $project = $repository->find($id);
 
             if (null !== $project) {
@@ -107,7 +107,7 @@ class ProjectService
 
         return $retval;
     }
-    
+
     /**
      * searchByName
      *

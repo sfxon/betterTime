@@ -97,10 +97,11 @@ class TimeTrackingController extends AbstractController
      */
     #[Route('/timetracking/endDialog', name: 'app_time_tracking.end.dialog')]
     public function endDialog(
-        Request $request, 
-        ManagerRegistry $doctrine, 
+        Request $request,
+        ManagerRegistry $doctrine,
         InternalStatService $internalStatService,
-        ProjectService $projectService): Response
+        ProjectService $projectService
+    ): Response
     {
         $timeTrackingId = $request->query->get('time_tracking_id');
         $timeTrackingId = new Uuid($timeTrackingId);

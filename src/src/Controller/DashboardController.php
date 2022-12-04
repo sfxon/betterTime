@@ -34,8 +34,7 @@ class DashboardController extends AbstractController
         Request $request,
         ManagerRegistry $doctrine,
         ViewService $viewService
-    ): Response
-    {        
+    ): Response {
         $projectViewSetting = $this->processSortOrderRequests($request, $doctrine, $viewService);
 
         $limit = 10;
@@ -99,8 +98,7 @@ class DashboardController extends AbstractController
         Request $request,
         ManagerRegistry $doctrine,
         ViewService $viewService
-    ): ProjectViewSettingModel
-    {
+    ): ProjectViewSettingModel {
         // Load current settings for sort order.
         $setting = new SettingService($doctrine);
         $settingJson = $setting->getSettingByTextId('view.project.setting');

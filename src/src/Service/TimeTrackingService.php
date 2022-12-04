@@ -112,4 +112,42 @@ class TimeTrackingService
         $entityManager->persist($timeTracking);
         $entityManager->flush();
     }
+
+    /**
+     * Prepend an array of projects with the project,
+     * that is assigned to the second parameter, a TimeTracking entry.
+     *
+     * @param  array $lastUsedProjects
+     * @param  TimeTracking $timeTracking
+     * @return array
+     */
+    public function prependLastUsedProjectsWithCurrentProject(array $lastUsedProjects, TimeTracking $timeTracking): array
+    {
+        $project = $timeTracking->getProject();
+
+        if ($project === null) {
+            return $lastUsedProjects;
+        }
+
+        $retval = [];
+        $retval[] = [
+            'id' => $project->getId(),
+            'name' => $project->getName()
+        ];
+
+        // Make sure, the entry is not doubled in the array.
+        // if it already exists.
+        foreach($lastUsedProjects as $p) {
+            $id = $project->getId();
+            $name = $project->getName();
+
+            if($p->getId() == $project->getId()) {
+                continue;
+            }
+
+            $retval[] = $p;
+        }
+        
+        return $retval;
+    }
 }

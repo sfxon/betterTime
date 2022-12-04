@@ -7,6 +7,7 @@ use App\Service\ProjectService;
 use App\Service\TimeTrackingService;
 use App\Service\InternalStatService;
 use App\Entity\Project;
+use App\Entity\TimeTracking;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -122,6 +123,7 @@ class TimeTrackingController extends AbstractController
         // Load last used entries.
         $lastUsedProjectIds = $internalStatService->loadLastUsedEntries('project', 10);
         $lastUsedProjects = $projectService->loadListByIds($lastUsedProjectIds);
+        $lastUsedProjects = $timeTrackingService->prependLastUsedProjectsWithCurrentProject($lastUsedProjects, $timeTracking);
 
         return $this->render('time_tracking/end-dialog.html.twig', [
             'controller_name' => 'TimeTrackingController',

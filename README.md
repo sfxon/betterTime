@@ -38,3 +38,14 @@ Please see composer.json for all included symfony packages.
 ## Documentation
 
 A brief documentation can be found in the ```doc``` folder.
+
+These are the topics of the documentation:
+
+* Coding-Standards,
+* Definition-of-Done,
+* Design-Decisions,
+* DLH-Combobox-Elements,
+* Internal-Statistics,
+* Pagination,
+* Linter/PHP-CS-Fixer/Source-Code-Quality,
+* Settings

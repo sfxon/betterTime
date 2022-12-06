@@ -17,6 +17,8 @@ This software is still work in process, but growing on every single day.
 
 * [Axios](https://github.com/axios/axios) | Promise based HTTP client for the browser and node.js.
 * [Bootstrap](https://getbootstrap.com/) | Powerful, extensible, and feature-packed frontend toolkit.
+* [Cypress.io](https://www.cypress.io/) | Fast, easy and reliable testing for anything that runs in a browser. Used for end2end and component tests.
+* [DeploySentinel](https://www.deploysentinel.com/docs/recorder) | A recorder, that generates cypress code on recording inputs in a browser window.
 * [FontAwesome](https://fontawesome.com/) | The Internet's icon library and toolkit.
 * [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) | The PHP Coding Standards Fixer (PHP CS Fixer) tool fixes your code to follow standards.
 * [Popper.js](https://popper.js.org/) | This is a Tooltip & Popover Positioning Engine.

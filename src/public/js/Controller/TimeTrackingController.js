@@ -98,13 +98,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function initProjectQuickResetAction() {
         let sel = document.querySelector('#accordionProject .bt-quick-reset');
 
-        sel.addEventListener('click', function() {
-            let text = this.getAttribute('data-attr-name');
-            let value = this.getAttribute('data-attr-id');
+        if(sel !== null) {
+            sel.addEventListener('click', function() {
+                let text = this.getAttribute('data-attr-name');
+                let value = this.getAttribute('data-attr-id');
 
-            document.querySelector('#projectSearch').value = text;
-            document.querySelector('#projectId').value = value;
-            document.querySelector('#accordionProject .accordion-project-title').textContent = text;
-        });
+                document.querySelector('#projectSearch').value = text;
+                document.querySelector('#projectId').value = value;
+                document.querySelector('#accordionProject .accordion-project-title').textContent = text;
+            });
+        }
     }
 });

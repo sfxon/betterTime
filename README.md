@@ -3,7 +3,7 @@
 Free and Open-Source Timetracking-Tools.
 
 * Track your and your teams working hours.
-* Track times you or your team is working on specific projects or tasks.
+* Track the times, you or your team is working on specific projects or tasks.
 * Fetch required information, to write time-based invoices.
 
 ## Work in progress

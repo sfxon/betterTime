@@ -42,22 +42,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     dateTimeStartInput.addEventListener('change', (e) => {
         betterTimeEndDialog__updateTimeHeading();
-        
-        dateTimeEnd.updateOptions({
-            restrictions: {
-                minDate: e.detail.date,
-            },
-        });
+    
     });
 
     dateTimeEndInput.addEventListener('change', (e) => {
         betterTimeEndDialog__updateTimeHeading();
-
-        dateTimeStart.updateOptions({
-            restrictions: {
-                maxDate: e.detail.date,
-            },
-        });
     });
 
     function betterTimeEndDialog__updateTimeHeading() {

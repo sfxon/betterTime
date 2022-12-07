@@ -70,3 +70,11 @@
 .bt-quick-select-container {
     font-size: 1.2rem;
 }
+
+.btError {
+    display: block!important;
+}
+
+.btError.errorHidden {
+    display: none!important;
+}

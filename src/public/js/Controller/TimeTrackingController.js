@@ -14,6 +14,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Init project selector quick-selection-items.
     initProjectQuickSelectActions();
     initProjectQuickResetAction();
+    initFormValidation();
 
     // Time-Selection Javascript.
     const accordionTime = document.getElementById('accordionTime');
@@ -97,5 +98,75 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 document.querySelector('#accordionProject .accordion-project-title').textContent = text;
             });
         }
+    }
+
+    function initFormValidation() {
+        var form = document.querySelector('form.endProjectTrackingForm');
+
+        form.addEventListener('submit', function(event) {
+            var gotErrors = false;
+
+            if(validateDateTimeFields() == true) {
+                gotErrors = true;
+            }
+
+            if(gotErrors) {
+                event.preventDefault();
+                event.stopPropagation();
+                showGeneralErrorMessage();
+            } else {
+                hideGeneralErrorMessage();
+            }
+
+            return gotErrors;
+        });
+    }
+
+    function validateDateTimeFields() {
+        var dateTimeErrors = [];
+        
+        if(dateTimeStart.viewDate >= dateTimeEnd.viewDate) {
+            dateTimeStartInput.classList.add('is-invalid');
+            dateTimeEndInput.classList.add('is-invalid');
+            dateTimeErrors.push('startEndDatetimeMismatch');
+            showDateTimeError(dateTimeErrors);
+            return true;
+        }
+
+        dateTimeStartInput.classList.remove('is-invalid');
+        dateTimeEndInput.classList.remove('is-invalid');
+        showDateTimeError([]); // Hides the errors.
+
+        return false;
+    }
+
+    function showDateTimeError(dateTimeErrors) {
+        // If no error occured.
+        if(dateTimeErrors.length == 0) {
+            let errors = document.querySelectorAll('.dateTimeError');
+
+            errors.forEach((error) => {
+                error.classList.add('errorHidden');
+            });
+        }
+
+        // If an error occured.
+        for(let i = 0, j = dateTimeErrors.length; i < j; i++) {
+            let errors = document.querySelectorAll('.dateTimeError-' + dateTimeErrors[i]);
+
+            errors.forEach((error) => {
+                error.classList.remove('errorHidden');
+            });
+        }
+    }
+
+    function showGeneralErrorMessage() {
+        document.querySelector('.generalFormError').classList.remove('errorHidden');
+    }
+    
+    function hideGeneralErrorMessage() {
+
+
+        document.querySelector('.generalFormError').classList.add('errorHidden');
     }
 });

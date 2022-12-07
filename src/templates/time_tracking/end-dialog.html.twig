@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col">
-            <form action="{{ path('app_time_tracking.update') }}" method="post">
+            <form action="{{ path('app_time_tracking.update') }}" method="post" class="endProjectTrackingForm">
                 <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}"/>
                 <input type="hidden" name="redirectTo" value="{{ redirectTo }}"/>
 
@@ -34,6 +34,12 @@
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionTime">
                                 <div class="accordion-body">
+                                    <div class="row text-danger btError dateTimeError dateTimeError-startEndDatetimeMismatch errorHidden" style="display: none">
+                                        <div class="col">
+                                            <p>Das Startdatum kann nicht größer oder gleich dem Enddatum sein.</p>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -112,6 +118,12 @@
                 </div>
 
                 <div class="mb-3">
+                    <div class="row text-danger btError generalFormError errorHidden" style="display: none">
+                        <div class="col">
+                            <p>Ihre Angaben sind fehlerhaft. Bitte prüfen Sie die Eingaben.</p>
+                        </div>
+                    </div>
+
                     <button class="btn btn-primary" type="submit">Speichern</button>
                 </div>
             </form>

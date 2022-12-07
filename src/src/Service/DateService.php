@@ -23,4 +23,21 @@ class DateService
 
         return false;
     }
+
+        
+    /**
+     * Check, if the second date is bigger than the first one.
+     *
+     * @param  \Datetime $date1
+     * @param  \Datetime $date2
+     * @return bool
+     */
+    public static function secondDateIsBigger(\Datetime $date1, \Datetime $date2): bool
+    {
+        if($date2 <= $date1) {
+            return false;
+        }
+
+        return true;
+    }
 }

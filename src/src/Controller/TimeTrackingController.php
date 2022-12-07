@@ -235,22 +235,25 @@ class TimeTrackingController extends AbstractController
         $timeTracking = $timeTrackingService->loadById($timeTrackingId);
 
         if (null === $timeTracking) {
-            die('Der Eintrag wurde nicht gefunden.');
+            throw new \Exception('No timetracking entry with id ' . htmlspecialchars($timeTrackingId) . ' has been found');
+        }
+
+        // Check datetime
+        $starttime = new \DateTime(date('Y-m-d H:i:s', strtotime($starttime)));
+        $endtime = new \DateTime(date('Y-m-d H:i:s', strtotime($endtime)));
+
+        if(!DateService::secondDateIsBigger($starttime, $endtime)) {
+            throw new \Exception('Endtime date must be bigger than starttime.');
         }
 
         // Load the project entry from database.
         $projectService = new ProjectService($doctrine);
         $project = $projectService->loadById($projectId);
 
+        // Update all the values
         $timeTracking->setProject($project);
-
-        $timeTracking->setStarttime(new \DateTime(date('Y-m-d H:i:s', strtotime($starttime))));
-
-        if (strlen(trim($endtime)) > 0) {
-            $timeTracking->setEndtime(new \DateTime(date('Y-m-d H:i:s', strtotime($endtime))));
-        } else {
-            $timeTracking->setEndtime(null);
-        }
+        $timeTracking->setStarttime($starttime);
+        $timeTracking->setEndtime($endtime);
 
         if ($useOnInvoice === 1) {
             $timeTracking->setUseOnInvoice(true);

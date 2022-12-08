@@ -11,6 +11,11 @@
 {% block body %}
 <main class="form-signin w-100 m-auto">
     <h1>BetterTime</h1>
-    <p><a href="{{ path('app_registration') }}">Registrieren</a> | <a href="{{ path('app_login') }}">Einloggen</a></p>
+
+    {% if user is null %}
+        <p><a href="{{ path('app_registration') }}">Registrieren</a> | <a href="{{ path('app_login') }}">Einloggen</a></p>
+    {% else %}
+        <p><a href="{{ path('app_dashboard') }}">Zum Dashboard</a></p>
+    {% endif %}
 </main>
 {% endblock %}

@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RegistrationController extends AbstractController
 {
+
     /**
      * index
      *
@@ -31,6 +32,10 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $passwordHasher
     ): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_dashboard');
+        }
+        
         $form = $this->createFormBuilder()
         ->add('email', TextType::class, [ 'label' => 'E-Mail'])
         ->add(

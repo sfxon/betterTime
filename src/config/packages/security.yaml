@@ -31,12 +31,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/, roles: PUBLIC_ACCESS }
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/registration, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: ROLE_USER }  # Restrict access to every page.
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/$, roles: PUBLIC_ACCESS } # General-Restriction: No page can be visited, if not explicitely defined.
+        - { path: ^/login, roles: PUBLIC_ACCESS } # Login-Page can be visited by guests.
+        - { path: ^/registration, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
+        - { path: ^/, roles: ROLE_USER } # General-Restriction: No page can be visited, if not explicitely defined.
+        # - { route: 'index', roles: PUBLIC_ACCESS } # Index-Page can be visited by guests.
 
 when@test:
     security:

@@ -29,7 +29,7 @@ class DashboardController extends AbstractController
      * @param ViewService $viewService
      * @return Response
      */
-    #[Route('/', name: 'app_dashboard')]
+    #[Route('/dashboard', name: 'app_dashboard')]
     public function index(
         Request $request,
         ManagerRegistry $doctrine,

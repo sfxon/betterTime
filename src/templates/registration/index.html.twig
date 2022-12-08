@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registrierung{% endblock %}
+
+{% block additionalCss %}
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block headerNavigation %}{% endblock %}
+
+{% block body %}
+<main class="form-signin w-100 m-auto">
+    <a href="{{ path('index') }}"><h1>BetterTime</h1></a>
+    <p><a href="{{ path('app_registration') }}">Registrieren</a> | <a href="{{ path('app_login') }}">Einloggen</a></p>
+    {{ form(registrationForm) }}
+</main>
+{% endblock %}

@@ -19,7 +19,8 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 fw-normal">Bitte melde dich an</h1>
+        <a href="{{ path('index') }}"><h1>BetterTime</h1></a>
+        <p><a href="{{ path('app_registration') }}">Registrieren</a> | <a href="{{ path('app_login') }}">Einloggen</a></p>
 
         {% if error %}
             <div class="alert alert-danger">Ungültige Zugangsdaten</div>

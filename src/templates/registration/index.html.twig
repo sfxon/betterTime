@@ -6,12 +6,37 @@
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
 {% endblock %}
 
+{% block additionalBodyTags %} class="btLoginPage text-center"{% endblock %}
+
 {% block headerNavigation %}{% endblock %}
 
 {% block body %}
-<main class="form-signin w-100 m-auto">
-    <a href="{{ path('index') }}"><h1>BetterTime</h1></a>
-    <p><a href="{{ path('app_registration') }}">Registrieren</a> | <a href="{{ path('app_login') }}">Einloggen</a></p>
-    {{ form(registrationForm) }}
+<main class="form-signin form-registration w-100 m-auto">
+    <h1><a href="{{ path('index') }}">BetterTime</a></h1>
+    <p>Registrieren | <a href="{{ path('app_login') }}">Einloggen</a></p>
+    
+    {# {{ form(registrationForm) }} #}
+
+    {{ form_start(registrationForm) }}
+        <div class="form-floating">
+            {{ form_widget(registrationForm.email, {'attr': {'type': 'email', 'class': 'form-control'}}) }}
+            {{ form_label(registrationForm.email) }}
+        </div>
+
+        <div class="form-floating">
+            {{ form_widget(registrationForm.password.first, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(registrationForm.password.first) }}
+        </div>
+
+        <div class="form-floating">
+            {{ form_widget(registrationForm.password.second, {'attr': {'class': 'form-control'}}) }}
+            {{ form_label(registrationForm.password.second) }}
+        </div>
+
+        {{ form_widget(registrationForm.registrieren, {'attr': {'class': 'w-100 btn btn-lg btn-primary'}}) }}
+
+    {{ form_end(registrationForm) }}
+
+
 </main>
 {% endblock %}

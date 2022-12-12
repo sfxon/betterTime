@@ -13,26 +13,34 @@
     </div>
     <div class="row">
         <div class="col col-md-9 col-lg-6">
-            {# {{ form(accountForm) }} #}
-
-            {{ form_start(accountForm) }}
+            <h2>E-Mail Adresse</h2>
+            {{ form_start(emailForm) }}
                 <div class="form-floating mb-3">
-                    {{ form_widget(accountForm.email, {'attr': {'type': 'email', 'class': 'form-control'}}) }}
-                    {{ form_label(accountForm.email) }}
+                    {{ form_widget(emailForm.email, {'attr': {'type': 'email', 'class': 'form-control'}}) }}
+                    {{ form_label(emailForm.email) }}
+                </div>
+                {{ form_widget(emailForm.save, {'attr': {'class': 'btn btn-primary mb-3'}}) }}
+            {{ form_end(emailForm) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-md-9 col-lg-6">
+            <hr />
+            <h2>Passwort</h2>
+            {{ form_start(passwordForm) }}
+                <div class="form-floating mb-3">
+                    {{ form_widget(passwordForm.password.first, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_label(passwordForm.password.first) }}
                 </div>
 
                 <div class="form-floating mb-3">
-                    {{ form_widget(accountForm.password.first, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_label(accountForm.password.first) }}
+                    {{ form_widget(passwordForm.password.second, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_label(passwordForm.password.second) }}
                 </div>
 
-                <div class="form-floating mb-3">
-                    {{ form_widget(accountForm.password.second, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_label(accountForm.password.second) }}
-                </div>
-
-                {{ form_widget(accountForm.save, {'attr': {'class': 'btn btn-primary mb-3'}}) }}
-            {{ form_end(accountForm) }}
+                {{ form_widget(passwordForm.save, {'attr': {'class': 'btn btn-primary mb-3'}}) }}
+            {{ form_end(passwordForm) }}
         </div>
     </div>
 </div>

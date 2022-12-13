@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -142,6 +144,21 @@ class AccountController extends AbstractController
                 ],
                 'second_options' => [
                     'label' => 'Passwort wiederholen'
+                ],
+                'constraints' => [
+                    // NotBlank is needed, because the PasswordRequirements library does not check for blank.
+                    new Assert\NotBlank([
+                        'message' => 'Bitte geben Sie ein Passwort ein.'
+                    ]),
+                    // Some information on configuration can be taken from the tests:
+                    // https://github.com/rollerworks/PasswordStrengthValidator/blob/main/tests/Validator/PasswordRequirementsValidatorTest.php
+                    new PasswordRequirements([
+                        'minLength' => 6,
+                        'requireLetters' => true,
+                        'requireCaseDiff' => true,
+                        'requireNumbers' => true,
+                        'requireSpecialCharacter' => true,
+                    ])
                 ]
             ])
         ->add('save', SubmitType::class, [ 'label' => 'Änderungen speichern'])
@@ -170,6 +187,18 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
+            if(!$form->isValid()) {
+                echo 'errors:';
+                
+                foreach ($form->getErrors(true) as $key => $error) {
+                    echo 'x';
+                    var_dump($key);
+                    var_dump($error->getMessage());
+                }
+
+                die;
+            }
+
             $input = $form->getData();
             $user->setPassword(
                 $passwordHasher->hashPassword($user, $input['password'])

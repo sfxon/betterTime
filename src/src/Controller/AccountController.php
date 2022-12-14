@@ -25,6 +25,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AccountController extends AbstractController
 {
+    private $passwordErrors = [];
+
     /**
      * Account page route.
      * 
@@ -65,10 +67,14 @@ class AccountController extends AbstractController
             return $result;
         }
 
+        $passwordSuccess = $request->get('passwordSuccess', false);
+
         return $this->render('account/index.html.twig', [
             'controller_name' => 'AccountController',
             'emailForm' => $emailForm->createView(),
-            'passwordForm' => $passwordForm->createView()
+            'passwordForm' => $passwordForm->createView(),
+            'passwordErrors' => $this->passwordErrors,
+            'passwordSuccess' => $passwordSuccess
         ]);
     }
     
@@ -187,28 +193,21 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
-            if(!$form->isValid()) {
-                echo 'errors:';
-                
-                foreach ($form->getErrors(true) as $key => $error) {
-                    echo 'x';
-                    var_dump($key);
-                    var_dump($error->getMessage());
-                }
+            if($form->isValid()) {
+                $input = $form->getData();
+                $user->setPassword(
+                    $passwordHasher->hashPassword($user, $input['password'])
+                );
 
-                die;
+                $em = $doctrine->getManager();
+                $em->persist($user);
+                $em->flush();
+                return $this->redirect($this->generateUrl('app_account', ['passwordSuccess' => 'true']));
             }
 
-            $input = $form->getData();
-            $user->setPassword(
-                $passwordHasher->hashPassword($user, $input['password'])
-            );
-
-            $em = $doctrine->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('app_account'));
+            foreach ($form->getErrors(true) as $key => $error) {
+                $this->passwordErrors[] = $error->getMessage();
+            }
         }
 
         return null;

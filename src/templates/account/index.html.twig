@@ -28,6 +28,21 @@
         <div class="col col-md-9 col-lg-6">
             <hr />
             <h2>Passwort</h2>
+
+            {% if passwordSuccess %}
+                <div class="alert alert-success" role="alert">
+                    <div>Das Passwort wurde geändert.</div>
+                </div>
+            {% endif %}
+
+            {% if passwordErrors|length > 0 %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in passwordErrors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             {{ form_start(passwordForm) }}
                 <div class="form-floating mb-3">
                     {{ form_widget(passwordForm.password.first, {'attr': {'class': 'form-control'}}) }}

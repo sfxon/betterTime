@@ -44,6 +44,11 @@
             {% endif %}
 
             {{ form_start(passwordForm) }}
+                <div class="form-floating mb-4">
+                    {{ form_widget(passwordForm.previousPassword, {'attr': { 'class': 'form-control'}}) }}
+                    {{ form_label(passwordForm.previousPassword) }}
+                </div>
+
                 <div class="form-floating mb-3">
                     {{ form_widget(passwordForm.password.first, {'attr': {'class': 'form-control'}}) }}
                     {{ form_label(passwordForm.password.first) }}

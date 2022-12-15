@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 
 /**
@@ -140,16 +141,28 @@ class AccountController extends AbstractController
         $form = $formFactory
         ->createNamedBuilder('passwordForm')
         ->add(
+            'previousPassword',
+            PasswordType::class,
+            [
+                'label' => 'Aktuelles Passwort',
+                'constraints' => array(
+                    new SecurityAssert\UserPassword([
+                        'message' => 'Wrong value for your current password',
+                    ])
+                )
+            ]
+        )
+        ->add(
             'password',
             RepeatedType::class, 
             [ 
                 'type' => PasswordType::class, 
                 'required' => true, 
                 'first_options' => [ 
-                    'label' => 'Passwort'
+                    'label' => 'Neues Passwort'
                 ],
                 'second_options' => [
-                    'label' => 'Passwort wiederholen'
+                    'label' => 'Neues Passwort wiederholen'
                 ],
                 'constraints' => [
                     // NotBlank is needed, because the PasswordRequirements library does not check for blank.

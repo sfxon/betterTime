@@ -14,6 +14,21 @@
     <div class="row">
         <div class="col col-md-9 col-lg-6">
             <h2>E-Mail Adresse</h2>
+
+            {% if emailSuccess %}
+                <div class="alert alert-success" role="alert">
+                    <div>Die E-Mail Adresse wurde geändert..</div>
+                </div>
+            {% endif %}
+
+            {% if emailErrors|length > 0 %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in emailErrors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             {{ form_start(emailForm) }}
                 <div class="form-floating mb-3">
                     {{ form_widget(emailForm.email, {'attr': {'type': 'email', 'class': 'form-control'}}) }}

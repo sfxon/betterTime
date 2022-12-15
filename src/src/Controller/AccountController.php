@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\Persistence\ManagerRegistry;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +28,7 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 class AccountController extends AbstractController
 {
     private $passwordErrors = [];
+    private $emailErrors = [];
 
     /**
      * Account page route.
@@ -49,6 +51,8 @@ class AccountController extends AbstractController
         $user = $this->getUser();
 
         // Build and handle Email form.
+        $emailSuccess = $request->get('emailSuccess', false);
+        
         $defaultData = [
             'email' => $user->getEmail()
         ];
@@ -74,8 +78,10 @@ class AccountController extends AbstractController
             'controller_name' => 'AccountController',
             'emailForm' => $emailForm->createView(),
             'passwordForm' => $passwordForm->createView(),
+            'emailErrors' => $this->emailErrors,
+            'emailSuccess' => $emailSuccess,
             'passwordErrors' => $this->passwordErrors,
-            'passwordSuccess' => $passwordSuccess
+            'passwordSuccess' => $passwordSuccess,
         ]);
     }
     
@@ -91,8 +97,24 @@ class AccountController extends AbstractController
         array $defaultData): FormInterface
     {
         $form = $formFactory
-        ->createNamedBuilder('emailForm', FormType::class, $defaultData)
-        ->add('email', TextType::class, [ 'label' => 'E-Mail'])
+        ->createNamedBuilder('emailForm', FormType::class, $defaultData, [
+            // Set action explicitely. We do not want previous get parameters to be set in the next submit.
+            // because this would show the "success" message every time.
+            'action' => $this->generateUrl('app_account'), 
+        ])
+        ->add(
+            'email', 
+            TextType::class, 
+            [ 
+                'label' => 'E-Mail',
+                'constraints' => array(
+                    new Assert\Email([
+                        'message' => 'The email "{{ value }}" is not a valid email.',
+                    ]),
+                    new Assert\NotBlank(),
+                )
+            ]
+        )
         ->add('save', SubmitType::class, [ 'label' => 'Änderungen speichern'])
         ->getForm();
 
@@ -116,13 +138,25 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
-            $input = $form->getData();
-            $user->setEmail($input['email']);
-            $em = $doctrine->getManager();
-            $em->persist($user);
-            $em->flush();
+            if ($form->isValid()) {
+                $input = $form->getData();
+                
+                if(!$this->newMailIsInUse($doctrine, $user, $input['email'])) {
+                    $this->emailErrors[] = 'This email adress is already in use by another account.';
+                    return null;
+                }
+                
+                $user->setEmail($input['email']);
+                $em = $doctrine->getManager();
+                $em->persist($user);
+                $em->flush();
 
-            return $this->redirect($this->generateUrl('app_account'));
+                return $this->redirect($this->generateUrl('app_account', ['emailSuccess' => 'true']));
+            }
+
+            foreach ($form->getErrors(true) as $key => $error) {
+                $this->emailErrors[] = $error->getMessage();
+            }
         }
 
         return null;
@@ -139,7 +173,11 @@ class AccountController extends AbstractController
         FormFactoryInterface $formFactory): FormInterface
     {
         $form = $formFactory
-        ->createNamedBuilder('passwordForm')
+        ->createNamedBuilder('passwordForm', FormType::class, null, [
+            // Set action explicitely. We do not want previous get parameters to be set in the next submit.
+            // because this would show the "success" message every time.
+            'action' => $this->generateUrl('app_account'), 
+        ])
         ->add(
             'previousPassword',
             PasswordType::class,
@@ -224,5 +262,35 @@ class AccountController extends AbstractController
         }
 
         return null;
+    }
+    
+    /**
+     * Checks, if an emailAddress is in use by a different account,
+     * than the current one.
+     *
+     * @param  ManagerRegistry $doctrine
+     * @param  User $user
+     * @param  string $email
+     * @return bool
+     */
+    private function newMailIsInUse($doctrine, $user, $email) {
+        // Check the email-address against the users email-address.
+        if($user->getEmail() == $email) {
+            return true;
+        }
+
+        // Try to load a user with thie email address from the database.
+        $repository = $doctrine->getRepository(User::class);
+        $emailUser = $repository->findOneBy(
+            [
+                'email' => $email
+            ]
+        );
+
+        if(null === $emailUser) {
+            return true;
+        }
+
+        return false;
     }
 }

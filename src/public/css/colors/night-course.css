@@ -1,0 +1,42 @@
+html, body {
+    background-color: #16181D;
+}
+
+main.m-auto {
+    background-color: #1b1e22;
+}
+
+h1 {
+    color: #CCC;
+}
+
+a {
+    color: rgb(0, 155, 216);
+}
+
+p {
+    color: #CCC;
+}
+
+/* Basic Colors for pages, where the user is not logged in */
+.form-signin h1 a {
+    color: #CCC;
+}
+
+.form-signin input {
+    background-color: #111;
+    border: 1px solid #151515;
+    color: #CCC;
+    filter: none!important;
+}
+
+.form-signin input:active,
+.form-signin input:focus {
+    background-color: #000;
+    border: 1px solid #050505;
+    color: #CCC;
+}
+
+.form-signin form label {
+    color: #AAA;
+}

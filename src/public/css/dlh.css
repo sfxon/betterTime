@@ -1,3 +1,9 @@
+html, body {
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
 .dlh-site-heading {
     display: flex;
     margin: 2rem 0;

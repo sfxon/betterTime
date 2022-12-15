@@ -1,6 +1,5 @@
 html, body {
     height: 100%;
-    background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
@@ -11,7 +10,6 @@ body {
     align-items: center;
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #f5f5f5;
 }
 
 .form-signin {
@@ -36,14 +34,12 @@ body {
 }
 
 main.m-auto {
-    background-color: rgba(255, 255, 255, 0.6);
     border-radius: 8px;
     margin-top: 10vh!important;
     max-width: 86vw;
 }
 
 h1 a {
-    color: #000;
     text-decoration: none;
 }
 

@@ -1,14 +1,10 @@
-html, body {
-    background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
-}
-
-body {
-    background-color: #f5f5f5;
-}
-
 main.m-auto {
     background-color: rgba(255, 255, 255, 0.6);
 }
+
+/*h1 {
+    color: #CCC;
+}*/
 
 /*a {
     color: rgb(0, 155, 216);
@@ -19,16 +15,29 @@ main.m-auto {
 }*/
 
 /* Basic Colors for pages, where the user is not logged in */
-.form-signin h1 a {
+body.visitor {
+    background-color: #f5f5f5;
+    background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+}
+
+.visitor h1 a {
     color: #000;
 }
 
-/*.form-signin input {
+/*.visitor input {
+    background-color: #111;
+    border: 1px solid #151515;
+    color: #CCC;
+    filter: none!important;
 }*/
 
-/*.form-signin input:active,
-.form-signin input:focus {
+/*.visitor input:active,
+.visitor input:focus {
+    background-color: #000;
+    border: 1px solid #050505;
+    color: #CCC;
 }*/
 
-/*.form-signin form label {
+/*.visitor form label {
+    color: #AAA;
 }*/

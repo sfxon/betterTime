@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mein Account | BetterTime{% endblock %}
+{% block title %}{{ 'account.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col">
             <div class="dlh-site-heading">
-                <h1>Mein Account</h1>
+                <h1>{{ 'account.heading.account'|trans }}</h1>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col col-md-9 col-lg-6">
-            <h2>E-Mail Adresse</h2>
+            <h2>{{ 'account.heading.email'|trans }}</h2>
 
             {% if emailSuccess %}
                 <div class="alert alert-success" role="alert">
-                    <div>Die E-Mail Adresse wurde geändert..</div>
+                    <div>{{ 'account.alert.emailSuccess'|trans }}</div>
                 </div>
             {% endif %}
 
@@ -42,11 +42,11 @@
     <div class="row">
         <div class="col col-md-9 col-lg-6">
             <hr />
-            <h2>Passwort</h2>
+            <h2>{{ 'account.heading.password'|trans }}</h2>
 
             {% if passwordSuccess %}
                 <div class="alert alert-success" role="alert">
-                    <div>Das Passwort wurde geändert.</div>
+                    <div>{{ 'account.alert.passwordSuccess'|trans }}</div>
                 </div>
             {% endif %}
 

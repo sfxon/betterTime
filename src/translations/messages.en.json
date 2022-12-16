@@ -1,0 +1,68 @@
+{
+    "general": {
+        "application": {
+            "title": "BetterTime"
+        },
+        "html": {
+            "title": {
+                "separator": " | "
+            }
+        },
+        "pagination": {
+            "firstPage": "First page",
+            "lastPage": "Last page",
+            "pagesTitle": "Page:",
+            "pagesOf": "of"
+        }
+    },
+    "account": {
+        "alert": {
+            "emailInvalid": "The email {{ value }} is not a valid email.",
+            "emailInUse": "This email address is already in use by another account.",
+            "currentPasswordBlank": "Please enter your current password.",
+            "currentPasswordWrong": "Wrong value for your current password",
+            "emailSuccess": "Your eMail address has been changed successfully.",
+            "passwordSuccess": "Yor password has been changed successfully.",
+            "newPasswordBlank": "Please enter a password.",
+            "passwordTooShort": "Your password must be at least {{length}} characters long.",
+            "passwordMissingLetters": "Your password must include at least one letter.",
+            "passwordRequireCaseDiff": "Your password must include both upper and lower case letters.",
+            "passwordMissingNumbers": "Your password must include at least one number.",
+            "passwordMissingSpecialCharacter": "Your password must contain at least one special character."
+        },
+        "form": {
+            "emailButtonSubmit": "Save changes",
+            "emailInputLabel": "Email",
+            "passwordButtonSubmit": "Save changes",
+            "currentPasswordInputLabel": "Current Password",
+            "newPasswordLabel": "New Password",
+            "repeatNewPasswordLabel": "Repeat New Password"
+        },
+        "heading": {
+            "account": "My Account",
+            "email": "Email Address",
+            "password": "Password"
+        },
+        "title": "My Account"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "heading": {
+            "projects": "Projects",
+            "createProjectButton": "Create project"
+        },
+        "projectsTable": {
+            "headingProjectTitle": "Project title",
+            "headingActions": "Actions",
+            "endTrackingButton": "Stop",
+            "startTrackingButton": "Start",
+            "listTrackings": "List tracked times",
+            "editProject": "Edit project"
+        }
+    },
+    "index": {
+        "register": "Register",
+        "login": "Login",
+        "showDashboard": "Show dashboard"
+    }
+}

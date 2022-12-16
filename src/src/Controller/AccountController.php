@@ -20,6 +20,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 /**
@@ -29,6 +30,7 @@ class AccountController extends AbstractController
 {
     private $passwordErrors = [];
     private $emailErrors = [];
+    private $translator = null;
 
     /**
      * Account page route.
@@ -44,9 +46,12 @@ class AccountController extends AbstractController
         Request $request, 
         ManagerRegistry $doctrine,
         UserPasswordHasherInterface $passwordHasher,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        TranslatorInterface $translator
     ): Response
     {
+        $this->translator = $translator;
+        
         /** @var User $user */
         $user = $this->getUser();
 
@@ -106,16 +111,26 @@ class AccountController extends AbstractController
             'email', 
             TextType::class, 
             [ 
-                'label' => 'E-Mail',
+                'label' => $this->translator->trans(
+                    'account.form.emailInputLabel'
+                ),
                 'constraints' => array(
                     new Assert\Email([
-                        'message' => 'The email "{{ value }}" is not a valid email.',
+                        'message' => $this->translator->trans(
+                            'account.alert.emailInvalid'
+                        ),
                     ]),
                     new Assert\NotBlank(),
                 )
             ]
         )
-        ->add('save', SubmitType::class, [ 'label' => 'Änderungen speichern'])
+        ->add(
+            'save',
+            SubmitType::class, [
+                'label' => $this->translator->trans(
+                    'account.form.emailButtonSubmit'
+                )
+            ])
         ->getForm();
 
         return $form;
@@ -142,7 +157,9 @@ class AccountController extends AbstractController
                 $input = $form->getData();
                 
                 if(!$this->newMailIsInUse($doctrine, $user, $input['email'])) {
-                    $this->emailErrors[] = 'This email adress is already in use by another account.';
+                    $this->emailErrors[] = $this->translator->trans(
+                        'account.alert.emailInUse'
+                    );
                     return null;
                 }
                 
@@ -182,10 +199,19 @@ class AccountController extends AbstractController
             'previousPassword',
             PasswordType::class,
             [
-                'label' => 'Aktuelles Passwort',
+                'label' => $this->translator->trans(
+                    'account.form.currentPasswordInputLabel'
+                ),
                 'constraints' => array(
+                    new Assert\NotBlank([
+                        'message' => $this->translator->trans(
+                            'account.alert.currentPasswordBlank'
+                        ),
+                    ]),
                     new SecurityAssert\UserPassword([
-                        'message' => 'Wrong value for your current password',
+                        'message' => $this->translator->trans(
+                            'account.alert.currentPasswordWrong'
+                        )
                     ])
                 )
             ]
@@ -197,15 +223,21 @@ class AccountController extends AbstractController
                 'type' => PasswordType::class, 
                 'required' => true, 
                 'first_options' => [ 
-                    'label' => 'Neues Passwort'
+                    'label' => $this->translator->trans(
+                        'account.form.newPasswordLabel'
+                    )
                 ],
                 'second_options' => [
-                    'label' => 'Neues Passwort wiederholen'
+                    'label' => $this->translator->trans(
+                        'account.form.repeatNewPasswordLabel'
+                    )
                 ],
                 'constraints' => [
                     // NotBlank is needed, because the PasswordRequirements library does not check for blank.
                     new Assert\NotBlank([
-                        'message' => 'Bitte geben Sie ein Passwort ein.'
+                        'message' => $this->translator->trans(
+                            'account.alert.newPasswordBlank'
+                        )
                     ]),
                     // Some information on configuration can be taken from the tests:
                     // https://github.com/rollerworks/PasswordStrengthValidator/blob/main/tests/Validator/PasswordRequirementsValidatorTest.php
@@ -215,10 +247,33 @@ class AccountController extends AbstractController
                         'requireCaseDiff' => true,
                         'requireNumbers' => true,
                         'requireSpecialCharacter' => true,
+                        'tooShortMessage' => $this->translator->trans(
+                            'account.alert.passwordTooShort'
+                        ),
+                        'missingLettersMessage' => $this->translator->trans(
+                            'account.alert.passwordMissingLetters'
+                        ),
+                        'requireCaseDiffMessage' => $this->translator->trans(
+                            'account.alert.passwordRequireCaseDiff'
+                        ),
+                        'missingNumbersMessage' => $this->translator->trans(
+                            'account.alert.passwordMissingNumbers'
+                        ),
+                        'missingSpecialCharacterMessage' => $this->translator->trans(
+                            'account.alert.passwordMissingSpecialCharacter'
+                        )
                     ])
                 ]
             ])
-        ->add('save', SubmitType::class, [ 'label' => 'Änderungen speichern'])
+        ->add(
+            'save',
+            SubmitType::class,
+            [ 
+                'label' => $this->translator->trans(
+                    'account.form.passwordButtonSubmit'
+                )
+            ]
+        )
         ->getForm();
 
         return $form;

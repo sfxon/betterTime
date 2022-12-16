@@ -1,0 +1,68 @@
+{
+    "general": {
+        "application": {
+            "title": "BetterTime"
+        },
+        "html": {
+            "title": {
+                "separator": " | "
+            }
+        },
+        "pagination": {
+            "firstPage": "Erste Seite",
+            "lastPage": "Letzte Seite",
+            "pagesTitle": "Seite:",
+            "pagesOf": "von"
+        }
+    },
+    "account": {
+        "alert": {
+            "emailInvalid": "{{ value }} ist keine gültige E-Mail Adresse.",
+            "emailInUse": "Diese E-Mail Adresse wird bereits von einem anderen Account verwendet.",
+            "currentPasswordBlank": "Bitte geben Sie Ihr aktuelles Passwort ein.",
+            "currentPasswordWrong": "Das aktuelle Passwort war falsch.",
+            "emailSuccess": "Die E-Mail Adresse wurde geändert.",
+            "passwordSuccess": "Das Passwort wurde geändert.",
+            "newPasswordBlank": "Bitte geben Sie ein Passwort ein.",
+            "passwordTooShort": "Das Passwort muss mindestens {{length}} Zeichen lang sein.",
+            "passwordMissingLetters": "Das Passwort muss mindestens einen Buchstaben enthalten.",
+            "passwordRequireCaseDiff": "Das Passwort muss einen kleinen und einen großen Buchstaben enthalten.",
+            "passwordMissingNumbers": "Das Passwort muss mindestens eine Zahl enthalten.",
+            "passwordMissingSpecialCharacter": "Das Passwort muss ein Sonderzeichen enthalten."
+        },
+        "form": {
+            "emailButtonSubmit": "Änderungen speichern",
+            "emailInputLabel": "E-Mail",
+            "passwordButtonSubmit": "Änderungen speichern",
+            "currentPasswordInputLabel": "Aktuelles Passwort",
+            "newPasswordLabel": "Neues Passwort",
+            "repeatNewPasswordLabel": "Neues Passwort wiederholen"
+        },
+        "heading": {
+            "account": "Mein Account",
+            "email": "E-Mail Adresse",
+            "password": "Passwort"
+        },
+        "title": "Mein Account"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "heading": {
+            "projects": "Projekte",
+            "createProjectButton": "Projekt erstellen"
+        },
+        "projectsTable": {
+            "headingProjectTitle": "Projektname",
+            "headingActions": "Aktionen",
+            "endTrackingButton": "Starten",
+            "startTrackingButton": "Beenden",
+            "listTrackings": "Zeiten auflisten",
+            "editProject": "Projekt bearbeiten"
+        }
+    },
+    "index": {
+        "register": "Registrieren",
+        "login": "Einloggen",
+        "showDashboard": "Zum Dashboard"
+    }
+}

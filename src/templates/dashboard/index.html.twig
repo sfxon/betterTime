@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard | BetterTime{% endblock %}
+{% block title %}{{ 'dashboard.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col">
             <div class="dlh-site-heading">
-                <h1>Projekte</h1>
-                <a href="{{ app.request.getSchemeAndHttpHost() }}/projects/new"><button type="submit" class="btn btn-secondary btn-sm">Projekt erstellen</button></a>
+                <h1>{{ 'dashboard.heading.projects'|trans }}</h1>
+                <a href="{{ app.request.getSchemeAndHttpHost() }}/projects/new"><button type="submit" class="btn btn-secondary btn-sm">{{ 'dashboard.heading.createProjectButton'|trans }}</button></a>
             </div>
             <table class="table view-table-listing project-table">
                 <thead>
@@ -19,9 +19,9 @@
                             {% if projectViewSetting.getSortBy() == 'name' and projectViewSetting.getSortOrder() == 'DESC' %}
                                 {% set tmpSortOrder = "ASC" %}
                             {% endif %}
-                            <a href="{{ path('app_dashboard') }}?sortBy=name&amp;sortOrder={{ tmpSortOrder }}">Projektname</a>
+                            <a href="{{ path('app_dashboard') }}?sortBy=name&amp;sortOrder={{ tmpSortOrder }}">{{ 'dashboard.projectsTable.headingProjectTitle'|trans }}</a>
                         </th>
-                        <th scope="col">Zeiterfassung</th>
+                        <th scope="col">{{ 'dashboard.projectsTable.headingActions'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,16 +33,16 @@
                                 {% set projectId = project.id.toRfc4122() %}
 
                                 {% if notEnded[projectId] is defined %}
-                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/endDialog?time_tracking_id={{ notEnded[projectId] }}"><button type="submit" class="btn btn-danger btn-sm btn-end-tracking">Beenden</button></a>
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/endDialog?time_tracking_id={{ notEnded[projectId] }}"><button type="submit" class="btn btn-danger btn-sm btn-end-tracking">{{ 'dashboard.projectsTable.endTrackingButton'|trans }}</button></a>
                                 {% else %}
-                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button type="submit" class="btn btn-success btn-sm">Starten</button></a>
+                                    <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}"><button type="submit" class="btn btn-success btn-sm">{{ 'dashboard.projectsTable.startTrackingButton'|trans }}</button></a>
                                 {% endif %}
 
                                 {# Button for listing all project time records. #}
-                                <a href="/timetracking/listProjectTimes?project_id={{ project.id }}"><button type="submit" class="btn btn-light btn-sm">Trackings auflisten</button></a>
+                                <a href="/timetracking/listProjectTimes?project_id={{ project.id }}"><button type="submit" class="btn btn-light btn-sm">{{ 'dashboard.projectsTable.listTrackings'|trans }}</button></a>
 
                                 {# Button, used to edit a project. #}
-                                <a href="{{ path('app_projects.edit', { 'id': project.id }) }}"><button type="submit" class="btn btn-light btn-sm">Projekt bearbeiten</button></a>
+                                <a href="{{ path('app_projects.edit', { 'id': project.id }) }}"><button type="submit" class="btn btn-light btn-sm">{{ 'dashboard.projectsTable.editProject'|trans }}</button></a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -58,7 +58,7 @@
                         <ul class="pagination justify-content-center">
                             {# Button for first page. #}
                             <li class="page-item{% if page == 1 %} disabled{% endif %}">
-                                <a class="page-link"{% if page != 1 %} href="{{ path('app_dashboard') }}?page=1"{% endif %} aria-label="First Page">
+                                <a class="page-link"{% if page != 1 %} href="{{ path('app_dashboard') }}?page=1"{% endif %} aria-label="{{ 'general.pagination.firstPage'|trans }}">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
@@ -72,7 +72,7 @@
                             
                             {# Button for last page #}
                             <li class="page-item{% if page == pages %} disabled{% endif %}">
-                                <a class="page-link" {% if page != pages %} href="{{ path('app_dashboard') }}?page={{ pages }}"{% endif %} aria-label="Last Page">
+                                <a class="page-link" {% if page != pages %} href="{{ path('app_dashboard') }}?page={{ pages }}"{% endif %} aria-label="{{ 'general.pagination.lastPage'|trans }}">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
@@ -82,7 +82,7 @@
                 <div class="col">
                     <div class="dlh-pagination">
                         <form action="{{ path('app_dashboard') }}">
-                            <label for="page">Seite:&nbsp;</label><input type="text" name="page" class="form-control" value="{{ page|escape }}"> <label>von {{ pages|escape }}</label>
+                            <label for="page">{{ 'general.pagination.pagesTitle'|trans }}&nbsp;</label><input type="text" name="page" class="form-control" value="{{ page|escape }}"> <label>{{ 'general.pagination.pagesOf'|trans }} {{ pages|escape }}</label>
                         </form>
                     </div>
                 </div>

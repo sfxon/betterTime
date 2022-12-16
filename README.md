@@ -2,9 +2,12 @@
 
 Free and Open-Source Timetracking-Tools.
 
+Free, OpenSource, OnPremise or Cloud
+
 * Track your and your teams working hours.
 * Track the times, you or your team is working on specific projects or tasks.
 * Fetch required information, to write time-based invoices.
+* OnPremise: All your date belongs to you.
 
 ## Work in progress
 

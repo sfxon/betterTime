@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projekt Arbeitszeiten{% endblock %}
+{% block title %}{{ 'projectTimesList.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col">
             <div class="dlh-site-heading">
-                <h1><i class="fa-regular fa-clock dlh-fa"></i>{{ project.name }}: Zeiten</h1>
-                <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}&amp;from=timetrackinglist"><button type="submit" class="btn btn-secondary btn-sm">Zeit starten</button></a>
+                <h1><i class="fa-regular fa-clock dlh-fa"></i>{{ project.name }}: {{ 'projectTimesList.headingTimes'|trans }}</h1>
+                <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/start?project_id={{ project.id }}&amp;from=timetrackinglist"><button type="submit" class="btn btn-secondary btn-sm">{{ 'projectTimesList.startTime'|trans }}</button></a>
             </div>
             <div class="dlh-site-content">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Startdatum</td>
-                            <th scope="col">Enddatum</td>
-                            <th scope="col">Abrechnen?</td>
-                            <th scope="col">Rechnung</td>
-                            <th scope="col">Zeit</td>
-                            <th scope="col">Kommentar</td>
-                            <th scope="col">Aktion</td>
+                            <th scope="col">{{ 'projectTimesList.startDate'|trans }}</td>
+                            <th scope="col">{{ 'projectTimesList.endDate'|trans }}</td>
+                            <th scope="col">{{ 'projectTimesList.calcualte'|trans }}</td>
+                            <th scope="col">{{ 'projectTimesList.invoice'|trans }}</td>
+                            <th scope="col">{{ 'projectTimesList.time'|trans }}</td>
+                            <th scope="col">{{ 'projectTimesList.comment'|trans }}</td>
+                            <th scope="col">{{ 'projectTimesList.action'|trans }}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,48 +32,48 @@
                                 {% set difference = date(timeTracking.starttime).diff(date(timeTracking.endtime)) %}
                                 
                                 {% if difference.y != 0 %}
-                                    {% set timeTaken = timeTaken ~ difference.y ~ " Jahre; " %}
-                                    {% set timeTaken = timeTaken ~ difference.m ~ " Monate; " %}
-                                    {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
-                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                    {% set timeTaken = timeTaken ~ difference.y ~ " " ~ 'datetime.years'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.m ~ " " ~ 'datetime.months'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.d ~ " " ~ 'datetime.days'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.h ~ 'datetime.hoursShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.i ~ 'datetime.minutesShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.s ~ 'datetime.secondsShort'|trans %}
                                 {% elseif difference.m != 0 %}
-                                    {% set timeTaken = timeTaken ~ difference.d ~ " Monate; " %}
-                                    {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
-                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.d ~ " " ~ 'datetime.months'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.d ~ " " ~ 'datetime.days'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.h ~ 'datetime.hoursShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.i ~ 'datetime.minutesShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.s ~ 'datetime.secondsShort'|trans %}
                                 {% elseif difference.d != 0 %}
-                                    {% set timeTaken = timeTaken ~ difference.d ~ " Tage; " %}
-                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.d ~ " " ~ 'datetime.days'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.h ~ 'datetime.hoursShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.i ~ 'datetime.minutesShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.s ~ 'datetime.secondsShort'|trans %}
                                 {% elseif difference.h != 0 %}
-                                    {% set timeTaken = timeTaken ~ difference.h ~ " Stunden; " %}
-                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.h ~ 'datetime.hoursShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.i ~ 'datetime.minutesShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.s ~ 'datetime.secondsShort'|trans %}
                                 {% elseif difference.i != 0 %}
-                                    {% set timeTaken = timeTaken ~ difference.i ~ " Minuten; " %}
-                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.i ~ 'datetime.minutesShort'|trans %}
+                                    {% set timeTaken = timeTaken ~ " " ~ difference.s ~ 'datetime.secondsShort'|trans %}
                                 {% elseif difference.s != 0 %}
-                                    {% set timeTaken = timeTaken ~ difference.s ~ " Sekunden" %}
+                                    {% set timeTaken = timeTaken ~ difference.s ~ 'datetime.secondsShort'|trans %}
                                 {% endif %}
                             {% endif %}
 
                             <tr>
                                 <td>{{ timeTracking.starttime|date("d.m.Y H:i") }}</td>
                                 <td>{% if timeTracking.endtime is null %}&nbsp;{% else %}{{ timeTracking.endtime|date("d.m.Y H:i") }}{% endif %}</td>
-                                <td>{% if timeTracking.useOnInvoice == true %}Ja{% else %}Nein{% endif %}</td>
+                                <td>{% if timeTracking.useOnInvoice == true %}{{ 'projectTimesList.calculateYes'|trans }}{% else %}{{ 'projectTimesList.calculateNo'|trans }}{% endif %}</td>
                                 <td>{% if timeTracking.invoiceId is null %}&nbsp;{% else %}{{ timeTracking.invoiceId }}{% endif %}</td>
                                 <td>{% if timeTaken is null %}&nbsp;{% else %}{{ timeTaken }}{% endif %}</td>
                                 <td>{% if timeTracking.comment == "" %}&nbsp;{% else %}{{ timeTracking.comment }}{% endif %}</td>
                                 <td style="white-space: nowrap;">
                                     {% if timeTracking.endtime is null %}
-                                        <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/endDialog?time_tracking_id={{ timeTracking.id }}&redirectTo=app_time_tracking.list.project.times"><button class="btn btn-danger btn-sm">Beenden</button></a>
+                                        <a href="{{ app.request.getSchemeAndHttpHost() }}/timetracking/endDialog?time_tracking_id={{ timeTracking.id }}&redirectTo=app_time_tracking.list.project.times"><button class="btn btn-danger btn-sm">{{ 'projectTimesList.endTracking'|trans }}</button></a>
                                     {% endif %}
 
-                                    <a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">Bearbeiten</button></a>
+                                    <a href="/timetracking/edit?time_tracking_id={{ timeTracking.id }}"><button class="btn btn-primary btn-sm">{{ 'projectTimesList.editButton'|trans }}</button></a>
                                 </td>
                             </tr>
                         {% endfor %}

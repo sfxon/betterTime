@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login | {{ parent() }}{% endblock %}
+{% block title %}{{ 'login.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block additionalCss %}
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
@@ -12,22 +12,22 @@
 
 {% block body %}
 <main class="form-signin w-100 m-auto">
-    <h1><a href="{{ path('index') }}">BetterTime</a></h1>
-    <p><a href="{{ path('app_registration') }}">Registrieren</a> | Einloggen</p>
+    <h1><a href="{{ path('index') }}">{{ 'general.application.title'|trans }}</a></h1>
+    <p><a href="{{ path('app_registration') }}">{{ 'index.register'|trans }}</a> | {{ 'index.login'|trans }}</p>
 
     <form method="post" tabindex=0>
         {% if error %}
-            <div class="alert alert-danger">Ungültige Zugangsdaten</div>
+            <div class="alert alert-danger">{{ 'login.invalidData'|trans }}</div>
         {% endif %}
 
         <div class="form-floating">
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required>
-            <label for="inputEmail">Email</label>
+            <label for="inputEmail">{{ 'login.labelEmail'|trans }}</label>
         </div>
 
         <div class="form-floating">
             <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-            <label for="inputPassword">Passwort</label>
+            <label for="inputPassword">{{ 'login.labelPassword'|trans }}</label>
         </div>
 
         <input type="hidden" name="_csrf_token"
@@ -36,12 +36,12 @@
 
         <div class="checkbox mb-3 text-start">
             <label>
-                <input type="checkbox" name="_remember_me"> Eingeloggt bleiben
+                <input type="checkbox" name="_remember_me"> {{ 'login.labelRememberMe'|trans }}
             </label>
         </div>
 
         <button class="w-100 btn btn-lg btn-primary" type="submit">
-            Einloggen
+            {{ 'login.buttonLogin'|trans }}
         </button>
     </form>
 </main>

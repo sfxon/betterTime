@@ -3,6 +3,10 @@
         "application": {
             "title": "BetterTime"
         },
+        "headerMenu": {
+            "account": "My account",
+            "logout": "Logout"
+        },
         "html": {
             "title": {
                 "separator": " | "
@@ -60,9 +64,97 @@
             "editProject": "Edit project"
         }
     },
+    "datetime": {
+        "days": "Days",
+        "daysShort": "d",
+        "hours": "hours",
+        "hoursShort": "h",
+        "minutes": "minutes",
+        "minutesShort": "min",
+        "months": "Months",
+        "monthsShort": "m",
+        "seconds": "Seconds",
+        "secondsShort": "s",
+        "years": "Years",
+        "yearsShort": "a"
+    },
     "index": {
         "register": "Register",
         "login": "Login",
         "showDashboard": "Show dashboard"
+    },
+    "editProject": {
+        "title": "Edit Project",
+        "heading": "Edit Project",
+        "titleDescription": "Here you can edit your project.",
+        "labelProjectName": "Project title:",
+        "buttonSave": "Save"
+    },
+    "newProject": {
+        "title": "Create new project",
+        "heading": "Create new project",
+        "titleDescription": "Here you can create a new project.",
+        "labelProjectName": "Project title:",
+        "buttonSave": "Save"
+    },
+    "registration": {
+        "emailInputLabel": "Email address",
+        "PasswordLabel": "Password",
+        "repeatPasswordLabel": "Repeat password",
+        "submit": "Register",
+        "title": "Registration"
+    },
+    "login": {
+        "buttonLogin": "Login",
+        "invalidData": "Invalid login credentials",
+        "labelEmail": "Email address",
+        "labelPassword": "Password",
+        "labelRememberMe": "Remember me",
+        "title": "Login"
+    },
+    "projectTimeEdit": {
+        "title": "Edit project-time",
+        "heading": "Edit project-time",
+        "buttonBackToList": "Back to list",
+        "labelStarttime": "Begin",
+        "labelEndtime": "End",
+        "labelCalculate": "Create invoice",
+        "labelInvoice": "Invoice #",
+        "labelComment": "Comment",
+        "buttonSave": "Save"
+    },
+    "projectTimeEnd": {
+        "title": "Stop time",
+        "heading": "Stop time",
+        "buttonBackToList": "Back to list",
+        "oclock": "o`clock",
+        "to": "to",
+        "errorStartEndMismatch": "The start-date cannot be greater than the end-date.",
+        "labelStarttime": "Start-Time",
+        "labelEndtime": "End-Time",
+        "projectTitle": "project:",
+        "projectNoData": "No data",
+        "projectReset": "Reset",
+        "labelCalculate": "Calculate on Invoice",
+        "labelInvoice": "Invoice #",
+        "labelComment": "Comment",
+        "generalError": "Your input has errors. Please check the input fields.",
+        "buttonSave": "Save"
+    },
+    "projectTimesList": {
+        "action": "Action",
+        "endDate": "End",
+        "calcualte": "Bill",
+        "calculateNo": "No",
+        "calculateYes": "Yes",
+        "comment": "Comment",
+        "editButton": "Edit",
+        "endTracking": "Stop",
+        "headingTimes": "Times",
+        "invoice": "Invoice",
+        "startDate": "Beginn",
+        "startTime": "Start-Time",
+        "time": "Time",
+        "title": "Project-Times"
     }
 }

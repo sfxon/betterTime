@@ -1,14 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projekt Arbeitszeiten bearbeiten{% endblock %}
+{% block title %}{{ 'projectTimeEnd.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Zeit stoppen</h1>
-            <p>Hier kannst du deine Projektzeit stoppen und einige Informationen dazu eingeben.</p>
-            <p><a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.project.id }) }}"><button class="btn btn-secondary" type="button">Zurück zur Liste</button></a></p>
+            <h1>{{ 'projectTimeEnd.heading'|trans }}</h1>
+            <p>
+                <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.project.id }) }}">
+                    <button class="btn btn-secondary" type="button">
+                        {{ 'projectTimeEnd.buttonBackToList'|trans }}
+                    </button>
+                </a>
+            </p>
         </div>
     </div>
 
@@ -22,34 +27,35 @@
                     <div class="accordion" id="accordionTime">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    <span class="bt-heading-date-start">{{ timeTracking.starttime|date("d.m.Y") }}</span>,&nbsp;<b><span class="bt-heading-time-start">{{ timeTracking.starttime|date("H:i") }}</span> Uhr</b>
-                                    &nbsp;bis 
+                                <button 
+                                    class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    <span class="bt-heading-date-start">{{ timeTracking.starttime|date("d.m.Y") }}</span>,&nbsp;<b><span class="bt-heading-time-start">{{ timeTracking.starttime|date("H:i") }}</span> {{ 'projectTimeEnd.oclock'|trans }}</b>
+                                    &nbsp;{{ 'projectTimeEnd.to'|trans }}
                                     <span class="bt-heading-date-end">
                                         {% if not startAndEndIsSameDate %}{% if endDatetimeNow is not null %}&nbsp;{{ timeTracking.endtime|date("d.m.Y") }},{% endif %}{% endif %}
                                     </span>
                                     &nbsp;<b>
-                                    <span class="bt-heading-time-end">{% if endDatetimeNow is not null %}{{ timeTracking.endtime|date("H:i") }}{% else %}--:--{% endif %}</span> Uhr</b>
+                                    <span class="bt-heading-time-end">{% if endDatetimeNow is not null %}{{ timeTracking.endtime|date("H:i") }}{% else %}--:--{% endif %}</span> {{ 'projectTimeEnd.oclock'|trans }}</b>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionTime">
                                 <div class="accordion-body">
                                     <div class="row text-danger btError dateTimeError dateTimeError-startEndDatetimeMismatch errorHidden" style="display: none">
                                         <div class="col">
-                                            <p>Das Startdatum kann nicht größer oder gleich dem Enddatum sein.</p>
+                                            <p>{{ 'projectTimeEnd.errorStartEndMismatch'|trans }}</p>
                                         </div>
                                     </div>
                                     
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="starttime" class="form-label">Beginn</label>
+                                                <label for="starttime" class="form-label">{{ 'projectTimeEnd.labelStarttime'|trans }}</label>
                                                 <input type="text" id="starttime" name="starttime" class="form-control" value="{{ timeTracking.starttime|date("Y-m-d H:i") }}" autocomplete="off" readonly="readonly"/>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="endtime" class="form-label">Ende</label>
+                                                <label for="endtime" class="form-label">{{ 'projectTimeEnd.labelEndtime'|trans }}</label>
                                                 
                                                 {% if endDatetimeNow is defined %}
                                                     <input type="text" id="endtime" name="endtime" class="form-control" value="{% if endDatetimeNow is null %}{% else %}{{ endDatetimeNow|date("Y-m-d") }} {{ endDatetimeNow|date("H:i") }}{% endif %}" autocomplete="off" readonly="readonly"/>
@@ -70,16 +76,16 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    Projekt:&nbsp;<span class="accordion-project-title">{{ timeTracking.project.name }}</span>
+                                    {{ 'projectTimeEnd.projectTitle'|trans }}&nbsp;<span class="accordion-project-title">{{ timeTracking.project.name }}</span>
                                 </button>
                             </h2>
                             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionProject">
                                 <div class="accordion-body">
                                     <div class="mb-3 dlh-combobox" id="projectSearchContainer">
-                                        <label for="projectSearch" class="form-label">Projekt: </label>
+                                        <label for="projectSearch" class="form-label">{{ 'projectTimeEnd.projectTitle'|trans }} </label>
                                         <input type="text" class="form-control dlh-combobox-search" id="projectSearch" placeholder="Suche nach einem Projekt" {% if timeTracking.project is not null %}value="{{ timeTracking.project.name }}"{% endif %}/>
                                         <select class="form-select dlh-combobox-result" size="3" aria-label="size select example" id="projectSearchResult" style="display: none;">
-                                            <option>Keine Daten</option>
+                                            <option>{{ 'projectTimeEnd.projectNoData'|trans }}</option>
                                         </select>
                                         <input type="hidden" name="projectId" id="projectId" class="dlh-combobox-value" value="{% if timeTracking.project is not null %}{{ timeTracking.project.id }}{% endif %}"/>
                                     </div>
@@ -89,7 +95,7 @@
                                                 <span class="badge text-bg-dark bt-quick-select" data-attr-id="{{ tmpProject.id }}">{{ tmpProject.name }}</span>
                                             {% endfor %}
 
-                                            <span class="badge text-bg-warning bt-quick-reset" data-attr-id="{{ timeTracking.project.id }}" data-attr-name="{{ timeTracking.project.name }}">Zurücksetzen</span>
+                                            <span class="badge text-bg-warning bt-quick-reset" data-attr-id="{{ timeTracking.project.id }}" data-attr-name="{{ timeTracking.project.name }}">{{ 'projectTimeEnd.projectReset'|trans }}<</span>
                                         </div>
                                     </div>
                                 </div>
@@ -101,30 +107,30 @@
                 <div class="mb-3">
                     <label for="use_on_invoice" class="form-label">
                         <input type="checkbox" name="use_on_invoice" id="use_on_invoice" value="1" {% if timeTracking.useOnInvoice == true %}checked="checked"{% endif %} />
-                        Abrechnen
+                        {{ 'projectTimeEnd.labelCalculate'|trans }}
                     </label>
                 </div>
                
                 {% if showInvoiceNumber == true %}
                     <div class="mb-3">
-                        <label for="use_on_invoice" class="form-label">Rechnung</label>
+                        <label for="use_on_invoice" class="form-label">{{ 'projectTimeEnd.labelInvoice'|trans }}</label>
                         <input type="text" name="invoice_id" class="form-control" value="{% if timeTracking.invoiceId is null %}{% else %}{{ timeTracking.invoiceId }}{% endif %}" readonly="readonly" />
                     </div>
                 {% endif %}
 
                 <div class="mb-3">
-                    <label for="comment" class="form-label">Kommentar</label>
+                    <label for="comment" class="form-label">{{ 'projectTimeEnd.labelComment'|trans }}</label>
                     <textarea name="comment" class="form-control">{{ timeTracking.comment|escape }}</textarea>
                 </div>
 
                 <div class="mb-3">
                     <div class="row text-danger btError generalFormError errorHidden" style="display: none">
                         <div class="col">
-                            <p>Ihre Angaben sind fehlerhaft. Bitte prüfen Sie die Eingaben.</p>
+                            <p>{{ 'projectTimeEnd.generalError'|trans }}</p>
                         </div>
                     </div>
 
-                    <button class="btn btn-primary" type="submit">Speichern</button>
+                    <button class="btn btn-primary" type="submit">{{ 'projectTimeEnd.buttonSave'|trans }}</button>
                 </div>
             </form>
         </div>

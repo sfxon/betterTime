@@ -1,44 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projekt Arbeitszeiten bearbeiten{% endblock %}
+{% block title %}{{ 'projectTimeEdit.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Projekt Arbeitszeiten bearbeiten</h1>
-            <p>Hier kannst du deine Projektzeit bearbeiten.</p>
+            <h1>{{ 'projectTimeEdit.heading'|trans }}</h1>
 
-            <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.project.id }) }}"><button class="btn btn-secondary" type="button">Zurück zur Liste</button></a>
+            <a href="{{ path('app_time_tracking.list.project.times', { project_id: timeTracking.project.id }) }}"><button class="btn btn-secondary" type="button">{{ 'projectTimeEdit.buttonBackToList'|trans }}</button></a>
 
             <form action="{{ path('app_time_tracking.update') }}" method="post">
                 <input type="hidden" name="time_tracking_id" value="{{ timeTracking.id }}" />
                 
                 <div class="mb-3">
-                    <label for="starttime" class="form-label">Startdatum</label>
+                    <label for="starttime" class="form-label">{{ 'projectTimeEdit.labelStarttime'|trans }}</label>
                     <input type="datetime-local" name="starttime" class="form-control" value="{{ timeTracking.starttime|date("Y-m-d") }}T{{ timeTracking.starttime|date("H:i:s") }}" />
                 </div>
                 <div class="mb-3">
-                    <label for="endtime" class="form-label">Enddatum</label>
+                    <label for="endtime" class="form-label">{{ 'projectTimeEdit.labelEndtime'|trans }}</label>
                     <input type="datetime-local" name="endtime" class="form-control" value="{% if timeTracking.endtime is null %}{% else %}{{ timeTracking.endtime|date("Y-m-d") }}T{{ timeTracking.endtime|date("H:i:s") }}{% endif %}" />
                 </div>
                 <div class="mb-3">
                     <label for="use_on_invoice" class="form-label">
                         <input type="checkbox" name="use_on_invoice" id="use_on_invoice" value="1" {% if timeTracking.useOnInvoice == true %}checked="checked"{% endif %} />
-                        Abrechnen?
+                        {{ 'projectTimeEdit.labelCalculate'|trans }}
                     </label>
                 </div>
                 <div class="mb-3">
-                    <label for="use_on_invoice" class="form-label">Rechnung</label>
+                    <label for="use_on_invoice" class="form-label">{{ 'projectTimeEdit.labelInvoice'|trans }}</label>
                     <input type="text" name="invoice_id" class="form-control" value="{% if timeTracking.invoiceId is null %}{% else %}{{ timeTracking.invoiceId }}{% endif %}" readonly="readonly" />
                 </div>
                 <div class="mb-3">
-                    <label for="comment" class="form-label">Kommentar</label>
+                    <label for="comment" class="form-label">{{ 'projectTimeEdit.labelComment'|trans }}</label>
                     <textarea name="comment" class="form-control">{{ timeTracking.comment|escape }}</textarea>
                 </div>
 
                 <div class="mb-3">
-                    <button class="btn btn-primary" type="submit">Speichern</button>
+                    <button class="btn btn-primary" type="submit">{{ 'projectTimeEdit.buttonSave'|trans }}</button>
                 </div>
             </form>
         </div>

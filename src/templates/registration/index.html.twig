@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registrierung{% endblock %}
+{% block title %}{{ 'registration.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block additionalCss %}
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
@@ -12,8 +12,8 @@
 
 {% block body %}
 <main class="form-signin form-registration w-100 m-auto">
-    <h1><a href="{{ path('index') }}">BetterTime</a></h1>
-    <p>Registrieren | <a href="{{ path('app_login') }}">Einloggen</a></p>
+    <h1><a href="{{ path('index') }}">{{ 'general.application.title'|trans }}</a></h1>
+    <p>{{ 'index.register'|trans }} | <a href="{{ path('app_login') }}">{{ 'index.login'|trans }}</a></p>
     
     {# {{ form(registrationForm) }} #}
 
@@ -33,7 +33,7 @@
             {{ form_label(registrationForm.password.second) }}
         </div>
 
-        {{ form_widget(registrationForm.registrieren, {'attr': {'class': 'w-100 btn btn-lg btn-primary'}}) }}
+        {{ form_widget(registrationForm.submit, {'attr': {'class': 'w-100 btn btn-lg btn-primary'}}) }}
 
     {{ form_end(registrationForm) }}
 

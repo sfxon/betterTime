@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Neues Projekt anlegen{% endblock %}
+{% block title %}{{ 'newProject.title'|trans }}{{ 'general.html.title.separator'|trans }}{{ 'general.application.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Neues Projekt anlegen</h1>
-            <p>Hier kannst du ein neues Projekt anlegen. Für jedes deiner Projekte kannst du dann einzeln die Zeit erfassen.</p>
+            <h1>{{ 'newProject.heading'|trans }}</h1>
+            <p>{{ 'newProject.titleDescription'|trans }}</p>
 
             <form action="{{ app.request.getSchemeAndHttpHost() }}/projects/create">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Projekt-Name: </label>
+                    <label for="name" class="form-label">{{ 'newProject.labelProjectName'|trans }}</label>
                     <input type="text" name="name" id="name" class="form-control" />
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-primary" type="submit">Speichern</button>
+                    <button class="btn btn-primary" type="submit">{{ 'newProject.buttonSave'|trans }}</button>
                 </div>
             </form>
         </div>

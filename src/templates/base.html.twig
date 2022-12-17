@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}BetterTime{% endblock %}</title>
+        <title>{% block title %}{{ 'general.application.title'|trans }}{% endblock %}</title>
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/dlh.css') }}" rel="stylesheet">
         <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
@@ -16,7 +16,7 @@
         {% block headerNavigation %}
             <nav class="navbar navbar-expand-lg bg-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="{{ path('app_dashboard') }}">DLH</a>
+                    <a class="navbar-brand" href="{{ path('app_dashboard') }}">{{ 'general.application.title'|trans }}</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -27,8 +27,8 @@
                                     <i class="fa-solid fa-user"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="{{ path('app_account') }}">Mein Account</a>
-                                    <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                                    <a class="dropdown-item" href="{{ path('app_account') }}">{{ 'general.headerMenu.account'|trans }}</a>
+                                    <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'general.headerMenu.logout'|trans }}</a>
                                 </div>
                             </li>
                         </ul>

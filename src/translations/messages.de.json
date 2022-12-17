@@ -3,6 +3,10 @@
         "application": {
             "title": "BetterTime"
         },
+        "headerMenu": {
+            "account": "Mein Account",
+            "logout": "Logout"
+        },
         "html": {
             "title": {
                 "separator": " | "
@@ -60,9 +64,97 @@
             "editProject": "Projekt bearbeiten"
         }
     },
+    "datetime": {
+        "days": "Tage",
+        "daysShort": "d",
+        "hours": "Stunden",
+        "hoursShort": "h",
+        "minutes": "Minuten",
+        "minutesShort": "min",
+        "months": "Monate",
+        "monthsShort": "m",
+        "seconds": "Sekunden",
+        "secondsShort": "s",
+        "years": "Jahre",
+        "yearsShort": "a"
+    },
     "index": {
         "register": "Registrieren",
         "login": "Einloggen",
         "showDashboard": "Zum Dashboard"
+    },
+    "editProject": {
+        "buttonSave": "Speichern",
+        "heading": "Projekt bearbeiten",
+        "labelProjectName": "Projekt-Name:",
+        "titleDescription": "Hier kannst du ein bestehendes Projekt bearbeiten.",
+        "title": "Projekt bearbeiten"
+    },
+    "newProject": {
+        "buttonSave": "Speichern",
+        "heading": "Neues Projekt",
+        "labelProjectName": "Projekt-Name:",
+        "title": "Neues Projekt",
+        "titleDescription": "Hier kannst du ein neues Projekt anlegen."
+    },
+    "registration": {
+        "emailInputLabel": "E-Mail Adresse",
+        "PasswordLabel": "Passwort",
+        "repeatPasswordLabel": "Password wiederholen",
+        "submit": "Registrieren",
+        "title": "Registrierung"
+    },
+    "login": {
+        "buttonLogin": "Einloggen",
+        "invalidData": "Ungültige Zugangsdaten",
+        "labelEmail": "E-Mail Adresse",
+        "labelPassword": "Passwort",
+        "labelRememberMe": "Eingeloggt bleiben",
+        "title": "Login"
+    },
+    "projectTimeEdit": {
+        "title": "Projekt-Zeit bearbeiten",
+        "heading": "Projekt-Zeit bearbeiten",
+        "buttonBackToList": "Zurück zur Liste",
+        "labelStarttime": "Start-Zeit",
+        "labelEndtime": "End-Zeit",
+        "labelCalculate": "Abrechnen",
+        "labelInvoice": "Rechnung",
+        "labelComment": "Kommentar",
+        "buttonSave": "Speichern"
+    },
+    "projectTimeEnd": {
+        "title": "Zeit stoppen",
+        "heading": "Zeit stoppen",
+        "buttonBackToList": "Zurück zur Liste",
+        "oclock": "Uhr",
+        "to": "bis",
+        "errorStartEndMismatch": "Das Startdatum kann nicht größer oder gleich dem Enddatum sein.",
+        "labelStarttime": "Start-Zeit",
+        "labelEndtime": "End-Zeit",
+        "projectTitle": "Projekt:",
+        "projectNoData": "Keine Daten",
+        "projectReset": "Zurücksetzen",
+        "labelCalculate": "Abrechnen",
+        "labelInvoice": "Rechnung",
+        "labelComment": "Kommentar",
+        "generalError": "Ihre Angaben sind fehlerhaft. Bitte prüfen Sie die Eingaben.",
+        "buttonSave": "Speichern"
+    },
+    "projectTimesList": {
+        "action": "Aktion",
+        "endDate": "Ende",
+        "calcualte": "Abrechnen",
+        "calculateNo": "Nein",
+        "calculateYes": "Ja",
+        "comment": "Kommentar",
+        "editButton": "Bearbeiten",
+        "endTracking": "Beenden",
+        "headingTimes": "Zeiten",
+        "invoice": "Rechnung",
+        "startDate": "Anfang",
+        "startTime": "Start-Zeit",
+        "time": "Zeit",
+        "title": "Project-Zeiten"
     }
 }

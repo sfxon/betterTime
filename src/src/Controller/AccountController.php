@@ -39,6 +39,7 @@ class AccountController extends AbstractController
      * @param  ManagerRegistry $doctrine
      * @param  UserPasswordHasherInterface $passwordHasher
      * @param  FormFactoryInterface $formFactory
+     * @param  TranslatorInterface $translator
      * @return void
      */
     #[Route('/account', name: 'app_account')]    

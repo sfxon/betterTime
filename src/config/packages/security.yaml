@@ -9,6 +9,7 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -37,6 +38,7 @@ security:
         - { path: ^/$, roles: PUBLIC_ACCESS } # General-Restriction: No page can be visited, if not explicitely defined.
         - { path: ^/login, roles: PUBLIC_ACCESS } # Login-Page can be visited by guests.
         - { path: ^/registration, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
+        - { path: ^/admin/login$, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
         - { path: ^/, roles: ROLE_USER } # General-Restriction: No page can be visited, if not explicitely defined.
         # - { route: 'index', roles: PUBLIC_ACCESS } # Index-Page can be visited by guests.
 

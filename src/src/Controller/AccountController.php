@@ -157,7 +157,7 @@ class AccountController extends AbstractController
             if ($form->isValid()) {
                 $input = $form->getData();
                 
-                if(!$this->newMailIsInUse($doctrine, $user, $input['email'])) {
+                if($this->newMailIsInUse($doctrine, $user, $input['email'])) {
                     $this->emailErrors[] = $this->translator->trans(
                         'account.alert.emailInUse'
                     );
@@ -329,13 +329,17 @@ class AccountController extends AbstractController
      * @param  string $email
      * @return bool
      */
-    private function newMailIsInUse($doctrine, $user, $email) {
+    private function newMailIsInUse(
+        ManagerRegistry $doctrine,
+        User $user,
+        string $email): bool
+    {
         // Check the email-address against the users email-address.
         if($user->getEmail() == $email) {
-            return true;
+            return false;
         }
 
-        // Try to load a user with thie email address from the database.
+        // Try to load a user with this email address from the database.
         $repository = $doctrine->getRepository(User::class);
         $emailUser = $repository->findOneBy(
             [
@@ -344,9 +348,9 @@ class AccountController extends AbstractController
         );
 
         if(null === $emailUser) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 }

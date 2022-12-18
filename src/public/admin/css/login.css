@@ -1,0 +1,74 @@
+html, body {
+    height: 100%;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+}
+
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-bottom: -1px;
+}
+
+.form-signin input[type="password"] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 10px;
+}
+
+main.m-auto {
+    border-radius: 8px;
+    margin-top: 10vh!important;
+    max-width: 86vw;
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+.form-signin.form-registration input[type="email"] {
+    border-radius: 6px!important;
+}
+
+.form-signin.form-registration input[type="password"] {
+    border-radius: 6px!important;
+}
+
+.form-registration .form-floating {
+    margin-bottom: 10px!important;
+}
+
+@media screen and (min-width: 48em) {
+    main.m-auto {
+        max-width: 60vw;
+    }
+}
+
+@media screen and (min-width: 72em) {
+    main.m-auto {
+        max-width: 36vw;
+    }
+}
+
+@media screen and (min-width: 120em) {
+    main.m-auto {
+        max-width: 28vw;
+    }
+}

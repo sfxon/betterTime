@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{{ 'general.application.title'|trans }}{% endblock %}</title>
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/dlh.css') }}" rel="stylesheet">
+        <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/tempus-dominus.css') }}" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{ asset('image/favicon.png') }}">
+        {% block additionalCss %}{% endblock %}
+    </head>
+    <body{% block additionalBodyTags %}{% endblock %}>
+        {% block headerNavigation %}
+            <nav class="navbar navbar-expand-lg bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{{ path('app_dashboard') }}">{{ 'general.application.title'|trans }}</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-user"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ path('app_account') }}">{{ 'general.headerMenu.account'|trans }}</a>
+                                    <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'general.headerMenu.logout'|trans }}</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        {% endblock %}
+
+        {% block body %}{% endblock %}
+
+        <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+
+        {% block additionalJavascript %}{% endblock %}
+    </body>
+</html>

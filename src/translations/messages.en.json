@@ -1,4 +1,16 @@
 {
+    "admin": {
+        "general": {
+            "applicationTitle": "BetterTime Admin",
+            "titleSeparator": " | "
+        },
+        "login": {
+            "emailInputLabel": "Email",
+            "passwordInputLabel": "Password",
+            "submit": "Login",
+            "title": "Login"
+        }
+    },
     "general": {
         "application": {
             "title": "BetterTime"

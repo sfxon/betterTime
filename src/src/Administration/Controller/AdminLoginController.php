@@ -2,7 +2,7 @@
 
 namespace App\Administration\Controller;
 
-use App\Entity\User;
+use App\Entity\Administrator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdminLoginController extends AbstractController {
@@ -25,75 +26,27 @@ class AdminLoginController extends AbstractController {
      * @param  TranslatorInterface $translator
      * @return Response
      */
-    #[Route('/admin/login', name: 'app_admin_login')]
+    #[Route('/administration/login', name: 'administration_login')]
     public function index(
-        Request $request, 
-        ManagerRegistry $doctrine,
-        UserPasswordHasherInterface $passwordHasher,
-        TranslatorInterface $translator
+        AuthenticationUtils $authenticationUtils
     ): Response
     {
-        /*
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_dashboard');
-        }
-        */
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        $this->translator = $translator;
-        
-        $form = $this->createFormBuilder()
-        ->add(
-            'email',
-            TextType::class,
-            [ 
-                'label' => $this->translator->trans(
-                    'admin.login.emailInputLabel'
-                ),
-            ]
-        )
-        ->add(
-            'password', 
-            PasswordType::class,
-            [
-                'required' => true, 
-                'label' => $this->translator->trans(
-                    'admin.login.passwordInputLabel'
-                )
-            ]
-        )
-        ->add('submit', SubmitType::class, [
-            'label' => $this->translator->trans(
-                'admin.login.submit'
-            )
-        ])
-        ->getForm();
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted()) {
-            $input = $form->getData();
-
-            var_dump($input);
-
-            /*
-
-            $user = new User();
-            $user->setEmail($input['email']);
-            $user->setPassword(
-                $passwordHasher->hashPassword($user, $input['password'])
-            );
-
-            $em = $doctrine->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('index'));
-            */
-        }
+         // last username entered by the user
+         $lastUsername = $authenticationUtils->getLastUsername();
         
         return $this->render('admin/login/index.html.twig', [
             'controller_name' => 'AdminLoginController',
-            'adminLoginForm' => $form->createView()
+            'last_username' => $lastUsername,
+            'error'  => $error
         ]);
+    }
+
+    #[Route(path: '/administration/logout', name: 'app_admin_logout')]
+    public function logout(): void
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

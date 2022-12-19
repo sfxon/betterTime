@@ -12,16 +12,21 @@
 {% block body %}
 <main class="form-signin form-registration w-100 m-auto">
     <h1>{{ 'admin.general.applicationTitle'|trans }}</h1>
-    {{ form_start(adminLoginForm) }}
-        <div class="form-floating">
-            {{ form_widget(adminLoginForm.email, {'attr': {'type': 'email', 'class': 'form-control'}}) }}
-            {{ form_label(adminLoginForm.email) }}
-        </div>
-        <div class="form-floating">
-            {{ form_widget(adminLoginForm.password, {'attr': {'class': 'form-control'}}) }}
-            {{ form_label(adminLoginForm.password) }}
-        </div>
-        {{ form_widget(adminLoginForm.submit, {'attr': {'class': 'w-100 btn btn-lg btn-primary'}}) }}
-    {{ form_end(adminLoginForm) }}
+
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path('administration_login') }}" method="post">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" value="{{ last_username }}"/>
+
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password"/>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <button type="submit">login</button>
+    </form>
 </main>
 {% endblock %}

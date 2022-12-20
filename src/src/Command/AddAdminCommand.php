@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\Administrator;
+use App\Entity\Admin;
 use Doctrine\Persistence\ManagerRegistry;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -19,14 +19,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 // static $defaultName and $defaultDescription properties
 #[AsCommand(
     name: 'app:add-admin',
-    description: 'Creates a new administrator.',
+    description: 'Creates a new admin.',
     hidden: false,
     aliases: ['app:create-admin']
 )]
 class AddAdminCommand extends Command
 {
     // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'app:create-administrator';
+    protected static $defaultName = 'app:add-admin';
     private ManagerRegistry $doctrine;
     private ValidatorInterface $validator;
     private UserPasswordHasherInterface $passwordHasher;
@@ -88,7 +88,7 @@ class AddAdminCommand extends Command
         $password = $helper->ask($input, $output, $passwordQuestion);
 
         // Create user
-        $admin = new Administrator();
+        $admin = new Admin();
         $admin->setEmail($email);
         $admin->setPassword(
             $this->passwordHasher->hashPassword($admin, $password)
@@ -99,7 +99,7 @@ class AddAdminCommand extends Command
         $em->flush();
 
         $output->writeln([
-            'Administrator created successfully.'
+            'Admin created successfully.'
         ]);
 
         return Command::SUCCESS;
@@ -173,8 +173,8 @@ class AddAdminCommand extends Command
         ManagerRegistry $doctrine,
         string $email): bool
     {
-        // Try to load an administrator with this email address from the database.
-        $repository = $doctrine->getRepository(Administrator::class);
+        // Try to load an admin with this email address from the database.
+        $repository = $doctrine->getRepository(Admin::class);
         $emailUser = $repository->findOneBy(
             [
                 'email' => $email

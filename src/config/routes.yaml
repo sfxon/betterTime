@@ -2,7 +2,7 @@ controllers:
     resource: ../src/Controller/
     type: annotation
 controllers_admin:
-    resource: ../src/Administration/Controller
+    resource: ../src/Admin/Controller
     type: annotation
 
 kernel:

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Administration\Security;
+namespace App\Admin\Security;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +20,7 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'administration_login';
+    public const LOGIN_ROUTE = 'admin_login';
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
@@ -44,7 +44,7 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return new RedirectResponse($this->urlGenerator->generate('app_admin_dashboard'));
+        return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
     }
 
     protected function getLoginUrl(Request $request): string

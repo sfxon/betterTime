@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}{{ 'admin.login.title'|trans }}{{ 'admin.general.titleSeparator'|trans }}{{ 'admin.general.applicationTitle'|trans }}#}{% endblock %}
+{% block title %}{{ 'admin.login.title'|trans }}{{ 'admin.general.titleSeparator'|trans }}{{ 'admin.general.applicationTitle'|trans }}{% endblock %}
 
 {% block additionalCss %}
     <link href="{{ asset('admin/css/login.css') }}" rel="stylesheet">
@@ -17,7 +17,7 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('administration_login') }}" method="post">
+    <form action="{{ path('admin_login') }}" method="post">
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" value="{{ last_username }}"/>
 

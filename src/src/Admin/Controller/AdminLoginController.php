@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Administration\Controller;
+namespace App\Admin\Controller;
 
-use App\Entity\Administrator;
+use App\Entity\Admin;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -20,13 +20,10 @@ class AdminLoginController extends AbstractController {
     /**
      * index
      * 
-     * @param  Request $request
-     * @param  ManagerRegistry $doctrine
-     * @param  UserPasswordHasherInterface $passwordHasher
-     * @param  TranslatorInterface $translator
+     * @param  AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    #[Route('/administration/login', name: 'administration_login')]
+    #[Route('/admin/login', name: 'admin_login')]
     public function index(
         AuthenticationUtils $authenticationUtils
     ): Response
@@ -44,7 +41,7 @@ class AdminLoginController extends AbstractController {
         ]);
     }
 
-    #[Route(path: '/administration/logout', name: 'app_admin_logout')]
+    #[Route(path: '/admin/logout', name: 'admin_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

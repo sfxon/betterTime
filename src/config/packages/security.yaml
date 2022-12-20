@@ -9,26 +9,26 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
-        administrator_user_provider:
+        admin_user_provider:
             entity:
-                class: App\Entity\Administrator
+                class: App\Entity\Admin
                 property: email
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        administrator:
+        admin:
             pattern: ^/admin
             lazy: true
-            provider: administrator_user_provider
-            custom_authenticator: App\Administration\Security\AdminAuthenticator
+            provider: admin_user_provider
+            custom_authenticator: App\Admin\Security\AdminAuthenticator
             form_login:
-                login_path: administration_login
-                check_path: administration_login
+                login_path: admin_login
+                check_path: admin_login
             entry_point: form_login
             logout:
-                path: app_admin_logout
+                path: admin_logout
                 target: index
         main:
             lazy: true
@@ -55,9 +55,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/administration/login$, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
-        - { path: ^/administration/logout$, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
-        - { path: ^/administration/dashboard$, roles: ROLE_ADMINISTRATOR } # Registration-Page can be visited by guests.
+        - { path: ^/admin/login$, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
+        - { path: ^/admin/logout$, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
+        - { path: ^/admin/dashboard$, roles: ROLE_ADMIN } # Registration-Page can be visited by guests.
         - { path: ^/$, roles: PUBLIC_ACCESS } # General-Restriction: No page can be visited, if not explicitely defined.
         - { path: ^/login, roles: PUBLIC_ACCESS } # Login-Page can be visited by guests.
         - { path: ^/registration, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.

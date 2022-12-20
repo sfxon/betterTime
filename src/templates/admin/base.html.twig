@@ -8,35 +8,76 @@
         <link href="{{ asset('css/dlh.css') }}" rel="stylesheet">
         <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/tempus-dominus.css') }}" rel="stylesheet">
+        <link href="{{ asset('admin/css/sidebar.css') }}" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ asset('image/favicon.png') }}">
         {% block additionalCss %}{% endblock %}
     </head>
     <body{% block additionalBodyTags %}{% endblock %}>
-        {% block headerNavigation %}
-            <nav class="navbar navbar-expand-lg bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{ path('app_dashboard') }}">{{ 'general.application.title'|trans }}</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-user"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="{{ path('app_account') }}">{{ 'general.headerMenu.account'|trans }}</a>
-                                    <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'general.headerMenu.logout'|trans }}</a>
-                                </div>
-                            </li>
-                        </ul>
+        {% block mainWrap %}
+        <main class="d-flex flex-nowrap">
+        {% endblock %}
+            {% block sidebarNavigation %}
+                <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark col-3 col-lg-2">
+                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-4"><img src="{{ asset('image/logo.svg') }}" id="sidebar-logo" /> <span id="sidebar-logo-text">{{ 'general.application.title'|trans }}</span></span>
+                    </a>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" aria-current="page">
+                            <i class="fa-solid fa-house"></i>
+                            Menu point placeholder
+                        </a>
+                    </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        {# <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2"> #}
+                        <strong>My Account</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                        <li><a class="dropdown-item" href="{{ path('app_dashboard') }}" target="_blank">Frontend</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_logout') }}">Sign out</a></li>
+                    </ul>
                     </div>
                 </div>
-            </nav>
-        {% endblock %}
 
-        {% block body %}{% endblock %}
+                <div class="b-main-divider b-main-vr"></div>
+            {% endblock %}{# Sidebar navigation #}
+
+            {#
+            {% block headerNavigation %}
+                <nav class="navbar navbar-expand-lg bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="{{ path('app_dashboard') }}">{{ 'general.application.title'|trans }}</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                            <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-user"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item" href="{{ path('app_account') }}">{{ 'general.headerMenu.account'|trans }}</a>
+                                        <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'general.headerMenu.logout'|trans }}</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            {% endblock %}
+            #}
+
+            {% block body %}{% endblock %}
+        {% block mainWrapEnd %}
+        </main>
+        {% endblock %}
 
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 

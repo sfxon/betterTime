@@ -1,1 +1,10 @@
-admin index
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.dashboard.title'|trans }}{{ 'admin.general.titleSeparator'|trans }}{{ 'admin.general.applicationTitle'|trans }}{% endblock %}
+
+{% block body %}
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-md-4" style="overflow-y: auto">
+    <h1>{{ 'admin.general.applicationTitle'|trans }}</h1>
+    <p>Dashboard</p>
+</main>
+{% endblock %}

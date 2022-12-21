@@ -15,6 +15,10 @@ main {
   overflow-y: hidden;
 }
 
+.bt-sidebar-left {
+    background-color: #111;
+}
+
 .dropdown-toggle { outline: 0; }
 
 .b-example-divider {

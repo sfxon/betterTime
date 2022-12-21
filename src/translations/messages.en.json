@@ -1,5 +1,13 @@
 {
     "admin": {
+        "adminList": {
+            "createAdminButton": "Create admin",
+            "editAdmin": "Edit",
+            "emailTitle": "Email address",
+            "headingActions": "Actions",
+            "paginationAriaLabel": "Project Page Navigation",
+            "title": "Admins"
+        },
         "general": {
             "applicationTitle": "BetterTime Admin",
             "titleSeparator": " | "
@@ -9,6 +17,12 @@
             "passwordInputLabel": "Password",
             "submit": "Login",
             "title": "Login"
+        },
+        "pagination": {
+            "firstPage": "First Page",
+            "lastPage": "Last Page",
+            "pagesTitle": "Page:",
+            "pagesOf": "of"
         }
     },
     "general": {

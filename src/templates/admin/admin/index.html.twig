@@ -1,0 +1,85 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.adminList.title'|trans }}{{ 'admin.general.titleSeparator'|trans }}{{ 'admin.general.applicationTitle'|trans }}{% endblock %}
+
+{% block body %}
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-md-4" style="overflow-y: auto">
+    <div class="row">
+        <div class="col">
+            <div class="dlh-site-heading">
+                <h1>{{ 'admin.adminList.title'|trans }}</h1>
+                <a href="#">
+                    <button type="submit" class="btn btn-secondary btn-sm">{{ 'admin.adminList.createAdminButton'|trans }}</button>
+                </a>
+            </div>
+            <table class="table view-table-listing admin-table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="admin-email is-sortable">
+                            {% set tmpSortOrder = "DESC" %}
+                                
+                            {% if adminViewSetting.getSortBy() == 'email' and adminViewSetting.getSortOrder() == 'DESC' %}
+                                {% set tmpSortOrder = "ASC" %}
+                            {% endif %}
+                            <a href="{{ path('admin_list') }}?sortBy=email&amp;sortOrder={{ tmpSortOrder }}">{{ 'admin.adminList.emailTitle'|trans }}</a>
+                        </th>
+                        <th scope="col">{{ 'admin.adminList.headingActions'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for admin in admins %}
+                        <tr>
+                            <td>{{ admin.email }}</td>
+                            <td>
+                                {# Button, used to edit an admin entry. #}
+                                <a href="{# {{ path('app_projects.edit', { 'id': project.id }) }} #}#">
+                                    <button type="submit" class="btn btn-light btn-sm">{{ 'admin.adminList.editAdmin'|trans }}</button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col">
+                    &nbsp;
+                </div>
+                <div class="col">
+                    <nav aria-label="{{ 'admin.adminList.paginationAriaLabel'|trans }}">
+                        <ul class="pagination justify-content-center">
+                            {# Button for first page. #}
+                            <li class="page-item{% if page == 1 %} disabled{% endif %}">
+                                <a class="page-link"{% if page != 1 %} href="{{ path('admin_list') }}?page=1"{% endif %} aria-label="{{ 'admin.pagination.firstPage'|trans }}">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+
+                            {# Display pages #}
+                            {% for paginationPage in pagination.getPages() %}
+                                <li class="page-item {% if paginationPage.getIsCurrentPage() %} disabled{% endif %}">
+                                    <a class="page-link" {% if not paginationPage.getIsCurrentPage() %} href="{{ path('admin_list') }}?page={{ paginationPage.getPage() }}{% endif %}">{{ paginationPage.getPage() }}</a>
+                                </li>
+                            {% endfor %}
+                            
+                            {# Button for last page #}
+                            <li class="page-item{% if page == pages %} disabled{% endif %}">
+                                <a class="page-link" {% if page != pages %} href="{{ path('admin_list') }}?page={{ pages }}"{% endif %} aria-label="{{ 'admin.pagination.lastPage'|trans }}">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col">
+                    <div class="dlh-pagination">
+                        <form action="{{ path('admin_list') }}">
+                            <label for="page">{{ 'admin.pagination.pagesTitle'|trans }}&nbsp;</label><input type="text" name="page" class="form-control" value="{{ page|escape }}"> <label>{{ 'admin.pagination.pagesOf'|trans }} {{ pages|escape }}</label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

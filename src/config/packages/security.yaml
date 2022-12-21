@@ -58,6 +58,7 @@ security:
         - { path: ^/admin/login$, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
         - { path: ^/admin/logout$, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.
         - { path: ^/admin/dashboard$, roles: ROLE_ADMIN } # Registration-Page can be visited by guests.
+        - { path: ^/admin/admins$, roles: ROLE_ADMIN } # Registration-Page can be visited by guests.
         - { path: ^/$, roles: PUBLIC_ACCESS } # General-Restriction: No page can be visited, if not explicitely defined.
         - { path: ^/login, roles: PUBLIC_ACCESS } # Login-Page can be visited by guests.
         - { path: ^/registration, roles: PUBLIC_ACCESS } # Registration-Page can be visited by guests.

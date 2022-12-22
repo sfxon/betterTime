@@ -42,7 +42,7 @@ class AccountController extends AbstractController
      * @param  TranslatorInterface $translator
      * @return void
      */
-    #[Route('/account', name: 'app_account')]    
+    #[Route('/account', name: 'app_account')]
     public function index(
         Request $request, 
         ManagerRegistry $doctrine,

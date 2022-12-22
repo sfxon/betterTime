@@ -121,4 +121,30 @@ class AdminService
 
         return $result;
     }
+
+    /**
+     * Checks, if an emailAddress is in use.
+     *
+     * @param  ManagerRegistry $doctrine
+     * @param  string $email
+     * @return bool
+     */
+    public function mailIsInUse(
+        ManagerRegistry $doctrine,
+        string $email): bool
+    {
+        // Try to load a user with this email address from the database.
+        $repository = $doctrine->getRepository(Admin::class);
+        $emailUser = $repository->findOneBy(
+            [
+                'email' => $email
+            ]
+        );
+
+        if(null === $emailUser) {
+            return false;
+        }
+
+        return true;
+    }
 }

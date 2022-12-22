@@ -8,10 +8,15 @@
         <div class="col">
             <div class="dlh-site-heading">
                 <h1>{{ 'admin.adminList.title'|trans }}</h1>
-                <a href="#">
+                <a href="{{ path('admin_admins_new') }}">
                     <button type="submit" class="btn btn-secondary btn-sm">{{ 'admin.adminList.createAdminButton'|trans }}</button>
                 </a>
             </div>
+            {% if accountCreatedSuccess %}
+                <div class="alert alert-success" role="alert">
+                    <div>{{ 'admin.adminList.alertAccountCreatedSuccess'|trans }}</div>
+                </div>
+            {% endif %}
             <table class="table view-table-listing admin-table">
                 <thead>
                     <tr>

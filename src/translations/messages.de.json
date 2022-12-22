@@ -1,12 +1,27 @@
 {
     "admin": {
         "adminList": {
+            "alertAccountCreatedSuccess": "Der neue Admin-Account wurde erfolgreich erstellt.",
             "createAdminButton": "Admin erstellen",
             "editAdmin": "Bearbeiten",
             "emailTitle": "E-Mail Adresse",
             "headingActions": "Aktionen",
             "paginationAriaLabel": "Project Page Navigation",
             "title": "Admins"
+        },
+        "adminNew": {
+            "alertEmailInUse": "Diese E-Mail Adresse wird bereits von einem anderen Account verwendet.",
+            "alertNewPasswordBlank": "Bitte geben Sie ein Passwort ein.",
+            "alertPasswordMissingLetters": "Das Passwort muss mindestens einen Buchstaben enthalten.",
+            "alertPasswordRequireCaseDiff": "Das Passwort muss einen kleinen und einen großen Buchstaben enthalten.",
+            "alertPasswordMissingNumbers": "Das Passwort muss mindestens eine Zahl enthalten.",
+            "alertPasswordMissingSpecialCharacter": "Das Passwort muss ein Sonderzeichen enthalten.",
+            "alertPasswordTooShort": "Das Passwort muss mindestens {{length}} Zeichen lang sein.",
+            "emailButtonSubmit": "Speichern",
+            "emailInputLabel": "E-Mail Adresse",
+            "emailInvalid": "{{ value }} ist keine gültige E-Mail Adresse.",
+            "passwordInputLabel": "Passwort",
+            "title": "Admin hinzufügen"
         },
         "general": {
             "applicationTitle": "BetterTime Admin",

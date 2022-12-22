@@ -20,6 +20,7 @@ This software is still work in process, but growing on every single day.
 
 * [Axios](https://github.com/axios/axios) | Promise based HTTP client for the browser and node.js.
 * [Bootstrap](https://getbootstrap.com/) | Powerful, extensible, and feature-packed frontend toolkit.
+* [Bootstrap Dark Theme](https://github.com/vinorodrigues/bootstrap-dark-5) | By [@vinorodrigues](https://github.com/vinorodrigues/), a dark theme for bootstrap.
 * [Cypress.io](https://www.cypress.io/) | Fast, easy and reliable testing for anything that runs in a browser. Used for end2end and component tests.
 * [DeploySentinel](https://www.deploysentinel.com/docs/recorder) | A recorder, that generates cypress code on recording inputs in a browser window.
 * [FontAwesome](https://fontawesome.com/) | The Internet's icon library and toolkit.

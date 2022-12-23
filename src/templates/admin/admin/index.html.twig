@@ -17,6 +17,16 @@
                     <div>{{ 'admin.adminList.alertAccountCreatedSuccess'|trans }}</div>
                 </div>
             {% endif %}
+            {% if emailUpdateSuccess %}
+                <div class="alert alert-success" role="alert">
+                    <div>{{ 'admin.adminList.alertEmailUpdateSuccess'|trans }}</div>
+                </div>
+            {% endif %}
+            {% if passwordUpdateSuccess %}
+                <div class="alert alert-success" role="alert">
+                    <div>{{ 'admin.adminList.alertPasswordUpdateSuccess'|trans }}</div>
+                </div>
+            {% endif %}
             <table class="table view-table-listing admin-table">
                 <thead>
                     <tr>
@@ -37,7 +47,7 @@
                             <td>{{ admin.email }}</td>
                             <td>
                                 {# Button, used to edit an admin entry. #}
-                                <a href="{# {{ path('app_projects.edit', { 'id': project.id }) }} #}#">
+                                <a href="{{ path('admin_admins_edit', { 'adminId': admin.id }) }}">
                                     <button type="submit" class="btn btn-light btn-sm">{{ 'admin.adminList.editAdmin'|trans }}</button>
                                 </a>
                             </td>

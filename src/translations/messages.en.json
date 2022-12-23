@@ -1,7 +1,14 @@
 {
     "admin": {
+        "adminEdit": {
+            "changeEmailHeading": "Update Email address",
+            "changePasswordHeading": "Update Password",
+            "title": "Edit admin"
+        },
         "adminList": {
             "alertAccountCreatedSuccess": "Admin account created successfully.",
+            "alertEmailUpdateSuccess": "Email address was changed successfully.",
+            "alertPasswordUpdateSuccess": "Password was changed successfully.",
             "createAdminButton": "Create admin",
             "editAdmin": "Edit",
             "emailTitle": "Email address",

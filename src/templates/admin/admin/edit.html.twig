@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'admin.adminEdit.title'|trans }}{{ 'admin.general.titleSeparator'|trans }}{{ 'admin.general.applicationTitle'|trans }}{% endblock %}
+
+{% block body %}
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-md-4" style="overflow-y: auto">
+    <div class="row">
+        <div class="col">
+            <div class="dlh-site-heading">
+                <h1>{{ 'admin.adminEdit.title'|trans }} ({{ admin.email }})</h1>
+            </div>
+
+            <h2>{{ 'admin.adminEdit.changeEmailHeading'|trans }}</h2>
+            
+             {% if emailFormErrors|length > 0 %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in emailFormErrors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {{ form_start(emailForm) }}
+                <div class="form-floating mb-3">
+                    {{ form_widget(emailForm.email, {'attr': {'type': 'email', 'class': 'form-control'}}) }}
+                    {{ form_label(emailForm.email) }}
+                </div>
+                {{ form_widget(emailForm.save, {'attr': {'class': 'btn btn-primary mb-3'}}) }}
+            {{ form_end(emailForm) }}
+
+            <hr />
+
+            <h2>{{ 'admin.adminEdit.changePasswordHeading'|trans }}</h2>
+
+            {% if passwordFormErrors|length > 0 %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in passwordFormErrors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {{ form_start(passwordForm) }}
+                <div class="form-floating mb-3">
+                    {{ form_widget(passwordForm.password, {'attr': { 'class': 'form-control'}}) }}
+                    {{ form_label(passwordForm.password) }}
+                </div>
+                {{ form_widget(passwordForm.save, {'attr': {'class': 'btn btn-primary mb-3'}}) }}
+            {{ form_end(passwordForm) }}
+        </div>
+    </div>
+</main>
+{% endblock %}

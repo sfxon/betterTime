@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -33,6 +34,7 @@ class AdminController extends AbstractController
     private array $newAdminFormErrors = [];
     private array $emailFormErrors = [];
     private array $passwordFormErrors = [];
+    private array $deleteAdminFormErrors = [];
 
     /**
      * index
@@ -52,6 +54,7 @@ class AdminController extends AbstractController
     ): Response {
         $adminViewSetting = $this->processSortOrderRequests($request, $doctrine, $viewService);
         $accountCreatedSuccess = $request->get('accountCreatedSuccess', false);
+        $adminAccountDeletedSuccess = $request->get('adminAccountDeletedSuccess', false);
         $emailUpdateSuccess = $request->get('emailUpdateSuccess', false);
         $passwordUpdateSuccess = $request->get('passwordUpdateSuccess', false);
 
@@ -89,6 +92,8 @@ class AdminController extends AbstractController
         return $this->render('admin/admin/index.html.twig', [
             'controller_name' => 'DashboardController',
             'accountCreatedSuccess' => $accountCreatedSuccess,
+            'adminAccountDeletedSuccess' => $adminAccountDeletedSuccess,
+            'adminViewSetting' => $adminViewSetting,
             'emailUpdateSuccess' => $emailUpdateSuccess,
             'passwordUpdateSuccess' => $passwordUpdateSuccess,
             'adminCountTotal' => $adminCountTotal,
@@ -96,7 +101,6 @@ class AdminController extends AbstractController
             'page' => $page,
             'pages' => $pages,
             'pagination' => $pagination->getPagination(),
-            'adminViewSetting' => $adminViewSetting,
         ]);
     }
 
@@ -159,13 +163,30 @@ class AdminController extends AbstractController
             return $result;
         }
 
+        // Handle deleteAdmin.
+        $deleteAdminForm = $this->createDeleteAdminForm($formFactory, $admin);
+        $result = $this->handleDeleteAdminForm(
+            $request,
+            $doctrine,
+            $deleteAdminForm,
+            $adminService,
+            $passwordHasher,
+            $admin);
+
+        if($result !== null) {
+            return $result;
+        }
+
         return $this->render('admin/admin/edit.html.twig', [
             'controller_name' => 'AccountController',
             'admin' => $admin,
             'emailForm' => $emailForm->createView(),
+            'deleteAdminForm' => $deleteAdminForm->createView(),
             'passwordForm' => $passwordForm->createView(),
             'emailFormErrors' => $this->emailFormErrors,
+            'deleteAdminFormErrors' => $this->deleteAdminFormErrors,
             'passwordFormErrors' => $this->passwordFormErrors
+            
         ]);
     }
 
@@ -594,6 +615,109 @@ class AdminController extends AbstractController
 
             foreach ($form->getErrors(true) as $key => $error) {
                 $this->passwordFormErrors[] = $error->getMessage();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Creates the form for deleting an admin.
+     *
+     * @param  FormFactoryInterface $formFactory
+     * @param  Admin $admin
+     * @return FormInterface
+     */
+    private function createDeleteAdminForm(
+        FormFactoryInterface $formFactory,
+        Admin $admin
+    ): FormInterface
+    {
+        $form = $formFactory
+        ->createNamedBuilder('deleteAdminForm', FormType::class, null, [
+            // Set action explicitely. We do not want previous get parameters to be set in the next submit.
+            // because this would show the "success" message every time.
+            'action' => $this->generateUrl('admin_admins_edit', [
+                'adminId' => $admin->getId()
+            ]), 
+        ])
+        ->add(
+            'password',
+            PasswordType::class,
+            [
+                'label' => $this->translator->trans(
+                    'admin.adminNew.passwordInputLabel'
+                ),
+                'constraints' => array(
+                    // NotBlank is needed, because the PasswordRequirements library does not check for blank.
+                    new Assert\NotBlank([
+                        'message' => $this->translator->trans(
+                            'admin.adminNew.alertNewPasswordBlank'
+                        )
+                    ]),
+                    new SecurityAssert\UserPassword([
+                        'message' => $this->translator->trans(
+                            'admin.adminEdit.currentPasswordWrong'
+                        )
+                    ])
+                )
+            ]
+        )
+        ->add(
+            'delete',
+            SubmitType::class, [
+                'label' => $this->translator->trans(
+                    'admin.adminEdit.buttonDeleteAdmin'
+                )
+            ])
+        ->getForm();
+
+        return $form;
+    }
+
+    /**
+     * Handles actions for the email form.
+     * @param  Request $request
+     * @param  ManagerRegistry $doctrine
+     * @param  FormInterface $form
+     * @param  AdminService $adminService
+     * @param  UserPasswordHasherInterface $passwordHasher
+     * @param  Admin $admin
+     * @return Response|null
+     */
+    private function handleDeleteAdminForm(
+        Request $request,
+        ManagerRegistry $doctrine,
+        FormInterface $form,
+        AdminService $adminService,
+        UserPasswordHasherInterface $passwordHasher,
+        Admin $admin): ?Response
+    {
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $input = $form->getData();
+
+                /** @var Admin $currentAdminUser */
+                $currentAdminUser = $this->getUser();
+
+                if($currentAdminUser->getId() === $admin->getId()) {
+                    $this->deleteAdminFormErrors[] = $this->translator->trans(
+                        'admin.adminEdit.alertCannotDeleteOwnAccount'
+                    );
+                    return null;
+                }
+                
+                $em = $doctrine->getManager();
+                $em->remove($admin);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('admin_list', ['adminAccountDeletedSuccess' => 'true']));
+            }
+
+            foreach ($form->getErrors(true) as $key => $error) {
+                $this->deleteAdminFormErrors[] = $error->getMessage();
             }
         }
 

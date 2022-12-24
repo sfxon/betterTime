@@ -1,12 +1,18 @@
 {
     "admin": {
         "adminEdit": {
+            "buttonDeleteAdmin": "Account löschen",
             "changeEmailHeading": "E-Mail Adresse ändern",
             "changePasswordHeading": "Passwort ändern",
+            "alertCannotDeleteOwnAccount": "Aus Sicherheitsgründen kannst du deinen eigenen Admin-Account nicht löschen. Wenn du ihn wirklich löschen möchtest, verwende dazu einen anderen Admin-Account.",
+            "currentPasswordWrong": "Das Passwort ist falsch. Bitte geben Sie ihr aktuelles Passwort ein.",
+            "deleteAdminHeading": "Account löschen",
+            "infoCurrentPassword": "Gib bitte dein aktuelles Passwort ein, um diesen Admin-Account zu löschen.",
             "title": "Admin bearbeiten"
         },
         "adminList": {
             "alertAccountCreatedSuccess": "Der neue Admin-Account wurde erfolgreich erstellt.",
+            "alertAdminAccountDeletedSuccess": "Der Admin-Account wurde gelöscht.",
             "alertEmailUpdateSuccess": "Die E-Mail Adresse wurde erfolgreich aktualisiert.",
             "alertPasswordUpdateSuccess": "Das Passwort wurde erfolgreich geändert.",
             "createAdminButton": "Admin erstellen",

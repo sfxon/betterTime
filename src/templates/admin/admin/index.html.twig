@@ -17,6 +17,11 @@
                     <div>{{ 'admin.adminList.alertAccountCreatedSuccess'|trans }}</div>
                 </div>
             {% endif %}
+            {% if adminAccountDeletedSuccess %}
+                <div class="alert alert-success" role="alert">
+                    <div>{{ 'admin.adminList.alertAdminAccountDeletedSuccess'|trans }}</div>
+                </div>
+            {% endif %}
             {% if emailUpdateSuccess %}
                 <div class="alert alert-success" role="alert">
                     <div>{{ 'admin.adminList.alertEmailUpdateSuccess'|trans }}</div>

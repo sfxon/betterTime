@@ -47,6 +47,28 @@
                 </div>
                 {{ form_widget(passwordForm.save, {'attr': {'class': 'btn btn-primary mb-3'}}) }}
             {{ form_end(passwordForm) }}
+
+            <hr />
+
+            <h2>{{ 'admin.adminEdit.deleteAdminHeading'|trans }}</h2>
+
+            {% if deleteAdminFormErrors|length > 0 %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in deleteAdminFormErrors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <p>{{ 'admin.adminEdit.infoCurrentPassword'|trans }}</p>
+
+            {{ form_start(deleteAdminForm) }}
+                <div class="form-floating mb-3">
+                    {{ form_widget(deleteAdminForm.password, {'attr': { 'class': 'form-control'}}) }}
+                    {{ form_label(deleteAdminForm.password) }}
+                </div>
+                {{ form_widget(deleteAdminForm.delete, {'attr': {'class': 'btn btn-danger mb-3'}}) }}
+            {{ form_end(deleteAdminForm) }}
         </div>
     </div>
 </main>

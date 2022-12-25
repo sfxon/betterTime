@@ -7,6 +7,11 @@ html {
   height: -webkit-fill-available;
 }
 
+a #sidebar-logo-text,
+a:hover #sidebar-logo-text {
+    color: #557392;
+}
+
 main {
   height: 100vh;
   height: -webkit-fill-available;

@@ -44,6 +44,10 @@ The levels are defined as json or mysql-set in the configDefinition database, de
 The initial level, if set, represents the default value.
 If no setting at all is present, the loader will return null.
 
+The maximum length of a levels name is 16 characters.
+The json string, that can hold the levels for a configDefinition is at a maximum length of 255 characters.
+That limits the maximum amount of values, but at a variable rate.
+
 ---
 
 ## Pattern
@@ -62,7 +66,7 @@ It defines a technical name, to make it easier to refer to a specific configurat
 It also defines the levels, that this configuration is available to.
 
 * **id** - Uuid
-* **technicalName** - varchar 256 - Used to have a "talking" name for the setting.
+* **technicalName** - varchar 255 - Used to have a "talking" name for the setting.
 * **availableLevels** - json or a set in mysql - See section ```User Levels``` for more information.
 * **description** - text - A description of the setting, aiming at developers and sysadmins, to have fast access to in-program documentation.
 
@@ -75,6 +79,6 @@ Their might be multiple entries with the same configDefinitionId, but with diffe
 
 * **id** - Uuid
 * **configDefinitionId** - Foreign-Key on the table configDefinition.
-* **level** - varchar (32) - Defines the level.
+* **level** - varchar (16) - Defines the level.
 * **foreignId** - Foreign key on the team table or the user table, depending on level. This field is nullable.
 * **value** - varchar (4096) - Can be a skalar or json or something absolutely different, that can be stored as text.

@@ -36,6 +36,9 @@
             "passwordInputLabel": "Password",
             "title": "Add admin"
         },
+        "dashboard": {
+            "title": "Admin Dashboard"
+        },
         "general": {
             "applicationTitle": "BetterTime Admin",
             "titleSeparator": " | "

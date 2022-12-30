@@ -43,15 +43,9 @@ Please see composer.json for all included symfony packages.
 
 ## Documentation
 
-A brief documentation can be found in the ```doc``` folder.
+1. User Documentation
+A user documentation will follow in the future.
 
-These are the topics of the documentation:
-
-* Coding-Standards,
-* Definition-of-Done,
-* Design-Decisions,
-* DLH-Combobox-Elements,
-* Internal-Statistics,
-* Pagination,
-* Linter/PHP-CS-Fixer/Source-Code-Quality,
-* Settings
+2. Technical Documentation
+The Technical Documentation can be found in the ```docs``` folder.
+It consists of documents, that describe how to use parts of the software in a technical way and is aimed to be used by admins and software developers. All documentation is written in Markdown.

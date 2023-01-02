@@ -5,15 +5,23 @@ namespace App\Service;
 use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * ProjectService
+ */
 class ProjectService
 {
     private $doctrine;
-
+    
+    /**
+     * __construct
+     *
+     * @param  ManagerRegistry $doctrine
+     */
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
     }
-
+    
     public function countAllProjects()
     {
         $repository = $this->doctrine->getRepository(Project::class);

@@ -4,15 +4,23 @@ namespace App\Service;
 
 use App\Entity\ConfigDefinition;
 use App\Entity\ConfigValue;
+use App\Service\UserService;
 use App\Exception\ConfigDefinitionNotFoundException;
+use App\Repository\ConfigDefinitionRepository;
+use App\Repository\ConfigValueRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 class ConfigService
 {
-    private $doctrine;
-    private $configDefinitionRepository;
-    private $configValueRepository;
+    private ManagerRegistry $doctrine;
+    private ConfigDefinitionRepository $configDefinitionRepository;
+    private ConfigValueRepository $configValueRepository;
+    private UserInterface $user;
+    private Security $security;
+    private UserService $userService;
 
     private $levelPriority = [
         'initial' => 10,
@@ -28,35 +36,49 @@ class ConfigService
      *
      * @param  ManagerRegistry $doctrine
      */
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(
+        ManagerRegistry $doctrine,
+        Security $security,
+        UserService $userService)
     {
         $this->doctrine = $doctrine;
         $this->configDefinitionRepository = $this->doctrine->getRepository(ConfigDefinition::class);
         $this->configValueRepository = $this->doctrine->getRepository(ConfigValue::class);
+        $this->security = $security;
+        $this->userService = $userService;
+        $this->user = $this->security->getUser();
     }
         
     /**
      * Load configuration value.
+     * The function tries to load a given configuration
+     * over certain config-levels. It begins with the highest
+     * and goes one step down everytime it doesn't find
+     * a configuration for a certain level.
      *
      * @param  string $technicalName
      * @param  array $availableLevels
-     * @param  ?Uuid $foreignId
      * @return mixed|null
      */
     public function loadConfig(
         string $technicalName,
         array $availableLevels = null
     ): mixed {
-        // Load config definition.
-        $configDefinition = $this->configDefinitionRepository->findOneBy([ 
-            'technicalName' => $technicalName
-        ]);
+        $configDefinition = $this->loadConfigDefinition($technicalName);
 
-        if(null === $configDefinition) {
-            throw new ConfigDefinitionNotFoundException('No ConfigDefinition with technical name "' . $technicalName . '" found.');
+        // Load user configuration if wanted and available.
+        if (in_array('user', $availableLevels) && $this->user !== null) {
+            $user = $this->userService->loadByEmail(
+                $this->user->getUserIdentifier()
+            );
+
+            if(null === $user) {
+                throw new \RuntimeException('User not found');
+            }
+
+            $this->loadUserConfigValue($technicalName, $user->getId());
         }
 
-        // TODO: Check if request also asks for user level -> if yes, try to load a value for that user and return it, if one was found.
         // TODO: Implement same check for teams as for user level, as soon as teams are implemented. (There is no implementation yet).
 
         // Load config values for config definition.
@@ -116,6 +138,35 @@ class ConfigService
     }
     
     /**
+     * Load ConfigValue on a user level.
+     * If the parameter configDefinition is not provided,
+     * the method tries to load the ConfigDefinition
+     * from the database, too.
+     *
+     * @param  string $technicalName
+     * @param  Uuid $foreignId
+     * @return ?ConfigValue
+     */
+    public function loadUserConfigValue(
+        string $technicalName, 
+        Uuid $userId,
+        ConfigDefinition $configDefinition = null
+    ): ?ConfigValue
+    {
+        if($configDefinition === null) {
+            $configDefinition = $this->loadConfigDefinition($technicalName);
+        }
+
+        $configValue = $this->configValueRepository->findOneBy([ 
+            'configDefinitionId' => $configDefinition->getId(),
+            'level' => 'user',
+            'foreignId' => $userId
+        ]);
+
+        return $configValue;
+    }
+    
+    /**
      * getPriorityArray
      *
      * @return array
@@ -129,5 +180,24 @@ class ConfigService
         }
 
         return $retval;
+    }
+    
+    /**
+     * Load ConfigDefinition from database.
+     *
+     * @param  string $technicalName
+     * @return ConfigDefinition
+     */
+    private function loadConfigDefinition(string $technicalName): ConfigDefinition
+    {
+        $configDefinition = $this->configDefinitionRepository->findOneBy([ 
+            'technicalName' => $technicalName
+        ]);
+
+        if(null === $configDefinition) {
+            throw new ConfigDefinitionNotFoundException('No ConfigDefinition with technical name "' . $technicalName . '" found.');
+        }
+
+        return $configDefinition;
     }
 }

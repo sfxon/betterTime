@@ -1,12 +1,19 @@
 <?php declare(strict_types=1);
 
 use App\Service\ConfigService;
+use App\Service\UserService;
 use App\Exception\ConfigDefinitionNotFoundException;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 final class ConfigServiceTest extends KernelTestCase
 {
-    private $doctrine;
+    private ManagerRegistry $doctrine;
+    private UserInterface $user;
+    private Security $security;
 
     protected function setUp(): void
     {
@@ -14,6 +21,13 @@ final class ConfigServiceTest extends KernelTestCase
 
         $this->doctrine = $kernel->getContainer()
             ->get('doctrine');
+
+        $this->security = $kernel->getContainer()
+            ->get('security');
+
+        $this->user = $this->security->getUser();
+
+
     }
         
     /**
@@ -24,7 +38,15 @@ final class ConfigServiceTest extends KernelTestCase
      */
     public function testConfigDefinitionNotFound(): void
     {
-        $configService = new ConfigService($this->doctrine);
+        $userService = new UserService(
+            $this->doctrine
+        );
+        
+        $configService = new ConfigService(
+            $this->doctrine,
+            $this->security,
+            $userService
+        );
         $this->expectException(ConfigDefinitionNotFoundException::class);
         $config = $configService->loadConfig('not available key', ['internal']);
     }
@@ -42,7 +64,15 @@ final class ConfigServiceTest extends KernelTestCase
     public function testConfigService(): void
     {
         // b) Test, if the highest non-team and non-user-level value is loaded correctly.
-        $configService = new ConfigService($this->doctrine);
+        $userService = new UserService(
+            $this->doctrine
+        );
+        
+        $configService = new ConfigService(
+            $this->doctrine,
+            $this->security,
+            $userService
+        );
         $config = $configService->loadConfig('Smtp');
         $this->assertEquals(
             "{\"server\":\"smtp.system.example\",\"username\":\"hold\",\"password\":\"supersecure123\",\"sender\":\"hold@example\",\"encryption\":\"tls\",\"port\":\"587\"}",
@@ -50,7 +80,16 @@ final class ConfigServiceTest extends KernelTestCase
         );
         
         // c) Test, if a specific setting is received correctly, e.g. order was correct.
-        $configService = new ConfigService($this->doctrine);
+        $userService = new UserService(
+            $this->doctrine
+        );
+        
+        $configService = new ConfigService(
+            $this->doctrine,
+            $this->security,
+            $userService
+        );
+
         $config = $configService->loadConfig('Smtp', ['initial']);
         $this->assertEquals(
             '{"server":"smtp.internal.example","username":"jake","password":"whoCares123?","sender":"jake@brooklin99.example","encryption":"tls","port":"587"}',

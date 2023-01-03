@@ -4,13 +4,11 @@ namespace App\Service;
 
 use App\Entity\ConfigDefinition;
 use App\Entity\ConfigValue;
-use App\Service\UserService;
+use App\Entity\User;
 use App\Exception\ConfigDefinitionNotFoundException;
 use App\Repository\ConfigDefinitionRepository;
 use App\Repository\ConfigValueRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 class ConfigService
@@ -18,9 +16,7 @@ class ConfigService
     private ManagerRegistry $doctrine;
     private ConfigDefinitionRepository $configDefinitionRepository;
     private ConfigValueRepository $configValueRepository;
-    private UserInterface $user;
-    private Security $security;
-    private UserService $userService;
+    private User $user;
 
     private $levelPriority = [
         'initial' => 10,
@@ -36,17 +32,11 @@ class ConfigService
      *
      * @param  ManagerRegistry $doctrine
      */
-    public function __construct(
-        ManagerRegistry $doctrine,
-        Security $security,
-        UserService $userService)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
         $this->configDefinitionRepository = $this->doctrine->getRepository(ConfigDefinition::class);
         $this->configValueRepository = $this->doctrine->getRepository(ConfigValue::class);
-        $this->security = $security;
-        $this->userService = $userService;
-        $this->user = $this->security->getUser();
     }
         
     /**
@@ -62,21 +52,26 @@ class ConfigService
      */
     public function loadConfig(
         string $technicalName,
-        array $availableLevels = null
+        array $availableLevels = null,
+        User $user = null
     ): mixed {
         $configDefinition = $this->loadConfigDefinition($technicalName);
 
         // Load user configuration if wanted and available.
-        if (in_array('user', $availableLevels) && $this->user !== null) {
-            $user = $this->userService->loadByEmail(
-                $this->user->getUserIdentifier()
-            );
-
+        if (
+            null !== $availableLevels &&
+            in_array('user', $availableLevels) &&
+            $user !== null
+        ) {
             if(null === $user) {
                 throw new \RuntimeException('User not found');
             }
 
-            $this->loadUserConfigValue($technicalName, $user->getId());
+            $configValue = $this->loadUserConfigValue($technicalName, $user->getId());
+
+            if($configValue !== null) {
+                return $configValue->getValue();
+            }
         }
 
         // TODO: Implement same check for teams as for user level, as soon as teams are implemented. (There is no implementation yet).

@@ -1,5 +1,15 @@
 # API Authentication
 
+## Update
+
+I did some research and found out, that shopware uses PHP OAuth 2.0 Server by League.
+
+https://github.com/thephpleague/oauth2-server
+
+I'll dive into it, and check, how and if it fits our needs here.
+First I will try to find some documentation, if and how we can use ith with the API Bundle.
+I still try to avoid too much overhead work, but think, the API is important at this point.
+
 ## API Bundles
 
 I have to make a decision, which kind of API approach I like to follow for BetterTime.

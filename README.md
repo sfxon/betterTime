@@ -43,9 +43,11 @@ Please see composer.json for all included symfony packages.
 
 ## Documentation
 
-1. User Documentation
+### 1. User Documentation
+
 A user documentation will follow in the future.
 
-2. Technical Documentation
+### 2. Technical Documentation
+
 The Technical Documentation can be found in the ```docs``` folder.
 It consists of documents, that describe how to use parts of the software in a technical way and is aimed to be used by admins and software developers. All documentation is written in Markdown.

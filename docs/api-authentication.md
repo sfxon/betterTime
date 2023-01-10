@@ -1,5 +1,14 @@
 # API Authentication
 
+## Update 2
+
+At the moment, I want to go as near as the standards as possible.
+That's why I choose the API-Bundle. I'll implement it with an oauth server,
+tokens, and later with an additional acl.
+
+I'll follow this documentation for parts of the integration:
+https://symfonycasts.com/screencast/api-platform/install
+
 ## Update
 
 I did some research and found out, that shopware uses PHP OAuth 2.0 Server by League.

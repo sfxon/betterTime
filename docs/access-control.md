@@ -33,7 +33,7 @@ A user can query all of his own data.
 ### 2.a) Team Level: Role and ACL
 
 Different to the *User Level*, on the **Team Level** there might be additional restrictions about *what data can be access*
-and *the way data can be accessed*. This restrictions are about, what rights a team member has in general, and does not affect the Data-Relation.
+and *the way data can be accessed*. These restrictions define, what rights a team member has in general, and does not affect the Data-Relation.
 
 BetterTime uses **Roles** to accomplish this.
 The relation of a **User** to his **Team** is defined by a **Role**.

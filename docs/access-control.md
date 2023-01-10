@@ -51,5 +51,5 @@ Usually, data belongs to a user and a team.
 The assignment to the user is defined by the user, whom created the data.
 Usually, the assignment to the user will not change.
 The assignment to a team, on the other side, can change over time. 
-The assignment to a team is more loose than the assignment to a team, one could say: optional.
+The assignment to a team is more loose than the assignment to a user. The assignment to a team can also be seen optional.
 Teams are used, to allow multiple users access to the same data.

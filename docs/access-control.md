@@ -6,7 +6,7 @@ BetterTime uses access control on two levels:
 1. User Level
 2. Team Level
 
-The relation between the to parts is defined like this:
+The relation between the two parts is defined like this:
 
 * A **User** can access his own private data.
 * A **User** can be assigend to a team.

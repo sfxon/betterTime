@@ -32,6 +32,9 @@ class Project
     #[Groups(['project:list', 'project:item'])]
     private ?Uuid $id = null;
 
+    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'users')]
+    private ?User $user = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['project:list', 'project:item'])]
     private ?string $name = null;
@@ -47,6 +50,18 @@ class Project
     public function getId(): ?Uuid
     {
         return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        
+        return $this;
     }
 
     public function getName(): ?string

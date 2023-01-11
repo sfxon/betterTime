@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'project')]
+    private Collection $projects;
+
+    #[ORM\OneToMany(targetEntity: TimeTracking::class, mappedBy: 'timeTracking')]
+    private Collection $timeTrackings;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+        $this->timeTrackings = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -97,5 +111,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function getTimeTrackings(): Collection
+    {
+        return $this->timeTrackings;
     }
 }

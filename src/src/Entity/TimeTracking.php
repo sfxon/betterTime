@@ -16,8 +16,11 @@ class TimeTracking
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'time_trackings')]
+    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'timeTrackings')]
     private ?Project $project = null;
+
+    #[ORM\ManyToOne(targetEntity: TimeTracking::class, inversedBy: 'users')]
+    private ?User $user = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $starttime = null;
@@ -48,6 +51,18 @@ class TimeTracking
     {
         $this->project = $project;
 
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        
         return $this;
     }
 

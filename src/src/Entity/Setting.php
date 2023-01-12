@@ -15,6 +15,9 @@ class Setting
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'users')]
+    private ?User $user = null;
+
     #[ORM\Column(length: 64)]
     private ?string $textId = null;
 
@@ -35,6 +38,18 @@ class Setting
     {
         $this->textId = $textId;
 
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        
         return $this;
     }
 

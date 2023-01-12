@@ -28,16 +28,18 @@ class ProjectsController extends AbstractController
     #[Route('/projects/create', name: 'app_projects.create')]
     public function create(Request $request, ManagerRegistry $doctrine): RedirectResponse
     {
+        $user = $this->getUser();
         $name = $request->query->get('name');
 
         // Entity erstellen
         $entityManager = $doctrine->getManager();
 
-        $product = new Project();
-        $product->setName($name);
+        $project = new Project();
+        $project->setUser($user);
+        $project->setName($name);
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $entityManager->persist($product);
+        $entityManager->persist($project);
 
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();

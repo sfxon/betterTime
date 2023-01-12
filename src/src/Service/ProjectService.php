@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,7 +23,7 @@ class ProjectService
         $this->doctrine = $doctrine;
     }
     
-    public function countAllProjects()
+    public function countAllProjects(User $user)
     {
         $repository = $this->doctrine->getRepository(Project::class);
 
@@ -30,21 +31,12 @@ class ProjectService
             // Filter by some parameter if you want
             // ->where('a.published = 1')
             ->select('count(p.id)')
+            ->where('p.user = :user')
+            ->setParameter(':user', $user)
             ->getQuery()
             ->getSingleScalarResult();
 
         return $count;
-    }
-
-    /*
-     * @deprecated
-     */
-    public function getAllProjects()
-    {
-        $repository = $this->doctrine->getRepository(Project::class);
-        $projects = $repository->findAll();
-
-        return $projects;
     }
 
     public function getProject($id)
@@ -57,7 +49,7 @@ class ProjectService
         return $project;
     }
 
-    public function getProjects($limit, $page = 1, $sortBy = 'name', $sortOrder = 'ASC')
+    public function getProjects($user, $limit, $page = 1, $sortBy = 'name', $sortOrder = 'ASC')
     {
         if ($limit == 0) {
             throw new \Exception('Limit should never be zero.');
@@ -72,7 +64,7 @@ class ProjectService
 
         $repository = $this->doctrine->getRepository(Project::class);
         $projects = $repository->findBy(
-            [], // Empty criteria, gets all results.
+            [ 'user' => $user ], // Criteria
             [$sortBy => $sortOrder], // Sort-order
             $limit, // Limit
             $offset // Offset

@@ -19,6 +19,9 @@ class InternalStat
     #[ORM\ManyToOne(targetEntity: InternalStatEntity::class, inversedBy: 'track_keepings')]
     private ?InternalStatEntity $internalStatEntity = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'users')]
+    private ?User $user = null;
+
     #[ORM\Column(type: 'uuid')]
     private ?Uuid $entry = null;
 
@@ -42,6 +45,18 @@ class InternalStat
     {
         $this->internalStatEntity = $internalStatEntity;
 
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        
         return $this;
     }
 

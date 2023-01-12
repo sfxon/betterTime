@@ -32,7 +32,7 @@ class Project
     #[Groups(['project:list', 'project:item'])]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'users')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'users')]
     private ?User $user = null;
 
     #[ORM\Column(length: 255, nullable: true)]

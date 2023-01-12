@@ -19,7 +19,7 @@ class TimeTracking
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'timeTrackings')]
     private ?Project $project = null;
 
-    #[ORM\ManyToOne(targetEntity: TimeTracking::class, inversedBy: 'users')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'users')]
     private ?User $user = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

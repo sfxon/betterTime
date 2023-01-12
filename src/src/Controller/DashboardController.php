@@ -35,6 +35,8 @@ class DashboardController extends AbstractController
         ManagerRegistry $doctrine,
         ViewService $viewService
     ): Response {
+        $user = $this->getUser();
+
         $projectViewSetting = $this->processSortOrderRequests($request, $doctrine, $viewService);
 
         $limit = 10;
@@ -46,7 +48,7 @@ class DashboardController extends AbstractController
 
         // Count total pages.
         $projectService = new ProjectService($doctrine);
-        $projectCountTotal = $projectService->countAllProjects();
+        $projectCountTotal = $projectService->countAllProjects($user);
 
         $pages = 0;
 
@@ -60,6 +62,7 @@ class DashboardController extends AbstractController
 
         // Load projects
         $projects = $projectService->getProjects(
+            $user,
             $limit,
             $page,
             $projectViewSetting->getSortBy(),

@@ -37,10 +37,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: TimeTracking::class, mappedBy: 'timeTracking')]
     private Collection $timeTrackings;
 
+    #[ORM\OneToMany(targetEntity: InternalStat::class, mappedBy: 'internalStat')]
+    private Collection $internalStats;
+
+    #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'internalStat')]
+    private Collection $settings;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->timeTrackings = new ArrayCollection();
+        $this->internalStats = new ArrayCollection();
+        $this->settings = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -121,5 +129,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getTimeTrackings(): Collection
     {
         return $this->timeTrackings;
+    }
+
+    public function getInternalStats(): Collection
+    {
+        return $this->internalStats;
+    }
+
+    public function getSettings(): Collection
+    {
+        return $this->internalStats;
     }
 }

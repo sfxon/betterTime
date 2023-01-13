@@ -7,9 +7,9 @@ use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * ProjectService
+ * ProjectUserService
  */
-class ProjectService
+class ProjectUserService
 {
     private $doctrine;
     

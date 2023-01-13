@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Model\ProjectViewSettingModel;
 use App\Service\PaginationService;
-use App\Service\ProjectService;
+use App\Service\ProjectUserService;
 use App\Service\SettingService;
 use App\Service\TimeTrackingService;
 use App\Service\ViewService;
@@ -47,8 +47,8 @@ class DashboardController extends AbstractController
         }
 
         // Count total pages.
-        $projectService = new ProjectService($doctrine);
-        $projectCountTotal = $projectService->countAllProjects($user);
+        $projectUserService = new ProjectUserService($doctrine);
+        $projectCountTotal = $projectUserService->countAllProjects($user);
 
         $pages = 0;
 
@@ -61,7 +61,7 @@ class DashboardController extends AbstractController
         }
 
         // Load projects
-        $projects = $projectService->getProjects(
+        $projects = $projectUserService->getProjects(
             $user,
             $limit,
             $page,

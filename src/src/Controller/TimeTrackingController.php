@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Service\DateService;
-use App\Service\ProjectService;
+use App\Service\ProjectUserService;
 use App\Service\TimeTrackingService;
 use App\Service\InternalStatService;
 use App\Entity\Project;
@@ -92,7 +92,7 @@ class TimeTrackingController extends AbstractController
      * @param  Request $request
      * @param  ManagerRegistry $doctrine
      * @param  InternalStatService $internalStatService
-     * @param  ProjectService $projectService
+     * @param  ProjectUserService $ProjectUserService
      * @return Response
      */
     #[Route('/timetracking/endDialog', name: 'app_time_tracking.end.dialog')]
@@ -100,7 +100,7 @@ class TimeTrackingController extends AbstractController
         Request $request,
         ManagerRegistry $doctrine,
         InternalStatService $internalStatService,
-        ProjectService $projectService
+        ProjectUserService $ProjectUserService
     ): Response
     {
         $timeTrackingId = $request->query->get('time_tracking_id');
@@ -123,7 +123,7 @@ class TimeTrackingController extends AbstractController
 
         // Load last used entries.
         $lastUsedProjectIds = $internalStatService->loadLastUsedEntries('project', 10);
-        $lastUsedProjects = $projectService->loadListByIds($lastUsedProjectIds);
+        $lastUsedProjects = $ProjectUserService->loadListByIds($lastUsedProjectIds);
         $lastUsedProjects = $timeTrackingService->prependLastUsedProjectsWithCurrentProject($lastUsedProjects, $timeTracking);
 
         return $this->render('time_tracking/end-dialog.html.twig', [
@@ -154,8 +154,8 @@ class TimeTrackingController extends AbstractController
             die('Keine projectId übergeben.');
         }
 
-        $projectService = new ProjectService($doctrine);
-        $project = $projectService->getProject($projectId);
+        $ProjectUserService = new ProjectUserService($doctrine);
+        $project = $ProjectUserService->getProject($projectId);
 
         if (null === $project) {
             throw new \Exception('No project with id ' . $projectId . ' found.');
@@ -190,8 +190,8 @@ class TimeTrackingController extends AbstractController
         }
 
         // Load project
-        $projectService = new ProjectService($doctrine);
-        $project = $projectService->getProject($projectId);
+        $ProjectUserService = new ProjectUserService($doctrine);
+        $project = $ProjectUserService->getProject($projectId);
 
         // Check, if a timetracking is already started for this project.
         $timeTrackingService = new TimeTrackingService($doctrine);
@@ -247,8 +247,8 @@ class TimeTrackingController extends AbstractController
         }
 
         // Load the project entry from database.
-        $projectService = new ProjectService($doctrine);
-        $project = $projectService->loadById($projectId);
+        $ProjectUserService = new ProjectUserService($doctrine);
+        $project = $ProjectUserService->loadById($projectId);
 
         // Update all the values
         $timeTracking->setProject($project);

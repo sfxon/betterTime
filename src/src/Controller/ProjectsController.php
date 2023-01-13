@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Project;
-use App\Service\ProjectService;
+use App\Service\ProjectUserService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,15 +50,15 @@ class ProjectsController extends AbstractController
     /**
      * Show an editor to edit a project.
      *
-     * @param  ProjectService $projectService
+     * @param  ProjectUserService $projectUserService
      * @param  string $id
      * @return Response
      */
     #[Route('/projects/edit/{id}', name: 'app_projects.edit')]
-    public function edit(ProjectService $projectService, string $id): Response
+    public function edit(ProjectUserService $projectUserService, string $id): Response
     {
         $id = new Uuid($id);
-        $project = $projectService->getProject($id);
+        $project = $projectUserService->getProject($id);
 
         if (null === $project) {
             throw new \Exception('Project with id ' . $id . ' not found.');
@@ -89,7 +89,7 @@ class ProjectsController extends AbstractController
      * @return Response
      */
     #[Route('/projects/ajaxSearch', name: 'app_projects.search')]
-    public function ajaxSearch(Request $request, ProjectService $projectService): JsonResponse
+    public function ajaxSearch(Request $request, ProjectUserService $projectUserService): JsonResponse
     {
         $postJson = $request->getContent();
         $post = json_decode($postJson, true);
@@ -108,7 +108,7 @@ class ProjectsController extends AbstractController
             );
         }
 
-        $searchResult = $projectService->searchByName($searchTerm, 10);
+        $searchResult = $ProjectUserService->searchByName($searchTerm, 10);
 
         if ($searchResult === null) {
             return new JsonResponse(
@@ -126,7 +126,7 @@ class ProjectsController extends AbstractController
      *
      * @param  Request $request
      * @param  ManagerRegistry $doctrine
-     * @param  ProjectService $projectService
+     * @param  ProjectUserService $ProjectUserService
      * @param  string $id
      * @return RedirectResponse
      */
@@ -134,14 +134,14 @@ class ProjectsController extends AbstractController
     public function update(
         Request $request,
         ManagerRegistry $doctrine,
-        ProjectService $projectService,
+        ProjectUserService $ProjectUserService,
         string $id
     ): RedirectResponse
     {
         $id = new Uuid($id);
         $name = $request->request->get('name');
         $entityManager = $doctrine->getManager();
-        $project = $projectService->getProject($id);
+        $project = $ProjectUserService->getProject($id);
 
         if (null === $project) {
             throw new \Exception('Project with id ' . $id . ' not found.');

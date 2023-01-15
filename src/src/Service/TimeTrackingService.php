@@ -122,7 +122,7 @@ class TimeTrackingService
      * @return array
      */
     public function prependLastUsedProjectsWithCurrentProject(array $lastUsedProjects, TimeTracking $timeTracking): array
-    {
+    {        
         $project = $timeTracking->getProject();
 
         if ($project === null) {
@@ -140,6 +140,9 @@ class TimeTrackingService
         foreach ($lastUsedProjects as $p) {
             $id = $project->getId();
             $name = $project->getName();
+
+            var_dump($p);
+            die;
 
             if ($p->getId() == $project->getId()) {
                 continue;

@@ -58,7 +58,8 @@ class ProjectsController extends AbstractController
     public function edit(ProjectUserService $projectUserService, string $id): Response
     {
         $id = new Uuid($id);
-        $project = $projectUserService->getProject($id);
+        $user = $this->getUser();
+        $project = $projectUserService->getProject($id, $user);
 
         if (null === $project) {
             throw new \Exception('Project with id ' . $id . ' not found.');
@@ -91,6 +92,7 @@ class ProjectsController extends AbstractController
     #[Route('/projects/ajaxSearch', name: 'app_projects.search')]
     public function ajaxSearch(Request $request, ProjectUserService $projectUserService): JsonResponse
     {
+        $user = $this->getUser();
         $postJson = $request->getContent();
         $post = json_decode($postJson, true);
 
@@ -108,7 +110,7 @@ class ProjectsController extends AbstractController
             );
         }
 
-        $searchResult = $ProjectUserService->searchByName($searchTerm, 10);
+        $searchResult = $projectUserService->searchByName($searchTerm, $user, 10);
 
         if ($searchResult === null) {
             return new JsonResponse(
@@ -138,10 +140,11 @@ class ProjectsController extends AbstractController
         string $id
     ): RedirectResponse
     {
+        $user = $this->getUser();
         $id = new Uuid($id);
         $name = $request->request->get('name');
         $entityManager = $doctrine->getManager();
-        $project = $ProjectUserService->getProject($id);
+        $project = $ProjectUserService->getProject($id, $user);
 
         if (null === $project) {
             throw new \Exception('Project with id ' . $id . ' not found.');

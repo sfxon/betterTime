@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * ProjectUserService
@@ -22,14 +23,18 @@ class ProjectUserService
     {
         $this->doctrine = $doctrine;
     }
-    
-    public function countAllProjects(User $user)
+        
+    /**
+     * countAllProjects
+     *
+     * @param  User $user
+     * @return int
+     */
+    public function countAllProjects(User $user): int
     {
         $repository = $this->doctrine->getRepository(Project::class);
 
         $count = $repository->createQueryBuilder('p')
-            // Filter by some parameter if you want
-            // ->where('a.published = 1')
             ->select('count(p.id)')
             ->where('p.user = :user')
             ->setParameter(':user', $user)
@@ -38,18 +43,41 @@ class ProjectUserService
 
         return $count;
     }
-
-    public function getProject($id)
+    
+    /**
+     * getProject
+     *
+     * @param  Uuid $id
+     * @param  User $user
+     * @return ?Project
+     */
+    public function getProject(Uuid $id, User $user): ?Project
     {
         $repository = $this->doctrine->getRepository(Project::class);
-        $project = $repository->findOneBy(
-            [ 'id' => $id ]
-        );
+        $project = $repository->findOneBy([
+            'id' => $id,
+            'user' => $user
+        ]);
 
         return $project;
     }
-
-    public function getProjects($user, $limit, $page = 1, $sortBy = 'name', $sortOrder = 'ASC')
+    
+    /**
+     * getProjects
+     *
+     * @param  User $user
+     * @param  int $limit
+     * @param  int $page
+     * @param  string $sortBy
+     * @param  string $sortOrder
+     * @return array
+     */
+    public function getProjects(
+        User $user,
+        int $limit,
+        int $page = 1,
+        $sortBy = 'name',
+        $sortOrder = 'ASC')
     {
         if ($limit == 0) {
             throw new \Exception('Limit should never be zero.');
@@ -72,13 +100,21 @@ class ProjectUserService
 
         return $projects;
     }
-
-    public function loadById($projectId)
+    
+    /**
+     * loadById
+     *
+     * @param  Uuid $projectId
+     * @param  User $user
+     * @return ?Project
+     */
+    public function loadById(Uuid $projectId, User $user): ?Project
     {
         $repository = $this->doctrine->getRepository(Project::class);
         $project = $repository->findOneBy(
             [
                 'id' => $projectId,
+                'user' => $user
             ]
         );
 
@@ -91,14 +127,17 @@ class ProjectUserService
      * @param  array $idArray
      * @return array
      */
-    public function loadListByIds(array $idArray): array
+    public function loadListByIds(array $idArray, User $user): array
     {
         $repository = $this->doctrine->getRepository(Project::class);
         $retval = [];
 
         // FindBy will not work with an array of Uuids. So go with some queries for now.
         foreach ($idArray as $id) {
-            $project = $repository->find($id);
+            $project = $repository->findBy([
+                'id' => $id,
+                'user' => $user
+            ]);
 
             if (null !== $project) {
                 $retval[] = $project;
@@ -111,17 +150,19 @@ class ProjectUserService
     /**
      * searchByName
      *
-     * @string  mixed $searchTerm
-     * @int  mixed $maxResults
+     * @param string  $searchTerm
+     * @param int $maxResults
+     * @return ?array
      */
-    public function searchByName(string $searchTerm, int $maxResults = 10)
+    public function searchByName(string $searchTerm, User $user, int $maxResults = 10): ?array
     {
         $repository = $this->doctrine->getRepository(Project::class);
 
         $result = $repository->createQueryBuilder('p')
             ->select('p')
-            ->where('p.name LIKE :name')
+            ->where('p.name LIKE :name AND p.user = :user')
             ->setParameter('name', '%' . $searchTerm . '%')
+            ->setParameter(':user', $user)
             ->setMaxResults($maxResults)
             ->getQuery()
             ->getResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
